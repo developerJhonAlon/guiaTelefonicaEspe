@@ -145,6 +145,18 @@
 					</p:panelGrid>
 
 
+					<h3>Listas de Sedes:</h3>
+					<p:panelGrid columns="5" layout="grid">
+
+						<p:selectManyCheckbox id="grid"
+							value="#{asignarAdministrador.selectSedes}">
+
+							<f:selectItems value="#{asignarAdministrador.listaSedes}"
+								var="crit" itemValue="#{crit.valor}"
+								itemLabel="#{crit.descripcion}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+
 				</p:layoutUnit>
 
 
