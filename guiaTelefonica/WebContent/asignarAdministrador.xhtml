@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./WEB-INF/templates/plantillaPrincipal.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Asignar Administradores</ui:define>
+
+	<ui:define name="contenido">
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north">
+				<p:spacer height="20px" />
+
+
+				<center>
+					<h:outputText
+						value="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE"
+						style="margin-top: 0" />
+
+				</center>
+				<p:spacer height="20px" />
+
+				<p:panel header="Sede: ESPE Matriz - Asignar Administradores ">
+
+					<center>
+						<p:panelGrid columns="1">
+
+							<h:outputText value="Administrador Master" />
+							<h:outputText value="Ing. Mauricio Baldeon" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" resizable="true" header="Busqueda"
+				size="350px" minSize="350">
+
+
+				<p:panelGrid columns="1" layout="grid" style="width:100%;">
+
+					<p:outputLabel for="valorBus" value="Ingrese el Apellido o ID:" />
+					<p:inputText id="valorBus" value="#{agregarBean.textoBuscado}"
+						required="false" style="width:100%;" />
+
+
+					<p:commandButton id="botonBusca" value="Buscar"
+						update="vistaPresen" actionListener="#{agregarBean.botonAction()}"
+						styleClass="ui-priority-primary" />
+
+
+					<p:spacer height="20px" />
+
+
+
+
+
+					<p:growl id="growl" life="2000" />
+					<p:commandButton id="botonGuardar" value="Asignar" update="growl"
+						actionListener="#{asignarAdministrador.botonAsignar()}"
+						styleClass="ui-priority-primary" />
+				</p:panelGrid>
+
+
+
+			</p:layoutUnit>
+
+
+
+			<center>
+				<p:layoutUnit position="center" header="Resultados de la busqueda">
+
+					<p:panel>
+
+
+						<p:dataTable id="vistaPresen" var="vis" layout="grid"
+							value="#{agregarBean.personal}" scrollHeight="200"
+							selectionMode="single"
+							selection="#{asignarAdministrador.selectPersonal}"
+							rowKey="#{vis.idDocente}">
+
+
+							<p:column headerText="NOMBRES">
+								<h:outputText value="#{vis.nombres}" />
+							</p:column>
+
+							<p:column headerText="CEDULA" style="display: none">
+								<h:outputText value="#{vis.cedula}" />
+							</p:column>
+
+							<p:column headerText="ID BANNER">
+								<h:outputText value="#{vis.idDocente}" />
+							</p:column>
+
+
+							<p:column headerText="SEDE">
+								<h:outputText value="#{vis.sede}" />
+							</p:column>
+
+							<p:column headerText="PUESTO">
+								<h:outputText value="#{vis.puesto}" />
+							</p:column>
+
+							<p:column headerText="UBICACION">
+								<h:outputText value="#{vis.unidad}" />
+							</p:column>
+
+
+							<p:column headerText="CODE SEDE" style="display: none">
+								<h:outputText value="#{vis.sedeCode}" />
+							</p:column>
+							<p:column headerText="DIREC INSTI" style="display: none">
+								<h:outputText value="#{vis.direcInstitu}" />
+							</p:column>
+
+							<p:column headerText="CIUD LABORA" style="display: none">
+								<h:outputText value="#{vis.ciudadLabora}" />
+							</p:column>
+
+							<p:column headerText="CORREO" style="display: none">
+								<h:outputText value="#{vis.correo}" />
+							</p:column>
+
+
+						</p:dataTable>
+
+
+					</p:panel>
+
+					<h3>Listas de Sedes:</h3>
+					<p:panelGrid columns="5" layout="grid">
+
+						<p:selectManyCheckbox id="grid"
+							value="#{asignarAdministrador.selectSedes}">
+
+							<f:selectItems value="#{asignarAdministrador.listaSedes}"
+								var="crit" itemValue="#{crit.valor}"
+								itemLabel="#{crit.descripcion}" />
+						</p:selectManyCheckbox>
+					</p:panelGrid>
+
+
+				</p:layoutUnit>
+
+
+			</center>
+
+		</p:layout>
+
+	</ui:define>
+</ui:composition>

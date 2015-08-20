@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./WEB-INF/templates/plantillaPrincipal.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Bienvenido</ui:define>
+
+	<ui:define name="contenido">
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north">
+				<p:spacer height="20px" />
+
+
+				<center>
+					<h:outputText
+						value="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE"
+						style="margin-top: 0" />
+
+				</center>
+				<p:spacer height="20px" />
+
+
+				<p:panel header="Instrucciones para llamadas desde ESPE Matriz">
+
+					<p:panelGrid columns="3">
+
+						<h:outputText
+							value="* Idiomas, IASA I, IASA II, H. Cenepa: marque la extension." />
+						<h:outputText
+							value="* Extensión Latacunga: marque 5 + Nro. Extensión." />
+						<h:outputText value="* Innovativa: marque 6 + Nro Extesión." />
+						<h:outputText value="* Red MODE. marque 8 + Nro. Deseado." />
+						<h:outputText
+							value="* Números externos: marque 9 + Nro. Deseado + clave + #." />
+					</p:panelGrid>
+				</p:panel>
+
+			</p:layoutUnit>
+
+
+			<p:layoutUnit position="west" resizable="true" size="370px"
+				minSize="370" header="Criterios de Busqueda">
+
+
+				<p:panelGrid columns="1" style="width:100%;" layout="grid">
+
+					<p:outputLabel for="codigoCriterio" value="Busqueda:" />
+					<p:selectOneMenu id="codigoCriterio" style="width:90%;"
+						value="#{busquedaBean.valorBusqueda}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{busquedaBean.busqueda}" var="crit"
+							itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
+						<p:ajax update="panelSedes" listener="#{busquedaBean.verSedes()}" />
+
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+
+				<p:panelGrid id="panelSedes" columns="1" style="width:100%;"
+					layout="grid">
+
+					<p:outputLabel for="codigoSede" value="Sede:"
+						rendered="#{busquedaBean.desplegarSedes}" />
+					<p:selectOneMenu id="codigoSede" style="width:90%;"
+						value="#{busquedaBean.sedeSelecciona}"
+						rendered="#{busquedaBean.desplegarSedes}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{busquedaBean.listaSedes}" var="sede"
+							itemValue="#{sede.valor}" itemLabel="#{sede.descripcion}" />
+						<p:ajax update="codigoDepar"
+							listener="#{busquedaBean.verDepartamento()}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="codigoDepar" value="Departamento / Unidad:"
+						rendered="#{busquedaBean.desplegarSedes}" />
+
+					<p:selectOneListbox id="codigoDepar"
+						value="#{busquedaBean.unidadSelecciona}" filter="true"
+						filterMatchMode="contains" style="width:90%;"
+						rendered="#{busquedaBean.desplegarSedes}">
+						<f:selectItem itemLabel="Todos" itemValue="0" />
+
+						<f:selectItems value="#{busquedaBean.listaUnida}" var="unidad"
+							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}" />
+
+					</p:selectOneListbox>
+				</p:panelGrid>
+
+
+				<p:panelGrid columns="1" style="width:100%;" layout="grid">
+
+					<p:outputLabel for="valorBus" value="Ingrese la información:"/>
+					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
+						required="false" style="width:90%;" />
+					
+
+					<p:growl id="growl" life="2000" />
+					<p:commandButton id="botonBuscar" value="Buscar" process="@this"
+						update="vistaPresen"
+						actionListener="#{busquedaBean.buttonAction()}"
+						styleClass="ui-priority-primary" />
+					
+
+				</p:panelGrid>
+
+
+			</p:layoutUnit>
+
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:layoutUnit position="center" header="Resultados de la busqueda">
+
+				<p:panel>
+
+
+					<p:dataTable id="vistaPresen" var="vis" layout="grid"
+						value="#{busquedaBean.vistaBusqueda}" scrollable="true"
+						scrollHeight="200" selectionMode="single"
+						selection="#{busquedaBean.selectedPersona}"
+						rowKey="#{vis.idAsignacion}">
+
+
+						<p:ajax event="rowSelect" listener="#{busquedaBean.onRowSelect}"
+							 update=":form:dataTheStaff" />
+						<p:ajax event="rowUnselect"
+							listener="#{busquedaBean.onRowUnselect}"
+							update=":form:dataTheStaff" />
+
+
+						<p:column headerText="NOMBRE">
+							<h:outputText value="#{vis.personalNomb}" />
+						</p:column>
+
+
+						<p:column headerText="EXTENSION">
+							<h:outputText value="#{vis.extensionNomb}" />
+						</p:column>
+
+						<p:column headerText="TELEFONO">
+							<h:outputText value="#{vis.telefonoNomb}" />
+						</p:column>
+
+
+						<p:column headerText="UNIDAD">
+							<h:outputText value="#{vis.unidadNomb}" />
+						</p:column>
+
+						<p:column headerText="CARGO">
+							<h:outputText value="#{vis.cargoNomb}" />
+						</p:column>
+
+						<p:column headerText="SEDE">
+							<h:outputText value="#{vis.sedeNomeb}" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+
+				<p:panel id="dataTheStaff" header="Información Seleccionada">
+
+					<p:panelGrid rendered="#{busquedaBean.desplegarInf}" columns="2">
+
+
+						<h:outputText value="Nombre: " styleClass="negrita" />
+						<h:outputText
+							value="#{busquedaBean.selectedPersona.personalNomb}" />
+
+						<h:outputText value="Extensión: " styleClass="negrita" />
+						<h:outputText
+							value="#{busquedaBean.selectedPersona.extensionNomb}" />
+
+						<h:outputText value="Telefono: " styleClass="negrita" />
+						<h:outputText
+							value="#{busquedaBean.selectedPersona.telefonoNomb}" />
+
+						<h:outputText value="Unidad: " styleClass="negrita" />
+						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}" />
+
+						<h:outputText value="Cargo: " styleClass="negrita" />
+						<h:outputText value="#{busquedaBean.selectedPersona.cargoNomb}" />
+
+						<h:outputText value="Sede: " styleClass="negrita" />
+						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}" />
+
+						<h:outputText value="Correo: " styleClass="negrita" />
+						<h:outputText value="#{busquedaBean.selectedPersona.correo}" />
+						
+					</p:panelGrid>
+
+				</p:panel>
+
+
+
+			</p:layoutUnit>
+
+
+		</p:layout>
+
+	</ui:define>
+</ui:composition>
