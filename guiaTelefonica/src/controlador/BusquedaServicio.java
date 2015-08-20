@@ -104,7 +104,6 @@ public class BusquedaServicio implements Serializable {
 							res.getString("UZGTPERSON_SEDE")));
 				}
 				
-				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

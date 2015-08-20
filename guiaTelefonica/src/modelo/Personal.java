@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Personal implements Serializable{
 
+	
 	/**
 	 * 
 	 */

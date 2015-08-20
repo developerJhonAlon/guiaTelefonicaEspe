@@ -14,7 +14,6 @@ public class ConexionLocal {
 	private ResultSet res;
 	private int conf = 0;
 	
-	
 	public ConexionLocal(){
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");

@@ -123,6 +123,7 @@ public class ModificarBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
  
+	
     public void onRowUnselect(UnselectEvent event) {
 //    	this.nuevoFono = "";
 //		this.nuevaExten = "";

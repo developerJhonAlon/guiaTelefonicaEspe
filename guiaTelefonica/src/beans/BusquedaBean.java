@@ -127,6 +127,7 @@ public class BusquedaBean implements Serializable{
 	}
 
 
+	
 
 	public void setListaSedes(List<Busqueda> listaSedes) {
 		this.listaSedes = listaSedes;

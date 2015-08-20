@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Modelo para implementar la vista presentada en las busquedas
  */
 public class VistaBusqueda implements Serializable {
+	
 	/**
 	 * 
 	 */

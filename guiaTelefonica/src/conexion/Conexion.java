@@ -11,7 +11,7 @@ public class Conexion {
 	private Statement state;
 	private ResultSet res;
 	
-	
+
 	public Conexion(){
 			try {
 				Class.forName("oracle.jdbc.OracleDriver");

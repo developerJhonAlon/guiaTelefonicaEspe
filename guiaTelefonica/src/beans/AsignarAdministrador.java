@@ -24,7 +24,8 @@ public class AsignarAdministrador implements Serializable {
 	private Personal selectPersonal;
 	private List<Busqueda> listaSedes;
 	private Busqueda[] selectSedes;
-
+	
+	
 	public AsignarAdministrador() {
 	}
 

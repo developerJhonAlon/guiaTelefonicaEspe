@@ -8,7 +8,6 @@ import java.io.Serializable;
  */
 public class Busqueda implements Serializable{
 
-
 	/**
 	 * 
 	 */

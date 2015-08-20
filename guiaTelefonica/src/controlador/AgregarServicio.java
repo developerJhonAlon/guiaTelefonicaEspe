@@ -31,6 +31,7 @@ public class AgregarServicio implements Serializable {
 		List<String> pidm = new ArrayList<String>();
 		List<Personal> personal = new ArrayList<Personal>();
 
+		
 		// Obtencion de todos los IDM del Banner en relacion a su Apellido.
 		if (consultaIDM == null) {
 			System.out.println("Error No Hay Datos de IDM en Ban:");

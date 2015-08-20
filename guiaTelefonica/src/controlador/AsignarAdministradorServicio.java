@@ -19,6 +19,7 @@ public class AsignarAdministradorServicio implements Serializable {
 	public AsignarAdministradorServicio() {
 	}
 
+	
 	/*
 	 * Metodo para obtener Sedes registrados en Banner.
 	 */

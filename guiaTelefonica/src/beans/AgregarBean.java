@@ -49,6 +49,7 @@ public class AgregarBean implements Serializable {
 	public Personal getSelectPersonal() {
 		return selectPersonal;
 	}
+	
 
 	public void setSelectPersonal(Personal selectPersonal) {
 		this.selectPersonal = selectPersonal;
