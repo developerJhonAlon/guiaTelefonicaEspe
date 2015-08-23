@@ -15,7 +15,7 @@
 				<p:spacer height="20px" />
 
 				<center>
-				
+
 					<h:outputText
 						value="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE"
 						style="margin-top: 0" />
@@ -82,10 +82,14 @@
 						value="#{busquedaBean.unidadSelecciona}" filter="true"
 						filterMatchMode="contains" style="width:90%;"
 						rendered="#{busquedaBean.desplegarSedes}">
-						<f:selectItem itemLabel="Todos" itemValue="0" />
+						<f:selectItem itemLabel="TODOS" itemValue="0" />
 
 						<f:selectItems value="#{busquedaBean.listaUnida}" var="unidad"
 							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}" />
+
+						<p:column>
+							<h:outputText value="#{unidad.descripcion}" />
+						</p:column>
 
 					</p:selectOneListbox>
 				</p:panelGrid>
@@ -93,17 +97,17 @@
 
 				<p:panelGrid columns="1" style="width:100%;" layout="grid">
 
-					<p:outputLabel for="valorBus" value="Ingrese la información:"/>
+					<p:outputLabel for="valorBus" value="Ingrese la información:" />
 					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
 						required="false" style="width:90%;" />
-					
+
 
 					<p:growl id="growl" life="2000" />
-					<p:commandButton id="botonBuscar" value="Buscar" 
+					<p:commandButton id="botonBuscar" value="Buscar"
 						update="vistaPresen"
 						actionListener="#{busquedaBean.buttonAction()}"
 						styleClass="ui-priority-primary" />
-					
+
 
 				</p:panelGrid>
 
@@ -125,7 +129,7 @@
 
 
 						<p:ajax event="rowSelect" listener="#{busquedaBean.onRowSelect}"
-							 update=":form:dataTheStaff" />
+							update=":form:dataTheStaff" />
 						<p:ajax event="rowUnselect"
 							listener="#{busquedaBean.onRowUnselect}"
 							update=":form:dataTheStaff" />
@@ -158,7 +162,7 @@
 						</p:column>
 
 					</p:dataTable>
-					
+
 
 				</p:panel>
 
@@ -170,16 +174,14 @@
 
 
 						<h:outputText value="Nombre: " styleClass="negrita" />
-						<h:outputText
-							value="#{busquedaBean.selectedPersona.personalNomb}" />
+						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}" />
 
 						<h:outputText value="Extensión: " styleClass="negrita" />
 						<h:outputText
 							value="#{busquedaBean.selectedPersona.extensionNomb}" />
 
 						<h:outputText value="Telefono: " styleClass="negrita" />
-						<h:outputText
-							value="#{busquedaBean.selectedPersona.telefonoNomb}" />
+						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}" />
 
 						<h:outputText value="Unidad: " styleClass="negrita" />
 						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}" />
@@ -192,7 +194,7 @@
 
 						<h:outputText value="Correo: " styleClass="negrita" />
 						<h:outputText value="#{busquedaBean.selectedPersona.correo}" />
-						
+
 					</p:panelGrid>
 
 				</p:panel>

@@ -21,24 +21,38 @@ public class AsignarAdministrador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
-	private Personal selectPersonal;
+	private Personal administrador;
 	private List<Busqueda> listaSedes;
-	private Busqueda[] selectSedes;
-	
+	private String[] selectSedes;
 	
 	public AsignarAdministrador() {
 	}
 
 	
-	
-	public Busqueda[] getSelectSedes() {
+
+
+	public String[] getSelectSedes() {
 		return selectSedes;
 	}
 
 
 
-	public void setSelectSedes(Busqueda[] selectSedes) {
+
+	public void setSelectSedes(String[] selectSedes) {
 		this.selectSedes = selectSedes;
+	}
+
+
+
+
+	public Personal getAdministrador() {
+		return administrador;
+	}
+
+
+
+	public void setAdministrador(Personal administrador) {
+		this.administrador = administrador;
 	}
 
 
@@ -61,13 +75,7 @@ public class AsignarAdministrador implements Serializable {
 		this.asignarServicio = asignarServicio;
 	}
 
-	public Personal getSelectPersonal() {
-		return selectPersonal;
-	}
-
-	public void setSelectPersonal(Personal selectPersonal) {
-		this.selectPersonal = selectPersonal;
-	}
+	
 
 	@PostConstruct
 	public void inicializar() {
@@ -87,10 +95,12 @@ public class AsignarAdministrador implements Serializable {
 
 	public void botonAsignar() {
 		// addMessage("Buscando Información !!");
-		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
-
-		// this.personal =
-		// this.admiSedeServicio.buscarPersonal(this.textoBuscado);
+		System.out.println("ASIGNAR ADMINISTRADOR --->>"+selectSedes.toString());
+		
+//		System.out.println("ASIGNAR ADMINISTRADOR --->>");
+//		this.selectSedes;
+//		this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
+//		
 
 	}
 

@@ -10,7 +10,6 @@
 
 	<ui:define name="contenido">
 		<p:layout fullPage="true">
-		
 
 			<p:layoutUnit position="north">
 				<p:spacer height="20px" />
@@ -59,108 +58,83 @@
 
 
 
-
-
 					<p:growl id="growl" life="2000" />
+					<h:outputText value="Guardar Cambios:" />
 					<p:commandButton id="botonGuardar" value="Asignar" update="growl"
 						actionListener="#{asignarAdministrador.botonAsignar()}"
 						styleClass="ui-priority-primary" />
 				</p:panelGrid>
 
 
-
 			</p:layoutUnit>
 
 
 
-			<center>
-				<p:layoutUnit position="center" header="Resultados de la busqueda">
 
-					<p:panel>
+			<p:layoutUnit position="center" header="Resultados de la busqueda">
 
-
-						<p:dataTable id="vistaPresen" var="vis" layout="grid"
-							value="#{agregarBean.personal}" scrollHeight="200"
-							selectionMode="single"
-							selection="#{asignarAdministrador.selectPersonal}"
-							rowKey="#{vis.idDocente}">
+				<p:panel>
 
 
-							<p:column headerText="NOMBRES">
-								<h:outputText value="#{vis.nombres}" />
-							</p:column>
-
-							<p:column headerText="CEDULA" style="display: none">
-								<h:outputText value="#{vis.cedula}" />
-							</p:column>
-
-							<p:column headerText="ID BANNER">
-								<h:outputText value="#{vis.idDocente}" />
-							</p:column>
+					<p:dataTable id="vistaPresen" var="vis" layout="grid"
+						value="#{agregarBean.personal}" scrollable="true"
+						scrollHeight="200" selectionMode="single"
+						selection="#{asignarAdministrador.administrador}"
+						rowKey="#{vis.idDocente}">
 
 
-							<p:column headerText="SEDE">
-								<h:outputText value="#{vis.sede}" />
-							</p:column>
+						<p:column headerText="NOMBRES">
+							<h:outputText value="#{vis.nombres}" />
+						</p:column>
 
-							<p:column headerText="PUESTO">
-								<h:outputText value="#{vis.puesto}" />
-							</p:column>
+						<p:column headerText="CEDULA">
+							<h:outputText value="#{vis.cedula}" />
+						</p:column>
 
-							<p:column headerText="UBICACION">
-								<h:outputText value="#{vis.unidad}" />
-							</p:column>
-
-
-							<p:column headerText="CODE SEDE" style="display: none">
-								<h:outputText value="#{vis.sedeCode}" />
-							</p:column>
-							<p:column headerText="DIREC INSTI" style="display: none">
-								<h:outputText value="#{vis.direcInstitu}" />
-							</p:column>
-
-							<p:column headerText="CIUD LABORA" style="display: none">
-								<h:outputText value="#{vis.ciudadLabora}" />
-							</p:column>
-
-							<p:column headerText="CORREO" style="display: none">
-								<h:outputText value="#{vis.correo}" />
-							</p:column>
+						<p:column headerText="ID BANNER">
+							<h:outputText value="#{vis.idDocente}" />
+						</p:column>
 
 
-						</p:dataTable>
+						<p:column headerText="SEDE">
+							<h:outputText value="#{vis.sede}" />
+						</p:column>
 
 
-					</p:panel>
 
-					<h3>Listas de Sedes:</h3>
-					<p:panelGrid columns="5" layout="grid">
-
-						<p:selectManyCheckbox id="grid"
-							value="#{asignarAdministrador.selectSedes}">
-
-							<f:selectItems value="#{asignarAdministrador.listaSedes}"
-								var="crit" itemValue="#{crit.valor}"
-								itemLabel="#{crit.descripcion}" />
-						</p:selectManyCheckbox>
-					</p:panelGrid>
-
-					<h3>Listas de Sedes:</h3>
-					<p:panelGrid columns="5" layout="grid">
-
-						<p:selectManyCheckbox id="grid"
-							value="#{asignarAdministrador.selectSedes}">
-
-							<f:selectItems value="#{asignarAdministrador.listaSedes}"
-								var="crit" itemValue="#{crit.valor}"
-								itemLabel="#{crit.descripcion}" />
-						</p:selectManyCheckbox>
-					</p:panelGrid>
-
-				</p:layoutUnit>
+						<p:column headerText="UBICACION">
+							<h:outputText value="#{vis.unidad}" />
+						</p:column>
 
 
-			</center>
+
+					</p:dataTable>
+
+
+				</p:panel>
+
+
+				<p:panel header="Sedes">
+
+
+
+
+					<p:selectManyCheckbox id="selectCheck"
+						value="#{asignarAdministrador.selectSedes}" layout="grid"
+						columns="3">
+
+						<f:selectItems value="#{asignarAdministrador.listaSedes}" var="item"
+							itemValue="#{item.valor}" itemLabel="#{item.descripcion}" />
+					</p:selectManyCheckbox>
+
+
+				</p:panel>
+
+
+
+			</p:layoutUnit>
+
+
 
 		</p:layout>
 

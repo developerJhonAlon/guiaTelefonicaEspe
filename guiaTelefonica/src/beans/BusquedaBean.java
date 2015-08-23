@@ -232,7 +232,6 @@ public class BusquedaBean implements Serializable{
 	public void buttonAction() {
 		addMessage("Busqueda Realizada !!");
 		System.out.println("OBTENER EXTENSIONES --->>");
-	
 		this.vistaBusqueda = busquedaServicio.buscarExtensiones(this.valorBusqueda, this.textoBuscado, this.sedeSelecciona, this.unidadSelecciona);
 
 	}
