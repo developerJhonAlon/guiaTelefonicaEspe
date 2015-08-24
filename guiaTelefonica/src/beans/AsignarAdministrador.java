@@ -24,17 +24,14 @@ public class AsignarAdministrador implements Serializable {
 	private Personal administrador;
 	private List<Busqueda> listaSedes;
 	private String[] selectSedes;
-	
+
 	public AsignarAdministrador() {
 	}
-
-	
 
 
 	public String[] getSelectSedes() {
 		return selectSedes;
 	}
-
 
 
 
@@ -49,13 +46,9 @@ public class AsignarAdministrador implements Serializable {
 		return administrador;
 	}
 
-
-
 	public void setAdministrador(Personal administrador) {
 		this.administrador = administrador;
 	}
-
-
 
 	public List<Busqueda> getListaSedes() {
 		return listaSedes;
@@ -65,8 +58,6 @@ public class AsignarAdministrador implements Serializable {
 		this.listaSedes = listaSedes;
 	}
 
-
-
 	public AsignarAdministradorServicio getAsignarServicio() {
 		return asignarServicio;
 	}
@@ -74,8 +65,6 @@ public class AsignarAdministrador implements Serializable {
 	public void setAsignarServicio(AsignarAdministradorServicio asignarServicio) {
 		this.asignarServicio = asignarServicio;
 	}
-
-	
 
 	@PostConstruct
 	public void inicializar() {
@@ -95,12 +84,16 @@ public class AsignarAdministrador implements Serializable {
 
 	public void botonAsignar() {
 		// addMessage("Buscando Información !!");
-		System.out.println("ASIGNAR ADMINISTRADOR --->>"+selectSedes.toString());
+		 System.out.println("ASIGNAR ADMINISTRADOR --->>"
+		 + selectSedes[1].toString());
+
+//		System.out.println("ASIGNAR ADMINISTRADOR --->>"
+//				+ selectSedes.get(1).getDescripcion());
+
+		// System.out.println("ASIGNAR ADMINISTRADOR --->>");
+		// this.selectSedes;
+		 this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
 		
-//		System.out.println("ASIGNAR ADMINISTRADOR --->>");
-//		this.selectSedes;
-//		this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
-//		
 
 	}
 

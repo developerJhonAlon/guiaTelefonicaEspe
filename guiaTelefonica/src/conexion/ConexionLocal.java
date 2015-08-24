@@ -175,10 +175,26 @@ public class ConexionLocal {
 	}
 
 	/*
-	 * Metodos para consultar el ultimo registro de Extensiones.
+	 * Metodo para consultar el ultimo registro de Extensiones.
 	 */
 	public ResultSet consultaLastExte() {
 		String query = "SELECT max(PK_UZGTEXTE_ID) AS ID_EXTE FROM UZGTEXTE";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/*
+	 * Metodo para consultar registros de Sedes.
+	 */
+	public ResultSet consultaFindSede(String codeSede) {
+		String query = "SELECT PK_UZGTSEDE_ID AS CODIGO, UZGTSEDE_NOMBRE AS NOMBRE FROM UZGTSEDE WHERE PK_UZGTSEDE_ID='"+codeSede+"'";
 
 		try {
 			state = cnn.createStatement();
@@ -195,6 +211,23 @@ public class ConexionLocal {
 	 */
 	public ResultSet consultaLastTelefono() {
 		String query = "SELECT max(PK_UZGTTELE_ID) AS ID_TELE FROM UZGTTELE";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+
+	/*
+	 * Metodos para consultar la existencia de un Admininistrador.
+	 */
+	public ResultSet consultaFindAdministrador(String codeAdministrador) {
+		String query = "SELECT PK_UZGTPERSON_ID AS ID_ADMIN FROM UZGTADMI WHERE PK_UZGTPERSON_ID='"+codeAdministrador+"'";
 
 		try {
 			state = cnn.createStatement();
@@ -312,7 +345,7 @@ public class ConexionLocal {
 	/*
 	 * Metodo para guardar Sedes Administradas.
 	 */
-	public int guardarSedes(Busqueda sedes) {
+	public int guardarSedes(Busqueda sedes ) {
 		String query = "insert into UZGTSEDE(PK_UZGTSEDE_ID,UZGTSEDE_NOMBRE) "
 				+ "values('" + sedes.getValor() + "','"
 				+ sedes.getDescripcion() + "')";
@@ -340,6 +373,8 @@ public class ConexionLocal {
 		try {
 			state = cnn.createStatement();
 			conf = state.executeUpdate(query);
+			System.out.println("agregar "+conf);
+			if(conf==0) return conf;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
