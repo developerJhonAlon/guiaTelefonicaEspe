@@ -11,9 +11,9 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-3.5-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-3.5.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/south-street-1.0.10.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javaee-api-6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc14.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_45">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>

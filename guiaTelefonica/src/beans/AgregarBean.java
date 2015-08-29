@@ -3,8 +3,10 @@ package beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -29,6 +31,11 @@ public class AgregarBean implements Serializable {
 
 	public AgregarBean() {
 	}
+	
+	
+	
+	
+	
 
 	public AgregarServicio getAdmiSedeServicio() {
 		return admiSedeServicio;
@@ -78,6 +85,19 @@ public class AgregarBean implements Serializable {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
+	
+
+	/* *
+	 * Obtener el ID del login y obtener todos los datos del admin, para la interfaz y las consultas.
+	 */
+	@PostConstruct
+	public void inicializar() {
+//		this.busqueda = this.busquedaServicio.obtenerCriterios();
+		System.out.println("CARGAR ADMININISTRADOR...");
+
+
+	}
+	
 
 	public void botonAction() {
 		addMessage("Buscando Información !!");

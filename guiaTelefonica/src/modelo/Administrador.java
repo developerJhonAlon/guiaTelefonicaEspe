@@ -1,0 +1,51 @@
+package modelo;
+
+import java.io.Serializable;
+
+public class Administrador implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String idAdministrador;
+	private String nombAdmin;
+	private String nombSede;
+	private String codigoSede;
+	
+	public Administrador(){}
+
+	public String getIdAdministrador() {
+		return idAdministrador;
+	}
+
+	public void setIdAdministrador(String idAdministrador) {
+		this.idAdministrador = idAdministrador;
+	}
+
+	public String getNombAdmin() {
+		return nombAdmin;
+	}
+
+	public void setNombAdmin(String nombAdmin) {
+		this.nombAdmin = nombAdmin;
+	}
+
+	public String getNombSede() {
+		return nombSede;
+	}
+
+	public void setNombSede(String nombSede) {
+		this.nombSede = nombSede;
+	}
+
+	public String getCodigoSede() {
+		return codigoSede;
+	}
+
+	public void setCodigoSede(String codigoSede) {
+		this.codigoSede = codigoSede;
+	}
+
+	
+}

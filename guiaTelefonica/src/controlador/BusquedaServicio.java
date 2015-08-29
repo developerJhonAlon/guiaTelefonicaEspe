@@ -68,10 +68,10 @@ public class BusquedaServicio implements Serializable {
 		}else{
 			try{
 				while(res.next()){
-					vistaBusqueda.add(new VistaBusqueda(res.getString("PK_UZGTPERSON_ID"),res.getString("UZGTPERSON_UNIDAD"),
+					vistaBusqueda.add(new VistaBusqueda(res.getString("UZGTPERSON_ID"),res.getString("UZGTPERSON_UNIDAD"),
 							res.getString("UZGTPERSON_SEDE"),res.getString("UZGTPERSON_PUEST"),
 							res.getString("UZGTPERSON_NOMBRE"),res.getString("UZGTEXTE_NUM_EXTENSION"),
-							res.getString("UZGTTELE_NUM_TELEFONO"),res.getString("UZGTPERSON_CORR"),res.getLong("PK_UZGTEXTE_ID"))
+							res.getString("UZGTTELE_NUM_TELEFONO"),res.getString("UZGTPERSON_CORR"),res.getLong("UZGTEXTE_ID"))
 					);
 				}
 				
@@ -117,7 +117,7 @@ public class BusquedaServicio implements Serializable {
 	} 
 	
 	/*
-	 * Metodo para buscar las Sedes con extensiones Telefonicas.
+	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada.
 	 * */
 	public List<Busqueda> obtenerUnidades(String sedeCode){
 		

@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import modelo.Busqueda;
 import modelo.Personal;
@@ -85,16 +87,17 @@ public class AsignarAdministrador implements Serializable {
 	public void botonAsignar() {
 		// addMessage("Buscando Información !!");
 		 System.out.println("ASIGNAR ADMINISTRADOR --->>"
-		 + selectSedes[1].toString());
+		 + selectSedes[0].toString());
 
-//		System.out.println("ASIGNAR ADMINISTRADOR --->>"
-//				+ selectSedes.get(1).getDescripcion());
-
-		// System.out.println("ASIGNAR ADMINISTRADOR --->>");
-		// this.selectSedes;
 		 this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
-		
+		 addMessage("Guardando Información !!");
 
+	}
+	
+	public void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 }

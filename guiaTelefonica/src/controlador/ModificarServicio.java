@@ -28,7 +28,7 @@ public class ModificarServicio implements Serializable {
 			try {
 				while (res.next()) {
 					vistaBusqueda.add(new VistaBusqueda(res
-							.getString("PK_UZGTPERSON_ID"), res
+							.getString("UZGTPERSON_ID"), res
 							.getString("UZGTPERSON_UNIDAD"), res
 							.getString("UZGTPERSON_SEDE"), res
 							.getString("UZGTPERSON_PUEST"), res
@@ -36,7 +36,7 @@ public class ModificarServicio implements Serializable {
 							.getString("UZGTEXTE_NUM_EXTENSION"), res
 							.getString("UZGTTELE_NUM_TELEFONO"), res
 							.getString("UZGTPERSON_CORR"), res
-							.getLong("PK_UZGTEXTE_ID")));
+							.getLong("UZGTEXTE_ID")));
 				}
 
 			} catch (SQLException e) {
@@ -79,7 +79,7 @@ public class ModificarServicio implements Serializable {
 				while (res.next()) {
 
 					vistaBusqueda.add(new VistaBusqueda(res
-							.getString("PK_UZGTPERSON_ID"), res
+							.getString("UZGTPERSON_ID"), res
 							.getString("UZGTPERSON_UNIDAD"), res
 							.getString("UZGTPERSON_SEDE"), res
 							.getString("UZGTPERSON_PUEST"), res
@@ -87,7 +87,7 @@ public class ModificarServicio implements Serializable {
 							.getString("UZGTEXTE_NUM_EXTENSION"), res
 							.getString("UZGTTELE_NUM_TELEFONO"), res
 							.getString("UZGTPERSON_CORR"), res
-							.getLong("PK_UZGTEXTE_ID")));
+							.getLong("UZGTEXTE_ID")));
 				}
 
 			} catch (SQLException e) {

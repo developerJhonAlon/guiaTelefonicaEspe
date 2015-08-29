@@ -8,7 +8,6 @@ import java.util.List;
 
 import modelo.Busqueda;
 import modelo.Personal;
-import modelo.VistaBusqueda;
 import conexion.Conexion;
 import conexion.ConexionLocal;
 
@@ -28,21 +27,27 @@ public class AsignarAdministradorServicio implements Serializable {
 	public void guardarAdministrador(Personal administrador, String[] sedes) {
 
 		ConexionLocal cn = new ConexionLocal();
-		ResultSet lastRegistro = null;
+		ResultSet lastRegistro = cn.consultaFindPersonal(administrador);
 
-		lastRegistro = cn.consultaFindPersonal(administrador);
-		if (lastRegistro != null) {
-			guardarAdminSedes(administrador, sedes, cn);
-		} else {
-			int confirma = cn.guardarPersonal(administrador);
-
-			if (confirma != 1) {
-				System.out.println("Error Dato de Personal no guardado");
-
-			} else {
+		try {
+			if (lastRegistro.next()) {
 				guardarAdminSedes(administrador, sedes, cn);
+			} else {
+
+				int confirma = cn.guardarPersonal(administrador);
+
+				if (confirma != 1) {
+					System.out.println("Error Dato de Personal no guardado");
+
+				} else {
+					guardarAdminSedes(administrador, sedes, cn);
+
+				}
 
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -54,19 +59,25 @@ public class AsignarAdministradorServicio implements Serializable {
 
 		ResultSet lastRegistro = cn.consultaFindAdministrador(administrador
 				.getIdDocente());
-		if (lastRegistro != null) {
-			guardarRelAdminSedes(administrador, sedes, cn);
-			System.out.println("Si Hay Datos");
-		} else {
-			int actividad = cn.guardarAdministrador(administrador);
 
-			if (actividad == 1) {
+		try {
+			if (lastRegistro.next()) {
 				guardarRelAdminSedes(administrador, sedes, cn);
-
+				System.out.println("Administrador ya esta registrado");
 			} else {
-				System.out.println("Error de Guardar Administrador");
-			}
+				int actividad = cn.guardarAdministrador(administrador);
 
+				if (actividad != 1) {
+
+					System.out.println("Error de Guardar Administrador");
+				} else {
+					guardarRelAdminSedes(administrador, sedes, cn);
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -74,48 +85,66 @@ public class AsignarAdministradorServicio implements Serializable {
 	private void guardarRelAdminSedes(Personal administrador, String[] sedes,
 			ConexionLocal cnLocal) {
 
-		Conexion cn = new Conexion();
+		Conexion cnRemoto = new Conexion();
 		ResultSet registroSede = null;
+
 		List<Busqueda> listaDeSedes = new ArrayList<Busqueda>();
 
 		for (String string : sedes) {
-			registroSede = cn.consultaSedePorId(string);
-			if (registroSede == null) {
-				System.out.println("Error No Hay Datos");
-			} else {
-				try {
-					while (registroSede.next()) {
-						listaDeSedes.add(new Busqueda(registroSede
-								.getString("CODESEDE"), registroSede
-								.getString("DESCRIP")));
-					}
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-
+			registroSede = cnRemoto.consultaSedePorId(string);
+			try {
+				while (registroSede.next()) {
+					listaDeSedes.add(new Busqueda(registroSede
+							.getString("CODESEDE"), registroSede
+							.getString("DESCRIP")));
 				}
 
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
 			}
+
 		}
 
-		//Guardar las Sedes en la Base Local si esta no exite.
+		// Guardar las Sedes en la Base Local si esta no exite.
 		for (Busqueda busqueda : listaDeSedes) {
 			registroSede = cnLocal.consultaFindSede(busqueda.getValor());
-			if (registroSede != null) {
-				System.out.println("Sede Ya existe");
-			} else {
-				
-				cnLocal.guardarSedes(busqueda);
-			}	
-			
+
+			try {
+				if (registroSede.next()) {
+					System.out.println("Sede Ya existe");
+
+				} else {
+					cnLocal.guardarSedes(busqueda);
+
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
-		
-//		//Guardar la relacion entre Administradores y Sedes.
-//		for (Busqueda busqueda : listaDeSedes) {
-//			
-//			cnLocal.guardarRelAdminSede(administrador, busqueda);
-//		}
+
+		// Guardar la relacion entre Administradores y Sedes.
+		for (Busqueda busqueda : listaDeSedes) {
+			registroSede = cnLocal.consultaFindRelaAdminSede(
+					administrador.getIdDocente(), busqueda.getValor());
+
+			try {
+				if (registroSede.next()) {
+
+					System.out.println("Sede_Admin Ya existe");
+				} else {
+					cnLocal.guardarRelAdminSede(administrador, busqueda);
+
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 	/*

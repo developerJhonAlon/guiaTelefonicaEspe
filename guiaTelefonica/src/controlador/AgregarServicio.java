@@ -90,18 +90,23 @@ public class AgregarServicio implements Serializable {
 		ResultSet lastRegistro = null;
 		
 		lastRegistro = cn.consultaFindPersonal(personal);
-		if(lastRegistro!=null){
-			guardarDataGuia(personal, fono, exte, cn);
-		}else{
-			int confirma = cn.guardarPersonal(personal);
-	
-			if(confirma!=1){
-				System.out.println("Error Dato de Personal no guardado");
-				
-			}else{
+		try {
+			if(lastRegistro.next()){
 				guardarDataGuia(personal, fono, exte, cn);
+			}else{
+				int confirma = cn.guardarPersonal(personal);
 
+				if(confirma!=1){
+					System.out.println("Error Dato de Personal no guardado");
+					
+				}else{
+					guardarDataGuia(personal, fono, exte, cn);
+
+				}
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		

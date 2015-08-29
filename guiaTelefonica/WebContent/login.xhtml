@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./WEB-INF/templates/plantillaPrincipal.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Login</ui:define>
+
+	<ui:define name="contenido">
+		<p:layout>
+
+			<p:layoutUnit position="north">
+			<center>
+				<p:spacer height="20px" />
+
+				
+
+					<p:panelGrid columns="3">
+
+						<p:graphicImage name="/images/espe.jpg"
+							alt="Image Description for #{image}" title="#{image}" height="50"
+							width="250" />
+
+						<h:outputText value="DIRECTORIO TELEFÓNICO ESPE"
+							style="margin-top: 0; color:#669933;" styleClass="negrita" />
+
+						<p:graphicImage name="/images/directorio.png"
+							alt="Image Description for #{image}" title="#{image}" height="80"
+							width="80" />
+
+					</p:panelGrid>
+
+				
+				<p:spacer height="20px" />
+
+
+				<p:panel header="Ingreso a la Administración">
+
+					<p:panelGrid columns="1">
+
+						<p:outputLabel for="valorLogin" value="Ingrese su ID:" />
+						<p:inputText id="valorLogin" value="#{loginBean.identificador}"
+							required="false" />
+
+
+						<p:commandButton id="botonIngreso" value="Ingresar"
+							action="#{loginBean.botonLogin}"
+							styleClass="ui-priority-primary" />
+
+
+					</p:panelGrid>
+				</p:panel>
+</center>
+			</p:layoutUnit>
+
+
+			
+
+	
+			<p:layoutUnit position="center" >
+
+
+			</p:layoutUnit>
+
+
+		</p:layout>
+
+	</ui:define>
+</ui:composition>

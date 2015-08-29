@@ -116,39 +116,14 @@
 
 				<p:panel header="Sedes">
 
-<!-- 					<p:selectCheckboxMenu id="menu" -->
-<!-- 						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes" -->
-<!-- 						filter="true"  -->
-<!-- 						panelStyle="width:250px"> -->
-<!-- 						<f:selectItems value="#{asignarAdministrador.listaSedes}" var="item" itemValue="#{item.valor}" -->
-<!-- 							itemLabel="#{item.descripcion}"/> -->
-<!-- 					</p:selectCheckboxMenu> -->
-
-
-					<!-- 					<h:dataTable id="tablaSedes" -->
-					<!-- 						value="#{asignarAdministrador.listaSedes}" var="item"> -->
-
-					<!-- 						<h:column> -->
-
-					<!-- 							<p:selectManyCheckbox id="selectCheck" -->
-					<!-- 								value="#{asignarAdministrador.selectSedes}"> -->
-
-					<!-- 								<f:selectItem itemValue="#{item.valor}" -->
-					<!-- 									itemLabel="#{item.descripcion}" /> -->
-					<!-- 							</p:selectManyCheckbox> -->
-
-					<!-- 						</h:column> -->
-
-					<!-- 					</h:dataTable> -->
-
-					<p:selectManyCheckbox id="selectCheck"
-						value="#{asignarAdministrador.selectSedes}" layout="grid"
-						columns="3">
-
+					<p:selectCheckboxMenu id="menu"
+						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes"
+						filter="true" panelStyle="width:300px">
 						<f:selectItems value="#{asignarAdministrador.listaSedes}"
 							var="item" itemValue="#{item.valor}"
 							itemLabel="#{item.descripcion}" />
-					</p:selectManyCheckbox>
+					</p:selectCheckboxMenu>
+
 
 				</p:panel>
 
