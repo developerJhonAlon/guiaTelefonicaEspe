@@ -2,13 +2,13 @@ package beans;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import controlador.LoginServicio;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 public class LoginBean implements Serializable {
 
 	/**
@@ -43,10 +43,12 @@ public class LoginBean implements Serializable {
 	public String botonLogin() {
 		boolean existencia = loginServicio.comprobarAdmin(this.identificador);
 		if (existencia) {
-			return "asignarAdministrador";
+			return "agregarExtension?faces-redirect=true";
 		} else {
-			return "error";
+			return "error?faces-redirect=true";
 		}
 
 	}
+	
+	
 }

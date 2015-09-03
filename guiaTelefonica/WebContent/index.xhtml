@@ -110,12 +110,11 @@
 
 					<p:outputLabel for="valorBus" value="Ingrese la información:" />
 					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
-						required="false" style="width:90%;" />
-
+						required="true" style="width:90%;" maxlength="10" />
 
 					<p:growl id="growl" life="2000" />
 					<p:commandButton id="botonBuscar" value="Buscar"
-						update="vistaPresen"
+						update="vistaPresen,growl"
 						actionListener="#{busquedaBean.buttonAction()}"
 						styleClass="ui-priority-primary" />
 
@@ -124,8 +123,6 @@
 
 
 			</p:layoutUnit>
-
-			<p:growl id="msgs" showDetail="true" />
 
 			<p:layoutUnit position="center" header="Resultados de la busqueda">
 
@@ -214,8 +211,6 @@
 
 			</p:layoutUnit>
 
-
 		</p:layout>
-
 	</ui:define>
 </ui:composition>

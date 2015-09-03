@@ -23,17 +23,15 @@
 				</center>
 				<p:spacer height="20px" />
 
-				<p:panel header="Sede: ESPE Matriz - Modificar Extensiones">
+				<p:panel header="Modificar Extensiones - Administrador:  #{agregarBean.nombreAdministrador}">
 
-					<center>
-						<p:panelGrid columns="1">
-
-							<h:outputText value="Administrador" />
-							<h:outputText value="Ing. Mauricio Baldeon" />
-
-						</p:panelGrid>
-
-					</center>
+					<p:dataList value="#{agregarBean.administrado}" var="car"
+						type="ordered">
+						<f:facet name="header">
+            					Sedes
+        					</f:facet>
+        					#{car.nombSede}
+    						</p:dataList>
 
 				</p:panel>
 			</p:layoutUnit>
@@ -126,10 +124,6 @@
 							<p:column headerText="SEDE">
 								<h:outputText value="#{vis.sedeNomeb}" />
 							</p:column>
-
-
-
-
 
 
 							<p:column headerText="ID EXTEN" style="display: none">

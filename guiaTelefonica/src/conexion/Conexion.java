@@ -63,9 +63,9 @@ public class Conexion {
 	/* 
 	 * Metodo Sql para obtener el ID en relacion al Apellido en Banner.
 	 * */
-	public ResultSet consultaPorNombre(String textoIngresado){
+	public ResultSet consultaPorNombre(String textoIngresado, String codigoSede){
 		
-		String query = "select spriden.spriden_pidm AS IDM from SPRIDEN, pebempl where spriden.spriden_pidm = pebempl.pebempl_pidm AND spriden_last_name LIKE '"+textoIngresado+"%' and spriden_change_ind is null" ;
+		String query = "select spriden.spriden_pidm AS IDM from SPRIDEN, pebempl where pebempl_jbln_code='"+codigoSede+"' AND spriden.spriden_pidm = pebempl.pebempl_pidm AND spriden_last_name LIKE '"+textoIngresado+"%' and spriden_change_ind is null" ;
 		
 		try {
 			state = cnn.createStatement();

@@ -42,21 +42,22 @@
 
 						<p:outputLabel for="valorLogin" value="Ingrese su ID:" />
 						<p:inputText id="valorLogin" value="#{loginBean.identificador}"
-							required="false" />
+							required="true" />
 
 
 						<p:commandButton id="botonIngreso" value="Ingresar"
-							action="#{loginBean.botonLogin}"
+							action="#{loginBean.botonLogin()}"
 							styleClass="ui-priority-primary" />
 
 
+<!-- 	<p:commandButton id="botonIngreso" value="Ingresar" -->
+<!-- 							action="#{loginBean.botonLogin()}" -->
+<!-- 							styleClass="ui-priority-primary" /> -->
+
 					</p:panelGrid>
 				</p:panel>
-</center>
+		</center>
 			</p:layoutUnit>
-
-
-			
 
 	
 			<p:layoutUnit position="center" >

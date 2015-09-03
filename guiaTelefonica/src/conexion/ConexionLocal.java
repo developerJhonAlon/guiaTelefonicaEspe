@@ -97,6 +97,19 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	public ResultSet consultaAdminConSedes(String valorTexto) {
+		String query = "SELECT UZGTPERSON_ID AS IDADMIN, UZGTPERSON_NOMBRE AS NOMBADMIN, UZGTSEDE_NOMBRE AS NOMBSEDE, UZGTSEDE_ID AS IDSEDE FROM UZGVADMINSEDE WHERE UZGTPERSON_ID='"+valorTexto+"'";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	public ResultSet consultaPorTelefono(String valorTexto) {
 		String query = "SELECT * FROM UZGVGUIA WHERE UZGTTELE_NUM_TELEFONO LIKE'%"
@@ -257,7 +270,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-
+	
 	/*
 	 * Metodo para consultar la existencia de un ID de Personal.
 	 */
@@ -275,6 +288,7 @@ public class ConexionLocal {
 		return res;
 	}
 
+	
 	/*
 	 * Metodo para consultar la existencia de un ID en la relacion con una
 	 * Extension.

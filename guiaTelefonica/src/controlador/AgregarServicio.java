@@ -22,20 +22,23 @@ public class AgregarServicio implements Serializable {
 	/* *
 	 * Metodo para obtener los datos del personal del Banner.
 	 */
-	public List<Personal> buscarPersonal(String textoIngresado) {
+	public List<Personal> buscarPersonal(String textoIngresado,
+			List<String> sedesCodigos) {
 
 		Conexion cn = new Conexion();
-		ResultSet consultaIDM = cn.consultaPorNombre(textoIngresado);
+
+		ResultSet consultaIDM = null;
+
 		ResultSet consultaDatos = null;
 
 		List<String> pidm = new ArrayList<String>();
 		List<Personal> personal = new ArrayList<Personal>();
 
-		
-		// Obtencion de todos los IDM del Banner en relacion a su Apellido.
-		if (consultaIDM == null) {
-			System.out.println("Error No Hay Datos de IDM en Ban:");
-		} else {
+		for (String sedecodigo : sedesCodigos) {
+
+			consultaIDM = cn.consultaPorNombre(textoIngresado, sedecodigo);
+
+			// Obtencion de todos los IDM del Banner en relacion a su Apellido.
 			try {
 				while (consultaIDM.next()) {
 					pidm.add(consultaIDM.getString("IDM"));
@@ -45,7 +48,6 @@ public class AgregarServicio implements Serializable {
 				System.out.println("Error SQL IDM de Ban:" + e.getCause());
 				e.printStackTrace();
 			}
-
 		}
 
 		for (String pidm2 : pidm) {
@@ -70,7 +72,8 @@ public class AgregarServicio implements Serializable {
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					System.out.println("Error obtener Datos Personal Ban:" + e.getCause());
+					System.out.println("Error obtener Datos Personal Ban:"
+							+ e.getCause());
 					e.printStackTrace();
 				}
 
@@ -80,26 +83,26 @@ public class AgregarServicio implements Serializable {
 		return personal;
 
 	}
-	
+
 	/* *
-	 * Metodo para guardar la informacion de un Personal si este Existe o No. 
+	 * Metodo para guardar la informacion de un Personal si este Existe o No.
 	 */
-	public void guardarInformacion(Personal personal,String fono, String exte){
-		
+	public void guardarInformacion(Personal personal, String fono, String exte) {
+
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet lastRegistro = null;
-		
+
 		lastRegistro = cn.consultaFindPersonal(personal);
 		try {
-			if(lastRegistro.next()){
+			if (lastRegistro.next()) {
 				guardarDataGuia(personal, fono, exte, cn);
-			}else{
+			} else {
 				int confirma = cn.guardarPersonal(personal);
 
-				if(confirma!=1){
+				if (confirma != 1) {
 					System.out.println("Error Dato de Personal no guardado");
-					
-				}else{
+
+				} else {
 					guardarDataGuia(personal, fono, exte, cn);
 
 				}
@@ -108,20 +111,19 @@ public class AgregarServicio implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	/* *
-	 * Metodo para guardar la informacion para la Guia. 
+	 * Metodo para guardar la informacion para la Guia.
 	 */
 	private void guardarDataGuia(Personal personal, String fono, String exte,
 			ConexionLocal cn) {
 		long lastIdTemp = 0;
 		ResultSet lastRegistro = null;
-		
+
 		cn.guardarTelefono(fono);
-		
+
 		lastRegistro = cn.consultaLastTelefono();
 		if (lastRegistro == null) {
 			System.out.println("Error ultimo registro no Encontrado:");
@@ -130,23 +132,22 @@ public class AgregarServicio implements Serializable {
 				while (lastRegistro.next()) {
 					lastIdTemp = lastRegistro.getLong("ID_TELE");
 				}
-				cn.guardarExtension(exte,lastIdTemp);
-				
+				cn.guardarExtension(exte, lastIdTemp);
+
 				lastRegistro = cn.consultaLastExte();
 				while (lastRegistro.next()) {
 					lastIdTemp = lastRegistro.getLong("ID_EXTE");
 				}
 				cn.guardarRelPersonaExt(personal, lastIdTemp);
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Error Guardar Personal Extension: " + e.getCause());
+				System.out.println("Error Guardar Personal Extension: "
+						+ e.getCause());
 				e.printStackTrace();
 			}
 
 		}
 	}
-	
-	
 
 }

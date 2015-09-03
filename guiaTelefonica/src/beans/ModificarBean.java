@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import modelo.Administrador;
 import modelo.VistaBusqueda;
 
 import org.primefaces.event.SelectEvent;
@@ -30,9 +32,52 @@ public class ModificarBean implements Serializable{
 	private String valorEnviado;
 	private String nuevoFono;
 	private String nuevaExten;
+	private List<Administrador> administrado;
+	private String nombreAdministrador ="";
 	
 	public ModificarBean(){}
 	
+	@ManagedProperty(value="#{loginBean}")
+	private LoginBean loginBean;
+	
+	
+	
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+
+
+	public List<Administrador> getAdministrado() {
+		return administrado;
+	}
+
+    
+
+	public void setAdministrado(List<Administrador> administrado) {
+		this.administrado = administrado;
+	}
+
+
+
+	public String getNombreAdministrador() {
+		return nombreAdministrador;
+	}
+
+
+
+	public void setNombreAdministrador(String nombreAdministrador) {
+		this.nombreAdministrador = nombreAdministrador;
+	}
+
+
+
 	public ModificarServicio getModificarServicio() {
 		return modificarServicio;
 	}
