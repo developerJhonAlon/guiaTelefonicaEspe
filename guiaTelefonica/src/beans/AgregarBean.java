@@ -21,7 +21,7 @@ import controlador.LoginServicio;
 public class AgregarBean implements Serializable {
 
 	/**
-	 * esta clase sirve para agregar nuevas extensiones
+	 * esta clase sirve para agregar nuevas extensiones, mentira
 	 */
 	private static final long serialVersionUID = 1L;
 
