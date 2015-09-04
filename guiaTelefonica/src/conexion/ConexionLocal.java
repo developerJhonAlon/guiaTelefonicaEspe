@@ -527,4 +527,96 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
+	
+	//************************************ METODOS MODIFICAR ADMINISTRADORES****************************************
+
+	public ResultSet consultaAdministradores () {
+		String query = "SELECT DISTINCT UZGTPERSON_NOMBRE, UZGTPERSON_ID FROM UZGVADMINSEDE";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ResultSet consultaUnAdministrador (String valor) {
+		String query = "SELECT * FROM UZGVADMINSEDE WHERE UZGTPERSON_ID = '"+valor+"'";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+		
+	public ResultSet compararSedes(String codigo) {
+		String query = "SELECT * FROM UZGTSEDE WHERE UZGTSEDE_ID='"+codigo+"'";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public int guardarSedeInexistente(String sede, String codigo) {
+		String query = "insert into UZGTSEDE values('"+ codigo + "','" + sede + "')";
+		try {
+			state = cnn.createStatement();
+			conf = state.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conf;
+	}
+	
+	public int eliminarRelacionSedeAdmin(String codigo) {
+
+		String query = "DELETE FROM UZGTADMINSEDE WHERE UZGTPERSON_ID='"+ codigo+ "'";
+
+		try {
+			state = cnn.createStatement();
+			conf = state.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conf;
+	}
+	
+	public int guardarRelacionSedeAdmin(String person_id, String sede_id) {
+		String query = "insert into UZGTADMINSEDE values('"+ person_id + "','" + sede_id + "')";
+		try {
+			state = cnn.createStatement();
+			conf = state.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conf;
+	}
+	
+	public int eliminarAdmin(String codigo) {
+
+		String query = "DELETE FROM UZGTADMIN WHERE UZGTPERSON_ID='"+ codigo+ "'";
+
+		try {
+			state = cnn.createStatement();
+			conf = state.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conf;
+	}
+	
 }
