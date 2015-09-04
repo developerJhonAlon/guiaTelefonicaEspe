@@ -19,6 +19,7 @@ public class ModificarAdmin implements Serializable{
 		return nombres;
 	}
 
+	
 	public void setNombres(List<String> nombres) {
 		this.nombres = nombres;
 	}

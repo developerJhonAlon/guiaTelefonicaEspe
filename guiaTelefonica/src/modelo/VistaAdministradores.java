@@ -46,6 +46,7 @@ public class VistaAdministradores  implements Serializable{
 	public void setSede(String sede) {
 		this.sede = sede;
 	}
+	
 	public String getId_sede() {
 		return id_sede;
 	}

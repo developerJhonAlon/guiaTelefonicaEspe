@@ -12,7 +12,7 @@ import controlador.LoginServicio;
 public class LoginBean implements Serializable {
 
 	/**
-	 * 
+	 * A
 	 */
 	private static final long serialVersionUID = 1L;
 	private String identificador = "";

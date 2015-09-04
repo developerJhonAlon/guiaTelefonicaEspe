@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Administrador implements Serializable{
 
 	/**
-	 * 
+	 * A
 	 */
 	private static final long serialVersionUID = 1L;
 	private String idAdministrador;

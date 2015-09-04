@@ -18,7 +18,7 @@ public class BusquedaServicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/*
-	 * Metodo asignar filtros de busqueda.
+	 * Metodo asignar filtros de busqueda
 	 * */
 	public List<Busqueda> obtenerCriterios(){
 		List<Busqueda> criterios = new ArrayList<Busqueda>();

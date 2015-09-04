@@ -126,7 +126,7 @@ public class ModificarBean implements Serializable{
 	}
 
 	/* *
-	 * Metodo para realizar la consultas de las extensiones existentes.
+	 * Metodo para realizar la consultas de las extensiones existentes
 	 */
 	public void botonConsulta() {
 		

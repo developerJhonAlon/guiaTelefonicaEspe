@@ -86,6 +86,7 @@ public class BusquedaBean implements Serializable{
 	private Boolean verExtension=false;
 	private String verMensaj="";
 	
+	
 	public BusquedaBean(){}
 		
 	

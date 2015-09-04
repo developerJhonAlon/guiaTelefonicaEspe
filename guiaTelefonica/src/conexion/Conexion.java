@@ -29,6 +29,7 @@ public class Conexion {
 	
 	public void closeConexion() throws SQLException{
 		cnn.close();
+		
 	}
 	
 	

@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Busqueda implements Serializable{
 
 	/**
-	 * 
+	 * A
 	 */
 	private static final long serialVersionUID = 1L;
 	private String valor;

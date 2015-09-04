@@ -52,7 +52,7 @@ public class ModificarServicio implements Serializable {
 
 	/* *
 	 * Metodo para guardar la informacion de un Personal con su Extension
-	 * asignada.
+	 * asignada
 	 */
 	public List<VistaBusqueda> modificaExtOrFono(long idExtension,
 			String idPersonal, String fono, String exte) {

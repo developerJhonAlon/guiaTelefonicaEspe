@@ -20,7 +20,7 @@ public class AgregarServicio implements Serializable {
 	}
 
 	/* *
-	 * Metodo para obtener los datos del personal del Banner.
+	 * Metodo para obtener los datos del personal del Banner
 	 */
 	public List<Personal> buscarPersonal(String textoIngresado,
 			List<String> sedesCodigos) {

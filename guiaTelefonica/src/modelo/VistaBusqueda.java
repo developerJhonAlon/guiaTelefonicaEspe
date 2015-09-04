@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class VistaBusqueda implements Serializable {
 	
 	/**
-	 * 
+	 * A
 	 */
 	private static final long serialVersionUID = 1L;
 	private String idPersonal;

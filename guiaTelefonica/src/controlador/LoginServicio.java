@@ -17,7 +17,7 @@ public class LoginServicio implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public LoginServicio(){}
 	/* *
-	 * Metodo para comprobar la Existencia de un Administrador. 
+	 * Metodo para comprobar la Existencia de un Administrador
 	 */
 	public boolean comprobarAdmin(String idAdministrador){
 		

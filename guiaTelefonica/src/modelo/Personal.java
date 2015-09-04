@@ -6,7 +6,7 @@ public class Personal implements Serializable{
 
 	
 	/**
-	 * 
+	 * A
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nombres;

@@ -45,6 +45,7 @@ public class AdministradorBean implements Serializable{
 	public void setTodas(List<String> todas) {
 		this.todas = todas;
 	}
+	
 	public ModificarAdmin getModificarAdmin() {
 		return modificarAdmin;
 	}
