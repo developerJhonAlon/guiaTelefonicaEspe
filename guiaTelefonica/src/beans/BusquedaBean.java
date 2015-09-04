@@ -81,9 +81,54 @@ public class BusquedaBean implements Serializable{
 	
 	private String unidadSelecciona = "";
 	
+	private Boolean verNombres=false;
+	private Boolean verTelefono= false;
+	private Boolean verExtension=false;
+	private String verMensaj="";
+	
 	public BusquedaBean(){}
 		
 	
+	public Boolean getVerNombres() {
+		return verNombres;
+	}
+
+
+	public void setVerNombres(Boolean verNombres) {
+		this.verNombres = verNombres;
+	}
+
+
+	public Boolean getVerTelefono() {
+		return verTelefono;
+	}
+
+
+	public void setVerTelefono(Boolean verTelefono) {
+		this.verTelefono = verTelefono;
+	}
+
+
+	public Boolean getVerExtension() {
+		return verExtension;
+	}
+
+
+	public void setVerExtension(Boolean verExtension) {
+		this.verExtension = verExtension;
+	}
+
+
+	public String getVerMensaj() {
+		return verMensaj;
+	}
+
+
+	public void setVerMensaj(String verMensaj) {
+		this.verMensaj = verMensaj;
+	}
+
+
 	public List<Busqueda> getListaUnida() {
 		return listaUnida;
 	}
@@ -260,13 +305,53 @@ public class BusquedaBean implements Serializable{
 	
     
     public void verSedes(){
-    	System.out.println("Visualizar Sedes");
+    	System.out.println("Visualizar Sedes");	
+    	if(this.valorBusqueda.equals("2"))
+    	{
+    		verNombres=true;
+    		verTelefono= false;
+    		verExtension= false;
+    		this.verMensaj="Campo incorrecto";
+    		this.vistaBusqueda=null;
+    		desplegarInf= false;
+    		this.textoBuscado="";
+    	}
+    	if(this.valorBusqueda.equals("3"))
+    	{
+    		verNombres=false;
+    		verTelefono= true;
+    		verExtension= false;
+    		this.verMensaj="Número incorrecto ..... Ejm: 02-2348741"; 
+    		this.vistaBusqueda=null;
+    		desplegarInf= false;
+    		this.textoBuscado="";
+       	}
+    	if(this.valorBusqueda.equals("4"))
+    	{
+    		verNombres=false;
+    		verTelefono= false;
+    		verExtension= true;
+    		this.verMensaj= "Número incorrecto ..... Ejm: 1234";	
+    		this.vistaBusqueda=null;
+    		desplegarInf= false;
+    		this.textoBuscado="";
+    	}
+    	
     	if(this.valorBusqueda.equals("5")){
     		this.listaSedes = this.busquedaServicio.obtenerSedes();
-    		this.desplegarSedes = true;
+    		this.desplegarSedes = true;   		
+    		verNombres=true;
+    		verTelefono= false;
+    		verExtension= false;
+    		this.verMensaj="Ingrese solo letras";
+    		this.vistaBusqueda=null;
+    		desplegarInf= false;
+    		this.textoBuscado="";
     	}else{
     		this.desplegarSedes = false;
-    		
+    		this.vistaBusqueda=null;
+    		desplegarInf= false;
+    		this.textoBuscado="";
     	}
     
     }
