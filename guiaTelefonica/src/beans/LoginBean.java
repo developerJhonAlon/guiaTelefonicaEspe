@@ -41,6 +41,7 @@ public class LoginBean implements Serializable {
 	}
 
 	public String botonLogin() {
+		
 		boolean existencia = loginServicio.comprobarAdmin(this.identificador);
 		if (existencia) {
 			return "agregarExtension?faces-redirect=true";

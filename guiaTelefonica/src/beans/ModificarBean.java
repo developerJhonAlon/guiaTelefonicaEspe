@@ -22,7 +22,7 @@ import controlador.ModificarServicio;
 public class ModificarBean implements Serializable{
 
 	/**
-	 * 
+	 * a
 	 */
 	private static final long serialVersionUID = 1L;
 

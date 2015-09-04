@@ -12,7 +12,7 @@ import modelo.VistaBusqueda;
 public class ModificarServicio implements Serializable {
 
 	/**
-	 * 
+	 * E
 	 */
 	private static final long serialVersionUID = 1L;
 
