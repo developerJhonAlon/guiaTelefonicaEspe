@@ -14,7 +14,7 @@ import conexion.ConexionLocal;
 public class AsignarAdministradorServicio implements Serializable {
 
 	/**
-	 * 
+	 * 7
 	 */
 	private static final long serialVersionUID = 1L;
 

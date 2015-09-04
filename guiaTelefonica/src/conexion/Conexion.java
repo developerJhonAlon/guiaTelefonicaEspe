@@ -19,7 +19,7 @@ public class Conexion {
 						"jdbc:oracle:thin:@10.1.0.113:1521:PAS8", "USERCONSULTA",
 						"consulta");
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch block7
 				e.printStackTrace();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

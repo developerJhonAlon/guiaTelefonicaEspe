@@ -14,8 +14,6 @@ public class Administrador implements Serializable{
 	private String codigoSede;
 	
 	public Administrador(){}
-	
-	
 
 	public Administrador(String idAdministrador, String nombAdmin,
 			String nombSede, String codigoSede) {

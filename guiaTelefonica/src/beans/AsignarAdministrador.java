@@ -18,7 +18,7 @@ import controlador.AsignarAdministradorServicio;
 public class AsignarAdministrador implements Serializable {
 
 	/**
-	 * 
+	 * 7
 	 */
 	private static final long serialVersionUID = 1L;
 
