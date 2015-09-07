@@ -177,4 +177,66 @@ public class AsignarAdministradorServicio implements Serializable {
 
 		return sedes;
 	}
+
+	/* *
+	 * Metodo para obtener los datos del personal del Banner
+	 */
+	public List<Personal> buscarPersonal(String textoIngresado) {
+
+		Conexion cn = new Conexion();
+
+		ResultSet consultaIDM = null;
+
+		ResultSet consultaDatos = null;
+
+		List<String> pidm = new ArrayList<String>();
+		List<Personal> personal = new ArrayList<Personal>();
+
+		consultaIDM = cn.consultaAllPorNombre(textoIngresado);
+
+		// Obtencion de todos los IDM del Banner en relacion a su Apellido.
+		try {
+			while (consultaIDM.next()) {
+				pidm.add(consultaIDM.getString("IDM"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error SQL IDM de Ban:" + e.getCause());
+			e.printStackTrace();
+		}
+
+		for (String pidm2 : pidm) {
+			consultaDatos = cn.consultaDatosDePersonal(Integer.parseInt(pidm2));
+			// Obtencion de todos los Datos en relacion al IDM
+			if (consultaDatos == null) {
+				System.out.println("Error No Hay Datos, IDM Ban:");
+			} else {
+				try {
+					while (consultaDatos.next()) {
+						personal.add(new Personal(consultaDatos
+								.getString("NOMBRES"), consultaDatos
+								.getString("CEDULA"), consultaDatos
+								.getString("ID_DOCENTE"), consultaDatos
+								.getString("PUESTO"), consultaDatos
+								.getString("UNIDAD"), consultaDatos
+								.getString("SEDE_EMPL"), consultaDatos
+								.getString("CODE_SEDE"), consultaDatos
+								.getString("DIR_INST"), consultaDatos
+								.getString("CIU_LAB"), consultaDatos
+								.getString("CORREO_INST")));
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Error obtener Datos Personal Ban:"
+							+ e.getCause());
+					e.printStackTrace();
+				}
+
+			}
+		}
+
+		return personal;
+
+	}
+
 }
