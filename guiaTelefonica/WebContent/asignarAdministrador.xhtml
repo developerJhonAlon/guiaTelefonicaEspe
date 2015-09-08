@@ -62,9 +62,18 @@
 
 					<p:growl id="growl" life="2000" />
 					<h:outputText value="Guardar Cambios" />
+					
 					<p:commandButton id="botonGuardar" value="Asignar" update="growl,comboSedes"
 						actionListener="#{asignarAdministrador.botonAsignar()}"
-						styleClass="ui-priority-primary" />
+						styleClass="ui-priority-primary" >
+						<p:confirm header="Confirmación" message="¿Asignar Administrador?" icon="ui-icon-alert" /> 
+						</p:commandButton>
+						 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+       							 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      							 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+   								 </p:confirmDialog>
+							<p:spacer height="20px" />
+						
 				</p:panelGrid>
 
 
