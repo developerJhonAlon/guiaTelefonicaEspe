@@ -18,7 +18,7 @@ import controlador.AsignarAdministradorServicio;
 public class AsignarAdministrador implements Serializable {
 
 	/**
-	 * 7A
+	 * Esta clase sirva para la logica de negocio de la gestion de un Administrador.
 	 */
 	private static final long serialVersionUID = 1L;
 
