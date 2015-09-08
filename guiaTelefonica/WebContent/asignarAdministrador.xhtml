@@ -47,12 +47,12 @@
 				<p:panelGrid columns="1" layout="grid" style="width:100%;">
 
 					<p:outputLabel for="valorBus" value="Ingrese el Apellido o ID:" />
-					<p:inputText id="valorBus" value="#{agregarBean.textoBuscado}"
+					<p:inputText id="valorBus" value="#{asignarAdministrador.textoBusqueda}"
 						required="false" style="width:100%;" />
 
 
 					<p:commandButton id="botonBusca" value="Buscar"
-						update="vistaPresen" actionListener="#{agregarBean.botonAction()}"
+						update="vistaPresen" actionListener="#{asignarAdministrador.botonBuscar()}"
 						styleClass="ui-priority-primary" />
 
 
@@ -62,7 +62,7 @@
 
 					<p:growl id="growl" life="2000" />
 					<h:outputText value="Guardar Cambios" />
-					<p:commandButton id="botonGuardar" value="Asignar" update="growl"
+					<p:commandButton id="botonGuardar" value="Asignar" update="growl,comboSedes"
 						actionListener="#{asignarAdministrador.botonAsignar()}"
 						styleClass="ui-priority-primary" />
 				</p:panelGrid>
@@ -79,7 +79,7 @@
 
 
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
-						value="#{agregarBean.personal}" scrollable="true"
+						value="#{asignarAdministrador.personal}" scrollable="true"
 						scrollHeight="200" selectionMode="single"
 						selection="#{asignarAdministrador.administrador}"
 						rowKey="#{vis.idDocente}">
@@ -116,7 +116,7 @@
 				</p:panel>
 
 
-				<p:panel header="Sedes">
+				<p:panel id="comboSedes" header="Sedes">
 
 					<p:selectCheckboxMenu id="menu"
 						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes"

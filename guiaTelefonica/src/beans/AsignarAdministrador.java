@@ -24,11 +24,41 @@ public class AsignarAdministrador implements Serializable {
 
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
 	private Personal administrador;
+	private String textoBusqueda; 
+	private List<Personal> personal;
 	private List<Busqueda> listaSedes;
 	private String[] selectSedes;
 
 	public AsignarAdministrador() {
 	}
+
+	
+
+	
+	public List<Personal> getPersonal() {
+		return personal;
+	}
+
+
+
+
+	public void setPersonal(List<Personal> personal) {
+		this.personal = personal;
+	}
+
+
+
+
+	public String getTextoBusqueda() {
+		return textoBusqueda;
+	}
+
+
+
+	public void setTextoBusqueda(String textoBusqueda) {
+		this.textoBusqueda = textoBusqueda;
+	}
+
 
 
 	public String[] getSelectSedes() {
@@ -79,8 +109,7 @@ public class AsignarAdministrador implements Serializable {
 		// addMessage("Buscando Información !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
 
-		// this.personal =
-		// this.asignarServicio.buscarPersonal(this.datoBuscado);
+		 this.personal = this.asignarServicio.buscarPersonal(this.textoBusqueda);
 
 	}
 
@@ -91,6 +120,8 @@ public class AsignarAdministrador implements Serializable {
 
 		 this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
 		 addMessage("Guardando Información !!");
+		 this.listaSedes.clear();
+		 this.listaSedes = this.asignarServicio.obtenerSedes();
 
 	}
 	

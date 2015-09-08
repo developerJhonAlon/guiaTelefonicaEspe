@@ -27,7 +27,7 @@ public class AdministradorBean implements Serializable{
 	private List<Busqueda> vistaUnAdmin;
 	private ModificarAdmin modificarAdmin = new ModificarAdmin();
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
-	
+
 	private String valor;
 	private boolean desplegarInf=false;
 	private VistaAdministradores selectedPersona;
