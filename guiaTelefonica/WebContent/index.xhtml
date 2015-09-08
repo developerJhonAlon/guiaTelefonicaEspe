@@ -22,6 +22,8 @@
 							alt="Image Description for #{image}" title="#{image}" height="50"
 							width="250" />
 
+
+
 						<h:outputText value="DIRECTORIO TELEFÓNICO ESPE"
 							style="margin-top: 0; color:#669933;" styleClass="negrita" />
 
@@ -93,21 +95,19 @@
 						rendered="#{busquedaBean.desplegarSedes}" />
 
 					<p:selectOneListbox id="codigoDepar"
-						value="#{busquedaBean.unidadSelecciona}" filter="true"
-						filterMatchMode="contains" style="height:80px;width:90%;margin-bottom:10px"
+						value="#{busquedaBean.unidadSelecciona}" filter="true" scrollHeight="100"
+						filterMatchMode="contains" style="width:90%;"
 						rendered="#{busquedaBean.desplegarSedes}">
-						<f:selectItem itemLabel="TODOS" itemValue="0" style="margin-top: 0; color:#006600;" />
+						<f:selectItem itemLabel="TODOS" itemValue="0" />
 
 						<f:selectItems value="#{busquedaBean.listaUnida}" var="unidad"
-							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}"
-							style="margin-top: 0; color:#006600;"  />
+							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}"/>
 
 						<p:column>
 							<h:outputText value="#{unidad.descripcion}" />
 						</p:column>
 
 					</p:selectOneListbox>		
-					
 					
 									<!-- 				nombres y apellidos		  -->
 					
@@ -170,25 +170,25 @@
 							update=":form:dataTheStaff" />
 
 
-						<p:column headerText="NOMBRE" style="width: 25%">
+						<p:column headerText="NOMBRE" >
 							<h:outputText value="#{vis.personalNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="EXT" style="width: 7%">
+						<p:column headerText="EXT" >
 							<h:outputText value="#{vis.extensionNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="TELEFONO" style="width: 13%">
+						<p:column headerText="TELEFONO" >
 							<h:outputText value="#{vis.telefonoNomb}" styleClass="letras2" />
 						</p:column>
 
 
-						<p:column headerText="UNIDAD" style="width: 28%">
+						<p:column headerText="UNIDAD" >
 							<h:outputText value="#{vis.unidadNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="SEDE" style="width: 18%">
-							<h:outputText value="#{vis.sedeNomeb}" style="width: 18%"
+						<p:column headerText="SEDE">
+							<h:outputText value="#{vis.sedeNomeb}" 
 								styleClass="letras2" />
 						</p:column>
 

@@ -113,7 +113,7 @@
 					<p:panel>
 
 						<p:dataTable id="vistaPresen" var="vis" layout="grid"
-							value="#{modificarBean.vistaBusqueda}" scrollHeight="200"
+							value="#{modificarBean.vistaBusqueda}" scrollable="true" scrollHeight="500"
 							selectionMode="single"
 							selection="#{modificarBean.busquedaSelect}"
 							rowKey="#{vis.idPersonal}">
@@ -144,10 +144,7 @@
 							</p:column>
 
 
-							<p:column headerText="ID EXTEN" style="display: none">
-								<h:outputText value="#{vis.idAsignacion}" />
-							</p:column>
-
+						
 						</p:dataTable>
 
 

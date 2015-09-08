@@ -25,7 +25,7 @@
 				</center>
 				<p:spacer height="20px" />
 				
-				<h:commandLink action="index">Modificar</h:commandLink>
+<!-- 				<h:commandLink action="index">Modificar</h:commandLink> -->
 
 <!-- 				<p:tabMenu> -->
 <!-- 					<p:menuitem value="Agregar" ajax="false" -->
@@ -59,7 +59,7 @@
 				<p:panelGrid id="panelBusqueda" columns="1" layout="grid"
 					style="width:100%;">
 
-					<p:outputLabel for="valorBus2" value="Ingrese el Apellido o ID:" />
+					<p:outputLabel for="valorBus2" value="Ingrese el Apellido:" />
 					<p:inputText id="valorBus2" value="#{agregarBean.textoBuscado}"
 						required="true" style="width:100%;" maxlength="15" />
 
@@ -121,7 +121,7 @@
 					<p:panel>
 
 						<p:dataTable id="vistaPresen" var="vis" layout="grid"
-							value="#{agregarBean.personal}" scrollHeight="200"
+							value="#{agregarBean.personal}" scrollable="true" scrollHeight="500"
 							selectionMode="single" selection="#{agregarBean.selectPersonal}"
 							rowKey="#{vis.idDocente}">
 
@@ -150,20 +150,7 @@
 								<h:outputText value="#{vis.sede}" />
 							</p:column>
 
-							<p:column headerText="CODE SEDE" style="display: none">
-								<h:outputText value="#{vis.sedeCode}" />
-							</p:column>
-							<p:column headerText="DIREC INSTI" style="display: none">
-								<h:outputText value="#{vis.direcInstitu}" />
-							</p:column>
-
-							<p:column headerText="CIUD LABORA" style="display: none">
-								<h:outputText value="#{vis.ciudadLabora}" />
-							</p:column>
-
-							<p:column headerText="CORREO" style="display: none">
-								<h:outputText value="#{vis.correo}" />
-							</p:column>
+							
 
 
 						</p:dataTable>
