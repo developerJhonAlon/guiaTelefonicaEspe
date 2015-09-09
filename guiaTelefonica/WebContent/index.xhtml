@@ -163,7 +163,7 @@
 
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
 						value="#{busquedaBean.vistaBusqueda}" scrollable="true"
-						scrollHeight="200" selectionMode="single"
+						scrollHeight="300" selectionMode="single"
 						selection="#{busquedaBean.selectedPersona}"
 						rowKey="#{vis.idAsignacion}">
 
@@ -175,25 +175,25 @@
 							update=":form:dataTheStaff" />
 
 
-						<p:column headerText="NOMBRE" style="width: 25%">
+						<p:column headerText="NOMBRE" >
 							<h:outputText value="#{vis.personalNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="EXT" style="width: 7%">
+						<p:column headerText="EXT" >
 							<h:outputText value="#{vis.extensionNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="TELEFONO" style="width: 13%">
+						<p:column headerText="TELEFONO" >
 							<h:outputText value="#{vis.telefonoNomb}" styleClass="letras2" />
 						</p:column>
 
 
-						<p:column headerText="UNIDAD" style="width: 28%">
+						<p:column headerText="UNIDAD" >
 							<h:outputText value="#{vis.unidadNomb}" styleClass="letras2" />
 						</p:column>
 
-						<p:column headerText="SEDE" style="width: 18%">
-							<h:outputText value="#{vis.sedeNomeb}" style="width: 18%"
+						<p:column headerText="SEDE" >
+							<h:outputText value="#{vis.sedeNomeb}" 
 								styleClass="letras2" />
 						</p:column>
 
