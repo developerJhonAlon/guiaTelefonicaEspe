@@ -70,7 +70,8 @@
 						<f:selectItem itemLabel="Seleccione..." />
 						<f:selectItems value="#{busquedaBean.busqueda}" var="crit"
 							itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
-						<p:ajax update="panelSedes,vistaPresen,dataTheStaff" listener="#{busquedaBean.verSedes()}" />
+						<p:ajax update="panelSedes,vistaPresen,dataTheStaff"
+							listener="#{busquedaBean.verSedes()}" />
 
 					</p:selectOneMenu>
 				</p:panelGrid>
@@ -96,45 +97,47 @@
 
 					<p:selectOneListbox id="codigoDepar"
 						value="#{busquedaBean.unidadSelecciona}" filter="true"
-						filterMatchMode="contains" style="height:80px;width:90%;margin-bottom:10px"
+						scrollHeight="100" filterMatchMode="contains" style="width:90%;"
 						rendered="#{busquedaBean.desplegarSedes}">
-						<f:selectItem itemLabel="TODOS" itemValue="0" style="margin-top: 0; color:#006600;" />
+						<f:selectItem itemLabel="TODOS" itemValue="0" />
 
 						<f:selectItems value="#{busquedaBean.listaUnida}" var="unidad"
-							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}"
-							style="margin-top: 0; color:#006600;"  />
+							itemLabel="#{unidad.descripcion}" itemValue="#{unidad.valor}" />
 
 						<p:column>
 							<h:outputText value="#{unidad.descripcion}" />
 						</p:column>
 
-					</p:selectOneListbox>		
-					
-					
-									<!-- 				nombres y apellidos		  -->
-					
-					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}" 
-						required="false" validatorMessage="#{busquedaBean.verMensaj}" rendered="#{busquedaBean.verNombres}">
-						<f:validateLength minimum="0" maximum="30"/>
-						<f:validateRegex pattern="[^0-9]*" /> 
+					</p:selectOneListbox>
+
+
+					<!-- 				nombres y apellidos		  -->
+
+					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
+						required="false" validatorMessage="#{busquedaBean.verMensaj}"
+						rendered="#{busquedaBean.verNombres}">
+						<f:validateLength minimum="0" maximum="30" />
+						<f:validateRegex pattern="[^0-9]*" />
 					</p:inputText>
-						
-				  
+
+
 					<!-- 				extension	  -->
-					
-					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}" 
-					required="false" validatorMessage="#{busquedaBean.verMensaj}" rendered="#{busquedaBean.verExtension}" > 
-							<f:validateRegex pattern="[0-9]{4}" /> 
- 						</p:inputText> 
-				
+
+					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"
+						required="false" validatorMessage="#{busquedaBean.verMensaj}"
+						rendered="#{busquedaBean.verExtension}">
+						<f:validateRegex pattern="[0-9]{4}" />
+					</p:inputText>
+
 					<!-- 				telefono  -->
-					
+
 					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"
-						  required="false" validatorMessage="#{busquedaBean.verMensaj}" rendered="#{busquedaBean.verTelefono}" >  
-							<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" /> 
-						</p:inputText> 
-						
-					
+						required="false" validatorMessage="#{busquedaBean.verMensaj}"
+						rendered="#{busquedaBean.verTelefono}">
+						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
+					</p:inputText>
+
+
 				</p:panelGrid>
 
 				<p:panelGrid columns="1" style="width:100%;" layout="grid">
@@ -200,31 +203,39 @@
 
 				</p:panel>
 
-				<p:panel id="dataTheStaff" header="Información Seleccionada" styleClass="letras2">
+				<p:panel id="dataTheStaff" header="Información Seleccionada"
+					styleClass="letras2">
 
 					<p:panelGrid rendered="#{busquedaBean.desplegarInf}" columns="2">
 
-						<h:outputText value="Nombre: " styleClass="letras3"  />
-						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}" styleClass="letras2" />
+						<h:outputText value="Nombre: " styleClass="letras3" />
+						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}"
+							styleClass="letras2" />
 
 						<h:outputText value="Extensión: " styleClass="letras3" />
 						<h:outputText
-							value="#{busquedaBean.selectedPersona.extensionNomb}" styleClass="letras2"/>
+							value="#{busquedaBean.selectedPersona.extensionNomb}"
+							styleClass="letras2" />
 
-						<h:outputText value="Telefono: " styleClass="letras3"  />
-						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}" styleClass="letras2"/>
+						<h:outputText value="Telefono: " styleClass="letras3" />
+						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}"
+							styleClass="letras2" />
 
-						<h:outputText value="Unidad: " styleClass="letras3"  />
-						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}" styleClass="letras2"/>
+						<h:outputText value="Unidad: " styleClass="letras3" />
+						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}"
+							styleClass="letras2" />
 
 						<h:outputText value="Cargo: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.cargoNomb}" styleClass="letras2"/>
+						<h:outputText value="#{busquedaBean.selectedPersona.cargoNomb}"
+							styleClass="letras2" />
 
 						<h:outputText value="Sede: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}" styleClass="letras2" />
+						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}"
+							styleClass="letras2" />
 
-						<h:outputText value="Correo: " styleClass="letras3"  />
-						<h:outputText value="#{busquedaBean.selectedPersona.correo}" styleClass="letras2" />
+						<h:outputText value="Correo: " styleClass="letras3" />
+						<h:outputText value="#{busquedaBean.selectedPersona.correo}"
+							styleClass="letras2" />
 
 					</p:panelGrid>
 

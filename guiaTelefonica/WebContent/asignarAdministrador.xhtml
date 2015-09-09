@@ -46,13 +46,15 @@
 
 				<p:panelGrid columns="1" layout="grid" style="width:100%;">
 
-					<p:outputLabel for="valorBus" value="Ingrese el Apellido o ID:" />
-					<p:inputText id="valorBus" value="#{asignarAdministrador.textoBusqueda}"
-						required="false" style="width:100%;" />
+					<p:outputLabel for="valorBus" value="Ingrese el Apellido:" />
+					<p:inputText id="valorBus"
+						value="#{asignarAdministrador.textoBusqueda}" required="false"
+						style="width:100%;" />
 
 
 					<p:commandButton id="botonBusca" value="Buscar"
-						update="vistaPresen" actionListener="#{asignarAdministrador.botonBuscar()}"
+						update="vistaPresen"
+						actionListener="#{asignarAdministrador.botonBuscar()}"
 						styleClass="ui-priority-primary" />
 
 
@@ -62,21 +64,35 @@
 
 					<p:growl id="growl" life="2000" />
 					<h:outputText value="Guardar Cambios" />
-					
-					<p:commandButton id="botonGuardar" value="Asignar" update="growl,comboSedes"
+
+					<p:commandButton id="botonGuardar" value="Asignar"
+						update="growl,comboSedes"
 						actionListener="#{asignarAdministrador.botonAsignar()}"
-						styleClass="ui-priority-primary" >
-						<p:confirm header="Confirmación" message="¿Asignar Administrador?" icon="ui-icon-alert" /> 
-						</p:commandButton>
-						 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-       							 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-      							 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-   								 </p:confirmDialog>
-							<p:spacer height="20px" />
-						
+						styleClass="ui-priority-primary">
+						<p:confirm header="Confirmación" message="¿Asignar Administrador?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Si" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:spacer height="20px" />
+
 				</p:panelGrid>
 
+				<p:panel id="comboSedes" header="Sedes">
 
+					<p:selectCheckboxMenu id="menu"
+						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes"
+						filter="true" required="true">
+						<f:selectItems value="#{asignarAdministrador.listaSedes}"
+							var="item" itemValue="#{item.valor}"
+							itemLabel="#{item.descripcion}" />
+					</p:selectCheckboxMenu>
+
+				</p:panel>
 			</p:layoutUnit>
 
 
@@ -89,7 +105,7 @@
 
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
 						value="#{asignarAdministrador.personal}" scrollable="true"
-						scrollHeight="200" selectionMode="single"
+						scrollHeight="500" selectionMode="single"
 						selection="#{asignarAdministrador.administrador}"
 						rowKey="#{vis.idDocente}">
 
@@ -120,20 +136,6 @@
 
 
 					</p:dataTable>
-
-
-				</p:panel>
-
-
-				<p:panel id="comboSedes" header="Sedes">
-
-					<p:selectCheckboxMenu id="menu"
-						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes"
-						filter="true" panelStyle="width:300px">
-						<f:selectItems value="#{asignarAdministrador.listaSedes}"
-							var="item" itemValue="#{item.valor}"
-							itemLabel="#{item.descripcion}" />
-					</p:selectCheckboxMenu>
 
 
 				</p:panel>
