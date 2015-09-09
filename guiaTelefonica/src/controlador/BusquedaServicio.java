@@ -100,8 +100,8 @@ public class BusquedaServicio implements Serializable {
 		}else{
 			try{
 				while(res.next()){
-					sedes.add(new Busqueda(res.getString("CODIGO"),
-							res.getString("UZGTPERSON_SEDE")));
+					sedes.add(new Busqueda(res.getString("CODIGO_SEDE"),
+							res.getString("NOMBRE_SEDE")));
 				}
 				
 			} catch (SQLException e) {

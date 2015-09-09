@@ -40,7 +40,7 @@ public class ConexionLocal {
 	 * Metodo SQL para obtener las Sedes.
 	 */
 	public ResultSet consultaSedes() {
-		String query = "SELECT DISTINCT UPPER(UZGTPERSON_SEDE_CODE) AS CODIGO, UZGTPERSON_SEDE FROM UZGTPERSON";
+		String query = "SELECT DISTINCT UPPER(UZGTPERSON_SEDE_CODE) AS CODIGO_SEDE, UZGTPERSON_SEDE AS NOMBRE_SEDE FROM UZGVGUIA";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);

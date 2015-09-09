@@ -18,13 +18,14 @@ import controlador.AsignarAdministradorServicio;
 public class AsignarAdministrador implements Serializable {
 
 	/**
-	 * Esta clase sirva para la logica de negocio de la gestion de un Administrador.
+	 * Esta clase sirva para la logica de negocio de la gestion de un
+	 * Administrador.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
 	private Personal administrador;
-	private String textoBusqueda; 
+	private String textoBusqueda;
 	private List<Personal> personal;
 	private List<Busqueda> listaSedes;
 	private String[] selectSedes;
@@ -32,47 +33,29 @@ public class AsignarAdministrador implements Serializable {
 	public AsignarAdministrador() {
 	}
 
-	
-
-	
 	public List<Personal> getPersonal() {
 		return personal;
 	}
-
-
-
 
 	public void setPersonal(List<Personal> personal) {
 		this.personal = personal;
 	}
 
-
-
-
 	public String getTextoBusqueda() {
 		return textoBusqueda;
 	}
-
-
 
 	public void setTextoBusqueda(String textoBusqueda) {
 		this.textoBusqueda = textoBusqueda;
 	}
 
-
-
 	public String[] getSelectSedes() {
 		return selectSedes;
 	}
 
-
-
 	public void setSelectSedes(String[] selectSedes) {
 		this.selectSedes = selectSedes;
 	}
-
-
-
 
 	public Personal getAdministrador() {
 		return administrador;
@@ -106,25 +89,26 @@ public class AsignarAdministrador implements Serializable {
 	}
 
 	public void botonBuscar() {
-		// addMessage("Buscando Información !!");
+		addMessage("Buscando Información !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
 
-		 this.personal = this.asignarServicio.buscarPersonal(this.textoBusqueda);
+		this.personal = this.asignarServicio.buscarPersonal(this.textoBusqueda);
 
 	}
 
 	public void botonAsignar() {
-		// addMessage("Buscando Información !!");
-		 System.out.println("ASIGNAR ADMINISTRADOR --->>"
-		 + selectSedes[0].toString());
+		addMessage("Guardando Información !!");
+		System.out.println("ASIGNAR ADMINISTRADOR --->>"
+				+ selectSedes[0].toString());
 
-		 this.asignarServicio.guardarAdministrador(this.administrador,this.selectSedes);
-		 addMessage("Guardando Información !!");
-		 this.listaSedes.clear();
-		 this.listaSedes = this.asignarServicio.obtenerSedes();
+		this.asignarServicio.guardarAdministrador(this.administrador,
+				this.selectSedes);
+		
+		this.listaSedes.clear();
+		this.listaSedes = this.asignarServicio.obtenerSedes();
 
 	}
-	
+
 	public void addMessage(String summary) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				summary, null);

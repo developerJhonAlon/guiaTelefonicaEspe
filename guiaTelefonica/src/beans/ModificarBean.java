@@ -129,7 +129,7 @@ public class ModificarBean implements Serializable{
 	 * Metodo para realizar la consultas de las extensiones existentes
 	 */
 	public void botonConsulta() {
-		
+		addMessage("Información Consultada!!");
 		System.out.println("OBTENER EXTENSIONES --->>");
 		this.vistaBusqueda = modificarServicio.obtenerExtension(this.valorEnviado);
 

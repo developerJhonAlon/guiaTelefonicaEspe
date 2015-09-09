@@ -51,18 +51,15 @@
 						value="#{asignarAdministrador.textoBusqueda}" required="false"
 						style="width:100%;" />
 
-
+					<p:growl id="growl" life="2000" />
 					<p:commandButton id="botonBusca" value="Buscar"
-						update="vistaPresen"
+						update="vistaPresen,growl"
 						actionListener="#{asignarAdministrador.botonBuscar()}"
 						styleClass="ui-priority-primary" />
 
 
 					<p:spacer height="20px" />
 
-
-
-					<p:growl id="growl" life="2000" />
 					<h:outputText value="Guardar Cambios" />
 
 					<p:commandButton id="botonGuardar" value="Asignar"
@@ -86,7 +83,7 @@
 
 					<p:selectCheckboxMenu id="menu"
 						value="#{asignarAdministrador.selectSedes}" label="Lista de Sedes"
-						filter="true" required="true">
+						filter="true" required="false">
 						<f:selectItems value="#{asignarAdministrador.listaSedes}"
 							var="item" itemValue="#{item.valor}"
 							itemLabel="#{item.descripcion}" />
