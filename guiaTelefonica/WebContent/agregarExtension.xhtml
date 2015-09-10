@@ -12,8 +12,8 @@
 	<ui:define name="contenido">
 		<p:layout fullPage="true">
 
-			<p:layoutUnit position="north" style="width:100%;" size="250px"
-				minSize="250">
+			<p:layoutUnit position="north" style="width:100%;" size="200px"
+				minSize="200">
 				<p:spacer height="20px" />
 
 
@@ -24,28 +24,57 @@
 
 				</center>
 				<p:spacer height="20px" />
-				
-<!-- 				<h:commandLink action="index">Modificar</h:commandLink> -->
 
-<!-- 				<p:tabMenu> -->
-<!-- 					<p:menuitem value="Agregar" ajax="false" -->
-<!-- 						action="agregarExtension" icon="ui-icon-mail-open" /> -->
-<!-- 					<p:menuitem value="Modificar" ajax="false" -->
-<!-- 						action="modificarExtension" icon="ui-icon-mail-open" /> -->
-<!-- 				</p:tabMenu> -->
-				
+				<!-- 				<h:commandLink action="index">Modificar</h:commandLink> -->
+
+				<!-- 				<p:tabMenu> -->
+				<!-- 					<p:menuitem value="Agregar" ajax="false" -->
+				<!-- 						action="agregarExtension" icon="ui-icon-mail-open" /> -->
+				<!-- 					<p:menuitem value="Modificar" ajax="false" -->
+				<!-- 						action="modificarExtension" icon="ui-icon-mail-open" /> -->
+				<!-- 				</p:tabMenu> -->
+
 				<p:panel
 					header="Agregar Extensiones - Administrador: #{agregarBean.nombreAdministrador}">
 
+					<p:panelGrid id="panelFiltro" columns="4" layout="grid">
+
+						<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
+						<p:selectOneMenu id="codigoSede" style="width: 300px"
+							value="#{agregarBean.sedeSeleccionada}">
+							<f:selectItem itemLabel="Seleccione..." />
+							<f:selectItems value="#{agregarBean.administrado}" var="crit"
+								itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
+							<p:ajax update="codigoUnidad"
+								listener="#{agregarBean.actualizarUnidades()}" />
+
+						</p:selectOneMenu>
 
 
-					<p:dataList value="#{agregarBean.administrado}" var="car"
-						type="ordered">
-						<f:facet name="header">
-            					Sedes
-        					</f:facet>
-        					#{car.nombSede}
-    						</p:dataList>
+						<p:outputLabel for="codigoUnidad" value="Lista de Unidades:" />
+						<p:selectOneMenu id="codigoUnidad" style="width: 500px"
+							value="#{agregarBean.unidadSeleccionada}">
+							<f:selectItem itemLabel="Seleccione..." />
+							<f:selectItems value="#{agregarBean.listaUnidades}" var="crit"
+								itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
+							<p:ajax update="tablaUnidadExtension"
+								listener="#{agregarBean.actualizarExtensiones}" />
+
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+
+
+
+
+
+					<!-- 					<p:dataList  value="#{agregarBean.administrado}" var="car" -->
+					<!-- 						type="ordered"> -->
+					<!-- 						<f:facet name="header"> -->
+					<!--             					Sedes -->
+					<!--         					</f:facet> -->
+					<!--         					#{car.nombSede} -->
+					<!--     						</p:dataList> -->
 
 
 				</p:panel>
@@ -98,15 +127,18 @@
 						</p:inputText>
 
 						<p:commandButton id="botonGuardar" value="Guardar Extensión"
-							update="growl" actionListener="#{agregarBean.botonGuardar()}"
-							styleClass="ui-priority-primary" process="@form :form:panelDatos" >
-								<p:confirm header="Confirmación" message="¿Guardar Registro?" icon="ui-icon-alert" /> 
+							update="tablaUnidadExtension,growl,codigoUnidad" actionListener="#{agregarBean.botonGuardar()}"
+							styleClass="ui-priority-primary" process="@form :form:panelDatos">
+							<p:confirm header="Confirmación" message="¿Guardar Registro?"
+								icon="ui-icon-alert" />
 						</p:commandButton>
-								 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-       							 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-      							 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-   								 </p:confirmDialog>
-							<p:spacer height="20px" />
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+						<p:spacer height="20px" />
 					</p:panelGrid>
 
 				</p:panel>
@@ -121,8 +153,9 @@
 					<p:panel>
 
 						<p:dataTable id="vistaPresen" var="vis" layout="grid"
-							value="#{agregarBean.personal}" scrollable="true" scrollHeight="500"
-							selectionMode="single" selection="#{agregarBean.selectPersonal}"
+							value="#{agregarBean.personal}" scrollable="true"
+							scrollHeight="300" selectionMode="single"
+							selection="#{agregarBean.selectPersonal}"
 							rowKey="#{vis.idDocente}">
 
 
@@ -150,7 +183,7 @@
 								<h:outputText value="#{vis.sede}" />
 							</p:column>
 
-							
+
 
 
 						</p:dataTable>
@@ -158,7 +191,51 @@
 
 					</p:panel>
 
+					<p:panel header="Usuarios con Extensiones">
 
+						<p:dataTable id="tablaUnidadExtension" var="vis" layout="grid"
+							value="#{agregarBean.listaUnidadExtension}" scrollable="true"
+							scrollHeight="300" selectionMode="single"
+							selection="#{agregarBean.unidadExtensionSelect}"
+							rowKey="#{vis.idAsignacion}">
+
+
+							<p:column headerText="NOMBRES">
+								<h:outputText value="#{vis.personalNomb}" />
+							</p:column>
+
+							<p:column headerText="EXT">
+								<h:outputText value="#{vis.extensionNomb}" />
+							</p:column>
+
+							<p:column headerText="TELEFONO">
+								<h:outputText value="#{vis.telefonoNomb}" />
+							</p:column>
+
+
+							<p:column headerText="ID BANNER">
+								<h:outputText value="#{vis.idPersonal}" />
+							</p:column>
+
+							<p:column headerText="PUESTO">
+								<h:outputText value="#{vis.cargoNomb}" />
+							</p:column>
+
+							<p:column headerText="UBICACION">
+								<h:outputText value="#{vis.unidadNomb}" />
+							</p:column>
+
+							<p:column headerText="SEDE">
+								<h:outputText value="#{vis.sedeNomeb}" />
+							</p:column>
+
+
+
+
+						</p:dataTable>
+
+
+					</p:panel>
 
 				</p:layoutUnit>
 			</center>

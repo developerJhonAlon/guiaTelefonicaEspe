@@ -24,7 +24,7 @@ public class ConexionLocal {
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			
+
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -56,7 +56,7 @@ public class ConexionLocal {
 	 */
 	public ResultSet consultaUnidades(String sedeCode) {
 
-		String query = "SELECT DISTINCT UPPER(UZGTPERSON_UNIDAD) AS UNIDAD FROM UZGTPERSON WHERE UZGTPERSON_SEDE_CODE='"
+		String query = "SELECT DISTINCT UPPER(UZGTPERSON_UNIDAD) AS UNIDAD FROM UZGVGUIA WHERE UZGTPERSON_SEDE_CODE='"
 				+ sedeCode + "'";
 		try {
 			state = cnn.createStatement();
@@ -72,8 +72,8 @@ public class ConexionLocal {
 	 * Metodo SQL para obtener un Personal con su Id Unico.
 	 */
 	public ResultSet consultaPorId(String valorId) {
-		String query = "SELECT * FROM UZGVGUIA WHERE UZGTPERSON_ID='"
-				+ valorId + "'";
+		String query = "SELECT * FROM UZGVGUIA WHERE UZGTPERSON_ID='" + valorId
+				+ "'";
 
 		try {
 			state = cnn.createStatement();
@@ -92,9 +92,6 @@ public class ConexionLocal {
 				+ "UPPER(UZGTPERSON_CIUDAD) as UZGTPERSON_CIUDAD ,UZGTPERSON_CORR,UZGTPERSON_ID,"
 				+ "UZGTEXTE_NUM_EXTENSION,UZGTTELE_NUM_TELEFONO,UZGTEXTE_ESTADO,UZGTEXTE_ID FROM UZGVGUIA WHERE UZGTPERSON_NOMBRE LIKE UPPER('%"
 				+ valorTexto + "%')";
-		
-		
-		
 
 		try {
 			state = cnn.createStatement();
@@ -105,9 +102,10 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	public ResultSet consultaAdminConSedes(String valorTexto) {
-		String query = "SELECT UZGTPERSON_ID AS IDADMIN, UZGTPERSON_NOMBRE AS NOMBADMIN, UZGTSEDE_NOMBRE AS NOMBSEDE, UZGTSEDE_ID AS IDSEDE FROM UZGVADMINSEDE WHERE UZGTPERSON_ID='"+valorTexto+"'";
+		String query = "SELECT UZGTPERSON_ID AS IDADMIN, UZGTPERSON_NOMBRE AS NOMBADMIN, UZGTSEDE_NOMBRE AS NOMBSEDE, UZGTSEDE_ID AS IDSEDE FROM UZGVADMINSEDE WHERE UZGTPERSON_ID='"
+				+ valorTexto + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -119,6 +117,7 @@ public class ConexionLocal {
 		return res;
 	}
 
+	
 	public ResultSet consultaPorTelefono(String valorTexto) {
 		String query = "SELECT * FROM UZGVGUIA WHERE UZGTTELE_NUM_TELEFONO LIKE'%"
 				+ valorTexto + "%' ";
@@ -150,6 +149,24 @@ public class ConexionLocal {
 	public ResultSet consultaPorIdAsignado(VistaBusqueda datoDelete) {
 		String query = "SELECT * FROM UZGVGUIA WHERE UZGTEXTE_ID="
 				+ datoDelete.getIdAsignacion() + "";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	/*
+	 * Metodo SQL para obtener las personas que tienen Extension en Relacion a las Unidades.
+	 */
+	public ResultSet consultaUnidadesConExtension(String codeSede,
+			String codeUnidad) {
+		String query = "SELECT * FROM UZGVGUIA WHERE UZGTPERSON_SEDE_CODE='"
+				+ codeSede + "' AND UZGTPERSON_UNIDAD='" + codeUnidad + "' ";
 
 		try {
 			state = cnn.createStatement();
@@ -278,7 +295,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	/*
 	 * Metodo para consultar la existencia de un ID de Personal.
 	 */
@@ -296,7 +313,6 @@ public class ConexionLocal {
 		return res;
 	}
 
-	
 	/*
 	 * Metodo para consultar la existencia de un ID en la relacion con una
 	 * Extension.
@@ -315,7 +331,6 @@ public class ConexionLocal {
 		return res;
 	}
 
-	
 	/*
 	 * Metodo para guardar una nueva extension.
 	 */
@@ -390,9 +405,7 @@ public class ConexionLocal {
 	 */
 	public int guardarRelAdminSede(Personal administrador, Busqueda sedes) {
 		String query = "insert into UZGTADMINSEDE(UZGTPERSON_ID,UZGTSEDE_ID) "
-				+ "values('"
-				+ administrador.getIdDocente()
-				+ "','"
+				+ "values('" + administrador.getIdDocente() + "','"
 				+ sedes.getValor() + "')";
 		try {
 			state = cnn.createStatement();
@@ -535,10 +548,11 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
-	//************************************ METODOS MODIFICAR ADMINISTRADORES****************************************
 
-	public ResultSet consultaAdministradores () {
+	// ************************************ METODOS MODIFICAR
+	// ADMINISTRADORES****************************************
+
+	public ResultSet consultaAdministradores() {
 		String query = "SELECT DISTINCT UZGTPERSON_NOMBRE, UZGTPERSON_ID FROM UZGVADMINSEDE";
 
 		try {
@@ -551,8 +565,9 @@ public class ConexionLocal {
 		return res;
 	}
 
-	public ResultSet consultaUnAdministrador (String valor) {
-		String query = "SELECT * FROM UZGVADMINSEDE WHERE UZGTPERSON_ID = '"+valor+"'";
+	public ResultSet consultaUnAdministrador(String valor) {
+		String query = "SELECT * FROM UZGVADMINSEDE WHERE UZGTPERSON_ID = '"
+				+ valor + "'";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -562,9 +577,10 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-		
+
 	public ResultSet compararSedes(String codigo) {
-		String query = "SELECT * FROM UZGTSEDE WHERE UZGTSEDE_ID='"+codigo+"'";
+		String query = "SELECT * FROM UZGTSEDE WHERE UZGTSEDE_ID='" + codigo
+				+ "'";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -574,9 +590,10 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	public int guardarSedeInexistente(String sede, String codigo) {
-		String query = "insert into UZGTSEDE values('"+ codigo + "','" + sede + "')";
+		String query = "insert into UZGTSEDE values('" + codigo + "','" + sede
+				+ "')";
 		try {
 			state = cnn.createStatement();
 			conf = state.executeUpdate(query);
@@ -586,10 +603,11 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 	public int eliminarRelacionSedeAdmin(String codigo) {
 
-		String query = "DELETE FROM UZGTADMINSEDE WHERE UZGTPERSON_ID='"+ codigo+ "'";
+		String query = "DELETE FROM UZGTADMINSEDE WHERE UZGTPERSON_ID='"
+				+ codigo + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -600,9 +618,10 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 	public int guardarRelacionSedeAdmin(String person_id, String sede_id) {
-		String query = "insert into UZGTADMINSEDE values('"+ person_id + "','" + sede_id + "')";
+		String query = "insert into UZGTADMINSEDE values('" + person_id + "','"
+				+ sede_id + "')";
 		try {
 			state = cnn.createStatement();
 			conf = state.executeUpdate(query);
@@ -612,10 +631,11 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 	public int eliminarAdmin(String codigo) {
 
-		String query = "DELETE FROM UZGTADMIN WHERE UZGTPERSON_ID='"+ codigo+ "'";
+		String query = "DELETE FROM UZGTADMIN WHERE UZGTPERSON_ID='" + codigo
+				+ "'";
 
 		try {
 			state = cnn.createStatement();
@@ -626,5 +646,5 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 }

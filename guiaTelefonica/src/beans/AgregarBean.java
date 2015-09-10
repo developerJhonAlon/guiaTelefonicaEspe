@@ -12,8 +12,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Administrador;
+import modelo.Busqueda;
 import modelo.Personal;
+import modelo.VistaBusqueda;
 import controlador.AgregarServicio;
+import controlador.BusquedaServicio;
 import controlador.LoginServicio;
 
 @ManagedBean
@@ -27,9 +30,14 @@ public class AgregarBean implements Serializable {
 
 	private AgregarServicio admiSedeServicio = new AgregarServicio();
 	private LoginServicio loginServicio = new LoginServicio();
+	private BusquedaServicio busquedaServicio = new BusquedaServicio();
+	private List<VistaBusqueda> listaUnidadExtension;
+	private VistaBusqueda unidadExtensionSelect;
 	private List<Administrador> administrado;
-	private String nombreAdministrador ="";
-	
+	private String nombreAdministrador = "";
+	private List<Busqueda> listaUnidades;
+	private String unidadSeleccionada;
+	private String sedeSeleccionada;
 	private List<Personal> personal;
 	private Personal selectPersonal;
 	private String textoBuscado;
@@ -38,11 +46,9 @@ public class AgregarBean implements Serializable {
 
 	public AgregarBean() {
 	}
-	
-	@ManagedProperty(value="#{loginBean}")
+
+	@ManagedProperty(value = "#{loginBean}")
 	private LoginBean loginBean;
-	
-	
 
 	public LoginBean getLoginBean() {
 		return loginBean;
@@ -52,6 +58,45 @@ public class AgregarBean implements Serializable {
 		this.loginBean = loginBean;
 	}
 
+	public VistaBusqueda getUnidadExtensionSelect() {
+		return unidadExtensionSelect;
+	}
+
+	public void setUnidadExtensionSelect(VistaBusqueda unidadExtensionSelect) {
+		this.unidadExtensionSelect = unidadExtensionSelect;
+	}
+
+	public List<VistaBusqueda> getListaUnidadExtension() {
+		return listaUnidadExtension;
+	}
+
+	public void setListaUnidadExtension(List<VistaBusqueda> listaUnidadExtension) {
+		this.listaUnidadExtension = listaUnidadExtension;
+	}
+
+	public String getUnidadSeleccionada() {
+		return unidadSeleccionada;
+	}
+
+	public void setUnidadSeleccionada(String unidadSeleccionada) {
+		this.unidadSeleccionada = unidadSeleccionada;
+	}
+
+	public String getSedeSeleccionada() {
+		return sedeSeleccionada;
+	}
+
+	public void setSedeSeleccionada(String sedeSeleccionada) {
+		this.sedeSeleccionada = sedeSeleccionada;
+	}
+
+	public List<Busqueda> getListaUnidades() {
+		return listaUnidades;
+	}
+
+	public void setListaUnidades(List<Busqueda> listaUnidades) {
+		this.listaUnidades = listaUnidades;
+	}
 
 	public LoginServicio getLoginServicio() {
 		return loginServicio;
@@ -60,8 +105,6 @@ public class AgregarBean implements Serializable {
 	public void setLoginServicio(LoginServicio loginServicio) {
 		this.loginServicio = loginServicio;
 	}
-	
-	
 
 	public String getNombreAdministrador() {
 		return nombreAdministrador;
@@ -77,6 +120,14 @@ public class AgregarBean implements Serializable {
 
 	public void setAdministrado(List<Administrador> administrado) {
 		this.administrado = administrado;
+	}
+
+	public BusquedaServicio getBusquedaServicio() {
+		return busquedaServicio;
+	}
+
+	public void setBusquedaServicio(BusquedaServicio busquedaServicio) {
+		this.busquedaServicio = busquedaServicio;
 	}
 
 	public AgregarServicio getAdmiSedeServicio() {
@@ -98,7 +149,6 @@ public class AgregarBean implements Serializable {
 	public Personal getSelectPersonal() {
 		return selectPersonal;
 	}
-	
 
 	public void setSelectPersonal(Personal selectPersonal) {
 		this.selectPersonal = selectPersonal;
@@ -127,34 +177,34 @@ public class AgregarBean implements Serializable {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
-	
 
 	/* *
-	 * Obtener el ID del login y obtener todos los datos del admin, para la interfaz y las consultas.
+	 * Obtener el ID del login y obtener todos los datos del admin, para la
+	 * interfaz y las consultas.
 	 */
 	@PostConstruct
 	public void inicializar() {
-		System.out.println("ID ADMINISTRADOR: "+loginBean.getIdentificador());
-		if(this.loginBean.getIdentificador().equals("")){
+		System.out.println("ID ADMINISTRADOR: " + loginBean.getIdentificador());
+		if (this.loginBean.getIdentificador().equals("")) {
 			System.out.println("ERROR DE LOGIN");
-		}else{
-			this.administrado = loginServicio.obtenerAdminConSedes(this.loginBean.getIdentificador());
+		} else {
+			this.administrado = loginServicio
+					.obtenerAdminConSedes(this.loginBean.getIdentificador());
 			this.nombreAdministrador = this.administrado.get(0).getNombAdmin();
 		}
-		
-		
+
 	}
-	
 
 	public void botonAction() {
-		addMessage("Buscando Información !!");
+		addMessage("Busqueda Realizada !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
 		List<String> sedesCodigos = new ArrayList<String>();
 		for (Administrador sedecodigo : administrado) {
 			sedesCodigos.add(sedecodigo.getCodigoSede());
 		}
-		
-		this.personal = this.admiSedeServicio.buscarPersonal(this.textoBuscado,sedesCodigos);
+
+		this.personal = this.admiSedeServicio.buscarPersonal(this.textoBuscado,
+				sedesCodigos);
 
 	}
 
@@ -162,8 +212,21 @@ public class AgregarBean implements Serializable {
 		System.out.println("GUADAR EXTENSION --->>");
 		this.admiSedeServicio.guardarInformacion(this.selectPersonal,
 				this.telefono, this.extension);
-		addMessage("Guardando Información !!");
+		this.listaUnidades = this.busquedaServicio.obtenerUnidades(this.sedeSeleccionada);
+		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(this.sedeSeleccionada, this.unidadSeleccionada);
+		
+		addMessage("Información Guardada !!");
+		
 
+	}
+
+	public void actualizarUnidades() {
+		this.listaUnidades = this.busquedaServicio
+				.obtenerUnidades(this.sedeSeleccionada);
+	}
+
+	public void actualizarExtensiones(){
+		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(this.sedeSeleccionada, this.unidadSeleccionada);
 	}
 
 	public void addMessage(String summary) {

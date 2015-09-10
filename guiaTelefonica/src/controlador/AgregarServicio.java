@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Personal;
+import modelo.VistaBusqueda;
 import conexion.Conexion;
 import conexion.ConexionLocal;
 
@@ -82,6 +83,49 @@ public class AgregarServicio implements Serializable {
 
 		return personal;
 
+	}
+
+	/*
+	 * Metodo para recuperar datos de la BDD en relacion a los criterios de
+	 * busqueda.
+	 * 
+	 * @param codeSede Codigo de la Sede Seleccinada.
+	 * 
+	 * @param codeUnidad Codigo de la Unidad Seleccionada.
+	 */
+	public List<VistaBusqueda> obtenerUnidadConExtension(String codeSede,
+			String codeUnidad) {
+		ConexionLocal cn = new ConexionLocal();
+		ResultSet res = null;
+
+		res = cn.consultaUnidadesConExtension(codeSede, codeUnidad);
+
+		List<VistaBusqueda> vistaBusqueda = new ArrayList<VistaBusqueda>();
+		if (res == null) {
+			System.out.println("Error No Hay Datos");
+		} else {
+			try {
+				while (res.next()) {
+					vistaBusqueda.add(new VistaBusqueda(res
+							.getString("UZGTPERSON_ID"), res
+							.getString("UZGTPERSON_UNIDAD"), res
+							.getString("UZGTPERSON_SEDE"), res
+							.getString("UZGTPERSON_PUEST"), res
+							.getString("UZGTPERSON_NOMBRE"), res
+							.getString("UZGTEXTE_NUM_EXTENSION"), res
+							.getString("UZGTTELE_NUM_TELEFONO"), res
+							.getString("UZGTPERSON_CORR"), res
+							.getLong("UZGTEXTE_ID")));
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+
+		}
+		return vistaBusqueda;
 	}
 
 	/* *
