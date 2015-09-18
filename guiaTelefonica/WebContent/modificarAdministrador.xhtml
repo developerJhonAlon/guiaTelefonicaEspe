@@ -6,7 +6,6 @@
 	template="./WEB-INF/templates/plantillaPrincipal.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-
 	<ui:define name="titulo">Modificar Administrador</ui:define>
 
 	<ui:define name="contenido">
@@ -17,7 +16,7 @@
 				<p:spacer height="20px" />
 
 				<center>
-					<h:outputText
+						<h:outputText
 						value="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE"
 						style="margin-top: 0" />
 
@@ -53,45 +52,25 @@
 								update="vistaPresen growl"
 								actionListener="#{administradorBean.Modificar()}"
 								styleClass="ui-priority-primary"
-								style="width:120px; background:#FFFF99;color: #006600; font-size: 12pt;">
-								<p:confirm header="Confirmación" message="¿Modificar Registro?"
-									icon="ui-icon-alert" />
-							</p:commandButton>
-							<p:confirmDialog global="true" showEffect="fade"
-								hideEffect="fade">
-								<p:commandButton value="Si" type="button"
-									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-								<p:commandButton value="No" type="button"
-									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-							</p:confirmDialog>
-							<p:spacer height="20px" />
+								style="width:120px; background:#FFFF99;color: #006600; font-size: 12pt;" />
 
+							<p:spacer height="20px" />
 
 							<p:commandButton id="botonEliminar" value="Eliminar"
 								update="vistaPresen,growl"
 								actionListener="#{administradorBean.Eliminar()}"
 								styleClass="ui-priority-primary"
-								style="width:120px; background:#FFFF99;color: #006600; font-size: 12pt;">
-								<p:confirm header="Confirmación" message="¿Eliminar Registro?"
-									icon="ui-icon-alert" />
-							</p:commandButton>
-
-							<p:confirmDialog global="true" showEffect="fade"
-								hideEffect="fade">
-								<p:commandButton value="Si" type="button"
-									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-								<p:commandButton value="No" type="button"
-									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-							</p:confirmDialog>
+								style="width:120px; background:#FFFF99;color: #006600; font-size: 12pt;" />
 
 							<p:spacer height="20px" />
 
-							<p:selectCheckboxMenu value="#{administradorBean.todas}"
-								label="Lista de Sedes" filter="true" 
-								rendered="#{administradorBean.desplegarInf}" required="true">
-								<f:selectItems value="#{administradorBean.todasSedes}"
+							<p:selectCheckboxMenu id="ComboSedes" value="#{administradorBean.todas}"
+								label="Lista de Sedes" filter="true" panelStyle="width:300px"
+								rendered="#{administradorBean.desplegarInf}" required="true"
+								style="width:250px; font-size: 12pt;" styleClass="letras">
+								<f:selectItems id="sedes" value="#{administradorBean.todasSedes}"
 									var="item" itemValue="#{item.valor}"
-									itemLabel="#{item.descripcion}" />
+									itemLabel="#{item.descripcion}" style="font-size: 12pt;" />
 							</p:selectCheckboxMenu>
 						</center>
 					</p:panelGrid>
@@ -111,9 +90,8 @@
 
 					<p:panel>
 						<p:dataTable id="vistaPresen" var="vis" layout="grid"
-							value="#{administradorBean.vistaAdmin}" scrollable="true"
-							scrollHeight="500" selectionMode="single"
-							rowKey="#{vis.id_persona}"
+							value="#{administradorBean.vistaAdmin}" scrollHeight="200"
+							selectionMode="single" rowKey="#{vis.id_persona}"
 							selection="#{administradorBean.selectedPersona}">
 
 							<p:ajax event="rowSelect"

@@ -37,9 +37,9 @@
 				<p:panel
 					header="Agregar Extensiones - Administrador: #{agregarBean.nombreAdministrador}">
 
-					<p:panelGrid id="panelFiltro" columns="4" layout="grid">
+					<p:panelGrid id="panelFiltro" columns="6" layout="grid">
 
-						<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
+						<p:outputLabel for="codigoSede" value="Lista de Sedes:" /> 
 						<p:selectOneMenu id="codigoSede" style="width: 300px"
 							value="#{agregarBean.sedeSeleccionada}">
 							<f:selectItem itemLabel="Seleccione..." />
@@ -61,7 +61,8 @@
 								listener="#{agregarBean.actualizarExtensiones}" />
 
 						</p:selectOneMenu>
-
+						
+					
 					</p:panelGrid>
 
 

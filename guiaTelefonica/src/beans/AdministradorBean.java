@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Busqueda;
+import modelo.Personal;
 import modelo.VistaAdministradores;
 
 import org.primefaces.event.SelectEvent;
@@ -28,16 +29,64 @@ public class AdministradorBean implements Serializable {
 	private List<Busqueda> vistaUnAdmin;
 	private ModificarAdmin modificarAdmin = new ModificarAdmin();
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
-
+	
 	private String valor;
 	private boolean desplegarInf = false;
 	private VistaAdministradores selectedPersona;
 	private List<Busqueda> listaSedes;
 	private List<Busqueda> todasSedes;
+	private String textoBusqueda;
+	private List<Personal> personal;
+	
+	private Personal administrador;
+	
+	private String[] selectSedes;
 
 	List<String> todas = new ArrayList<String>();
 
 	public AdministradorBean() {
+	}
+
+	@PostConstruct
+	public void inicializar() {
+		this.listaSedes = this.asignarServicio.obtenerSedes();
+		System.out.println("LLENADO DE COMBO DE SEDES");
+		System.out.println("OBTENER ADMINISTRADORES --->>");
+		this.vistaAdmin = modificarAdmin.obtenerAdmin();
+
+	}
+
+	
+	public String getTextoBusqueda() {
+		return textoBusqueda;
+	}
+
+	public void setTextoBusqueda(String textoBusqueda) {
+		this.textoBusqueda = textoBusqueda;
+	}
+
+	public List<Personal> getPersonal() {
+		return personal;
+	}
+
+	public void setPersonal(List<Personal> personal) {
+		this.personal = personal;
+	}
+
+	public Personal getAdministrador() {
+		return administrador;
+	}
+
+	public void setAdministrador(Personal administrador) {
+		this.administrador = administrador;
+	}
+
+	public String[] getSelectSedes() {
+		return selectSedes;
+	}
+
+	public void setSelectSedes(String[] selectSedes) {
+		this.selectSedes = selectSedes;
 	}
 
 	public List<String> getTodas() {
@@ -86,6 +135,7 @@ public class AdministradorBean implements Serializable {
 
 	public void setSelectedPersona(VistaAdministradores selectedPersona) {
 		this.selectedPersona = selectedPersona;
+		
 	}
 
 	public boolean isDesplegarInf() {
@@ -104,11 +154,6 @@ public class AdministradorBean implements Serializable {
 		this.valor = valor;
 	}
 
-	@PostConstruct
-	public void consultar() {
-		System.out.println("OBTENER ADMINISTRADORES --->>");
-		this.vistaAdmin = modificarAdmin.obtenerAdmin();
-	}
 
 	public void consultarUno() {
 		System.out.println("OBTENER UN ADMINISTRADOR --->>");
@@ -171,4 +216,30 @@ public class AdministradorBean implements Serializable {
 		this.vistaAdmin.clear();
 		this.vistaAdmin = modificarAdmin.obtenerAdmin();
 	}
+	
+	public void botonAsignar() {
+		addMessage("Guardando Información !!");
+		System.out.println("ASIGNAR ADMINISTRADOR --->>"
+				+ selectSedes[0].toString());
+
+		this.asignarServicio.guardarAdministrador(this.administrador,
+				this.selectSedes);
+		
+		this.listaSedes.clear();
+		this.listaSedes = this.asignarServicio.obtenerSedes();
+		this.vistaAdmin = modificarAdmin.obtenerAdmin();
+
+		
+
+	}
+	
+	
+	public void botonBuscar() {
+		addMessage("Buscando Información !!");
+		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
+
+		this.personal = this.asignarServicio.buscarPersonal(this.textoBusqueda);
+
+	}
+	
 }

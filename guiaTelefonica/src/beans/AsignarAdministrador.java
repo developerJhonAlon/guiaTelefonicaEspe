@@ -6,12 +6,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import modelo.Busqueda;
 import modelo.Personal;
+import modelo.VistaAdministradores;
 import controlador.AsignarAdministradorServicio;
+import controlador.ModificarAdmin;
 
 @ManagedBean
 @ViewScoped
@@ -29,9 +32,35 @@ public class AsignarAdministrador implements Serializable {
 	private List<Personal> personal;
 	private List<Busqueda> listaSedes;
 	private String[] selectSedes;
+	private List<VistaAdministradores> vistaAdmin;
+	
+	@ManagedProperty(value ="#{adiministradorBean}")
+	private AdministradorBean modificarAdmin;
+
 
 	public AsignarAdministrador() {
 	}
+
+	
+	public AdministradorBean getModificarAdmin() {
+		return modificarAdmin;
+	}
+
+
+	public void setModificarAdmin(AdministradorBean modificarAdmin) {
+		this.modificarAdmin = modificarAdmin;
+	}
+
+
+	public List<VistaAdministradores> getVistaAdmin() {
+		return vistaAdmin;
+	}
+
+
+	public void setVistaAdmin(List<VistaAdministradores> vistaAdmin) {
+		this.vistaAdmin = vistaAdmin;
+	}
+
 
 	public List<Personal> getPersonal() {
 		return personal;
@@ -106,7 +135,8 @@ public class AsignarAdministrador implements Serializable {
 		
 		this.listaSedes.clear();
 		this.listaSedes = this.asignarServicio.obtenerSedes();
-
+		
+//		modificarAdmin.consultar();
 	}
 
 	public void addMessage(String summary) {
