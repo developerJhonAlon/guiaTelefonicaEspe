@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Busqueda;
 import modelo.Personal;
 import modelo.VistaBusqueda;
 import conexion.Conexion;
@@ -193,5 +194,38 @@ public class AgregarServicio implements Serializable {
 
 		}
 	}
+	
+	
+	
+	/*
+	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada dentro del Banner.
+	 * */
+	public List<Busqueda> obtenerUnidadesPorSede(String sedeCode){
+		
+		Conexion cn = new Conexion();
+		ResultSet res = cn.consultarSedesUnidades(sedeCode);
+		List<Busqueda> unidadesAll = new ArrayList<Busqueda>();
+		
+		if(res == null){
+			 System.out.println("Error No Hay Datos");
+		}else{
+			try{
+				while(res.next()){
+					unidadesAll.add(new Busqueda(res.getString("UNIDAD_NOMBRE"),
+							res.getString("UNIDAD_NOMBRE")));
+				}
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			
+			}
+			
+		}	
+	
+
+		return unidadesAll;
+	} 
 
 }

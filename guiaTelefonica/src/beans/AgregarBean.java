@@ -36,8 +36,12 @@ public class AgregarBean implements Serializable {
 	private List<Administrador> administrado;
 	private String nombreAdministrador = "";
 	private List<Busqueda> listaUnidades;
+	private List<Busqueda> listaUnidadesGuadar;
 	private String unidadSeleccionada;
+	private String unidadSeleccionadaGuardar;
 	private String sedeSeleccionada;
+	private String sedeSeleccionadaGuardar;
+	
 	private List<Personal> personal;
 	private Personal selectPersonal;
 	private String textoBuscado;
@@ -57,13 +61,41 @@ public class AgregarBean implements Serializable {
 	public void setLoginBean(LoginBean loginBean) {
 		this.loginBean = loginBean;
 	}
+	
 
 	public VistaBusqueda getUnidadExtensionSelect() {
 		return unidadExtensionSelect;
 	}
 
+	
+	public String getUnidadSeleccionadaGuardar() {
+		return unidadSeleccionadaGuardar;
+	}
+
+	public void setUnidadSeleccionadaGuardar(String unidadSeleccionadaGuardar) {
+		this.unidadSeleccionadaGuardar = unidadSeleccionadaGuardar;
+	}
+
+	public List<Busqueda> getListaUnidadesGuadar() {
+		return listaUnidadesGuadar;
+	}
+
+	public void setListaUnidadesGuadar(List<Busqueda> listaUnidadesGuadar) {
+		this.listaUnidadesGuadar = listaUnidadesGuadar;
+	}
+
 	public void setUnidadExtensionSelect(VistaBusqueda unidadExtensionSelect) {
 		this.unidadExtensionSelect = unidadExtensionSelect;
+	}
+
+	
+	
+	public String getSedeSeleccionadaGuardar() {
+		return sedeSeleccionadaGuardar;
+	}
+
+	public void setSedeSeleccionadaGuardar(String sedeSeleccionadaGuardar) {
+		this.sedeSeleccionadaGuardar = sedeSeleccionadaGuardar;
 	}
 
 	public List<VistaBusqueda> getListaUnidadExtension() {
@@ -195,7 +227,7 @@ public class AgregarBean implements Serializable {
 
 	}
 
-	public void botonAction() {
+	public void botonBusqueda() {
 		addMessage("Busqueda Realizada !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
 		List<String> sedesCodigos = new ArrayList<String>();
@@ -210,6 +242,7 @@ public class AgregarBean implements Serializable {
 
 	public void botonGuardar() {
 		System.out.println("GUADAR EXTENSION --->>");
+		
 		this.admiSedeServicio.guardarInformacion(this.selectPersonal,
 				this.telefono, this.extension);
 		this.listaUnidades = this.busquedaServicio.obtenerUnidades(this.sedeSeleccionada);
@@ -224,10 +257,16 @@ public class AgregarBean implements Serializable {
 		this.listaUnidades = this.busquedaServicio
 				.obtenerUnidades(this.sedeSeleccionada);
 	}
+	
+	public void actualizarUnidadesGuardar() {
+		this.listaUnidadesGuadar = this.admiSedeServicio.obtenerUnidadesPorSede(this.sedeSeleccionadaGuardar);
+	}
 
 	public void actualizarExtensiones(){
 		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(this.sedeSeleccionada, this.unidadSeleccionada);
 	}
+	
+
 
 	public void addMessage(String summary) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,

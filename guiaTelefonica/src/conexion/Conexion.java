@@ -80,6 +80,23 @@ public class Conexion {
 	
 	
 	/* 
+	 * Metodo Sql para obtener las Unidades con la seleccion de una Sede dentro del Banner.
+	 * */
+	public ResultSet consultarSedesUnidades(String codigoSede){
+		
+		String query = "SELECT DISTINCT (ftvorgn_title) AS UNIDAD_NOMBRE, pebempl_jbln_code  FROM pebempl, FTVORGN WHERE pebempl_jbln_code='"+codigoSede+"' AND ftvorgn_orgn_code=pebempl.pebempl_ORGN_code_home" ;
+		
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/* 
 	 * Metodo Sql para obtener el ID en relacion al Apellido en Banner.
 	 * */
 	public ResultSet consultaAllPorNombre(String textoIngresado){

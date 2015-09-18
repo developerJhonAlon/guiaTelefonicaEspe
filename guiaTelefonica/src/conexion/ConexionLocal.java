@@ -166,7 +166,7 @@ public class ConexionLocal {
 	public ResultSet consultaUnidadesConExtension(String codeSede,
 			String codeUnidad) {
 		String query = "SELECT * FROM UZGVGUIA WHERE UZGTPERSON_SEDE_CODE='"
-				+ codeSede + "' AND UZGTPERSON_UNIDAD='" + codeUnidad + "' ";
+				+ codeSede + "' AND UZGTPERSON_UNIDAD='" + codeUnidad + "' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";
 
 		try {
 			state = cnn.createStatement();
