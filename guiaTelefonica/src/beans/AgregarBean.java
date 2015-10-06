@@ -15,7 +15,12 @@ import modelo.Administrador;
 import modelo.Busqueda;
 import modelo.Personal;
 import modelo.VistaBusqueda;
+
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+
 import controlador.AgregarServicio;
+import controlador.AsignarAdministradorServicio;
 import controlador.BusquedaServicio;
 import controlador.LoginServicio;
 
@@ -31,17 +36,21 @@ public class AgregarBean implements Serializable {
 	private AgregarServicio admiSedeServicio = new AgregarServicio();
 	private LoginServicio loginServicio = new LoginServicio();
 	private BusquedaServicio busquedaServicio = new BusquedaServicio();
+	private AsignarAdministradorServicio asigAdminServicio = new AsignarAdministradorServicio();
 	private List<VistaBusqueda> listaUnidadExtension;
+	private VistaBusqueda extensionSelectModal;
 	private VistaBusqueda unidadExtensionSelect;
 	private List<Administrador> administrado;
 	private String nombreAdministrador = "";
 	private List<Busqueda> listaUnidades;
 	private List<Busqueda> listaUnidadesGuadar;
+	private List<Busqueda> listaUnidadesGuadar2;
+	private List<Busqueda> listaSedeExtension2;
 	private String unidadSeleccionada;
 	private String unidadSeleccionadaGuardar;
 	private String sedeSeleccionada;
 	private String sedeSeleccionadaGuardar;
-	
+
 	private List<Personal> personal;
 	private Personal selectPersonal;
 	private String textoBuscado;
@@ -61,13 +70,47 @@ public class AgregarBean implements Serializable {
 	public void setLoginBean(LoginBean loginBean) {
 		this.loginBean = loginBean;
 	}
+
 	
+	
+	
+	public List<Busqueda> getListaSedeExtension2() {
+		return listaSedeExtension2;
+	}
+
+	public void setListaSedeExtension2(List<Busqueda> listaSedeExtension2) {
+		this.listaSedeExtension2 = listaSedeExtension2;
+	}
+
+	public VistaBusqueda getExtensionSelectModal() {
+		return extensionSelectModal;
+	}
+
+	public void setExtensionSelectModal(VistaBusqueda extensionSelectModal) {
+		this.extensionSelectModal = extensionSelectModal;
+	}
+
+	public AsignarAdministradorServicio getAsigAdminServicio() {
+		return asigAdminServicio;
+	}
+
+	public void setAsigAdminServicio(
+			AsignarAdministradorServicio asigAdminServicio) {
+		this.asigAdminServicio = asigAdminServicio;
+	}
+
+	public List<Busqueda> getListaUnidadesGuadar2() {
+		return listaUnidadesGuadar2;
+	}
+
+	public void setListaUnidadesGuadar2(List<Busqueda> listaUnidadesGuadar2) {
+		this.listaUnidadesGuadar2 = listaUnidadesGuadar2;
+	}
 
 	public VistaBusqueda getUnidadExtensionSelect() {
 		return unidadExtensionSelect;
 	}
 
-	
 	public String getUnidadSeleccionadaGuardar() {
 		return unidadSeleccionadaGuardar;
 	}
@@ -88,8 +131,6 @@ public class AgregarBean implements Serializable {
 		this.unidadExtensionSelect = unidadExtensionSelect;
 	}
 
-	
-	
 	public String getSedeSeleccionadaGuardar() {
 		return sedeSeleccionadaGuardar;
 	}
@@ -223,6 +264,7 @@ public class AgregarBean implements Serializable {
 			this.administrado = loginServicio
 					.obtenerAdminConSedes(this.loginBean.getIdentificador());
 			this.nombreAdministrador = this.administrado.get(0).getNombAdmin();
+
 		}
 
 	}
@@ -230,26 +272,86 @@ public class AgregarBean implements Serializable {
 	public void botonBusqueda() {
 		addMessage("Busqueda Realizada !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
-		List<String> sedesCodigos = new ArrayList<String>();
-		for (Administrador sedecodigo : administrado) {
-			sedesCodigos.add(sedecodigo.getCodigoSede());
-		}
 
-		this.personal = this.admiSedeServicio.buscarPersonal(this.textoBuscado,
-				sedesCodigos);
+		// List<String> sedesCodigos = new ArrayList<String>();
+		// for (Administrador sedecodigo : administrado) {
+		// sedesCodigos.add(sedecodigo.getCodigoSede());
+		// }
+		//
+		// this.personal =
+		// this.admiSedeServicio.buscarPersonal(this.textoBuscado,
+		// sedesCodigos);
+
+		this.personal = this.asigAdminServicio
+				.buscarPersonal(this.textoBuscado);
 
 	}
 
 	public void botonGuardar() {
 		System.out.println("GUADAR EXTENSION --->>");
+		String nombreSede = "";
+
+		for (Administrador administrador : administrado) {
+			if (administrador.getCodigoSede().equals(
+					this.selectPersonal.getSedeCode())) {
+				nombreSede = administrador.getNombSede();
+				break;
+			}
+
+		}
+
+		boolean confirmado = this.admiSedeServicio.guardarInformacion(
+				this.selectPersonal, this.selectPersonal.getSedeCode(),
+				nombreSede, this.selectPersonal.getUnidad(), this.telefono,
+				this.extension);
+
+		// Actualizacion de Lista en de combo de las Unidades, en la vista
+		// presente.
+		this.listaUnidades = this.busquedaServicio
+				.obtenerUnidades(this.sedeSeleccionada);
+		// Actualizacion de Tabla de las Personas con Extensiones, en la vista
+		// presente.
+		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(
+				this.sedeSeleccionada, this.unidadSeleccionada);
+
+		String mensaje = (confirmado) ? "Informacion Guardada !!"
+				: "Este Registro ya Existe !!";
+
+		addMessage(mensaje);
+
+	}
+
+	public void botonEditar() {
+		System.out.println("GUADAR EXTENSION --->>");
+		String nombreSede = "";
+		List<VistaBusqueda> auxiliar = null;
+		String mensaje="";
 		
-		this.admiSedeServicio.guardarInformacion(this.selectPersonal,
-				this.telefono, this.extension);
-		this.listaUnidades = this.busquedaServicio.obtenerUnidades(this.sedeSeleccionada);
-		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(this.sedeSeleccionada, this.unidadSeleccionada);
+		for (Administrador administrador : administrado) {
+			if (administrador.getCodigoSede().equals(
+					this.unidadExtensionSelect.getSedeCodigo())) {
+				nombreSede = administrador.getNombSede();
+				break;
+			}
+
+		}
+
 		
-		addMessage("Información Guardada !!");
+		 auxiliar = this.admiSedeServicio.editarInformacion(
+				this.unidadExtensionSelect,
+				this.unidadExtensionSelect.getSedeCodigo(),nombreSede,
+				this.unidadExtensionSelect.getUnidadNomb(),this.unidadExtensionSelect.getTelefonoNomb(),this.unidadExtensionSelect.getExtensionNomb());
+
+		 
 		
+		if(auxiliar.size() < 0){
+			mensaje = "Este Registro ya Existe !!";
+		}else{
+			this.listaUnidadExtension = auxiliar;
+			mensaje = "Información Modificada !!";
+		}
+		
+		addMessage(mensaje);
 
 	}
 
@@ -257,16 +359,65 @@ public class AgregarBean implements Serializable {
 		this.listaUnidades = this.busquedaServicio
 				.obtenerUnidades(this.sedeSeleccionada);
 	}
-	
+
 	public void actualizarUnidadesGuardar() {
-		this.listaUnidadesGuadar = this.admiSedeServicio.obtenerUnidadesPorSede(this.sedeSeleccionadaGuardar);
+		this.listaUnidadesGuadar = this.admiSedeServicio
+				.obtenerUnidadesPorSede(this.selectPersonal.getSedeCode());
 	}
 
-	public void actualizarExtensiones(){
-		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(this.sedeSeleccionada, this.unidadSeleccionada);
+	public void actualizarUnidadesGuardar2() {
+		this.listaUnidadesGuadar2 = this.admiSedeServicio
+				.obtenerUnidadesPorSedeEditar(this.extensionSelectModal
+						.getSedeCodigo());
 	}
+
+	public void actualizarExtensiones() {
+		this.listaUnidadExtension = admiSedeServicio.obtenerUnidadConExtension(
+				this.sedeSeleccionada, this.unidadSeleccionada);
+	}
+
+	public void onRowSelect(SelectEvent event) {
+		System.out.println("Seleccion Row ");
+		this.listaUnidadesGuadar = this.admiSedeServicio
+				.obtenerUnidadesPorSede(this.selectPersonal.getSedeCode());
+
+	}
+
+	public void onRowUnselect(UnselectEvent event) {
+		System.out.println("Seleccion Row ");
+
+	}
+
+	public void onRowSelect2(SelectEvent event) {
+		System.out.println("Seleccion Row ");
+		
+	 
+		this.extensionSelectModal = this.unidadExtensionSelect;
+			
+		List<Busqueda> auxiliar = new ArrayList<Busqueda>();
+		for (Administrador administrador : this.administrado) {
+			auxiliar.add(new Busqueda(administrador.getCodigoSede(),administrador.getNombSede()));
+		}
+		
+			
+		this.listaSedeExtension2 = auxiliar;
+			
+		
+		this.listaUnidadesGuadar2 = this.admiSedeServicio
+				.obtenerUnidadesPorSedeEditar(this.extensionSelectModal
+						.getSedeCodigo());
 	
+		
 
+	}
+
+	public void onRowUnselect2(UnselectEvent event) {
+		System.out.println("Seleccion Row ");
+		this.listaUnidadesGuadar2 = this.admiSedeServicio
+				.obtenerUnidadesPorSedeEditar(this.unidadExtensionSelect
+						.getSedeCodigo());
+
+	}
 
 	public void addMessage(String summary) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,

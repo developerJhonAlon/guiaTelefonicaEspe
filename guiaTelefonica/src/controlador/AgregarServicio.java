@@ -22,7 +22,7 @@ public class AgregarServicio implements Serializable {
 	}
 
 	/* *
-	 * Metodo para obtener los datos del personal del Banner
+	 * Metodo para obtener los datos del personal del Banner en relacion a
 	 */
 	public List<Personal> buscarPersonal(String textoIngresado,
 			List<String> sedesCodigos) {
@@ -108,9 +108,11 @@ public class AgregarServicio implements Serializable {
 			try {
 				while (res.next()) {
 					vistaBusqueda.add(new VistaBusqueda(res
-							.getString("UZGTPERSON_ID"), res
+							.getLong("UZGTPERSON_ID"), res
+							.getString("UZGTPERSON_ID_PERSONA"), res
 							.getString("UZGTPERSON_UNIDAD"), res
 							.getString("UZGTPERSON_SEDE"), res
+							.getString("UZGTPERSON_SEDE_CODE"), res
 							.getString("UZGTPERSON_PUEST"), res
 							.getString("UZGTPERSON_NOMBRE"), res
 							.getString("UZGTEXTE_NUM_EXTENSION"), res
@@ -132,43 +134,135 @@ public class AgregarServicio implements Serializable {
 	/* *
 	 * Metodo para guardar la informacion de un Personal si este Existe o No.
 	 */
-	public void guardarInformacion(Personal personal, String fono, String exte) {
+	public boolean guardarInformacion(Personal personal, String codeSede,
+			String nombreSede, String codeUnidad, String fono, String exte) {
 
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet lastRegistro = null;
+		long lastIdTemp = 0;
 
-		lastRegistro = cn.consultaFindPersonal(personal);
+		// consultar si el Personal ya esta en la BDD de la Guia para guardar
+		// sus datos o pasar a guardar la Extensión.
+		lastRegistro = cn.consultaFindPersonal(personal, codeSede, codeUnidad);
 		try {
 			if (lastRegistro.next()) {
-				guardarDataGuia(personal, fono, exte, cn);
+				System.out.println("AgregarExtension: El registro ya existe");
+				return false;
 			} else {
-				int confirma = cn.guardarPersonal(personal);
+
+				int confirma = cn.guardarPersonal(personal, codeSede,
+						nombreSede, codeUnidad);
 
 				if (confirma != 1) {
-					System.out.println("Error Dato de Personal no guardado");
+					System.out
+							.println("AgregarExtension: Error Dato de Personal no guardado");
 
 				} else {
-					guardarDataGuia(personal, fono, exte, cn);
-
+					lastRegistro = cn.consultaLastPersonal();
+					lastRegistro.next();
+					lastIdTemp = lastRegistro.getLong("IDREGISTRO");
+					guardarDataGuia(lastIdTemp, fono, exte, cn);
+					return true;
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 		}
+		return false;
 
 	}
 
 	/* *
-	 * Metodo para guardar la informacion para la Guia.
+	 * Metodo para editar la informacion de un Usuario con extension.
 	 */
-	private void guardarDataGuia(Personal personal, String fono, String exte,
+	public List<VistaBusqueda> editarInformacion(VistaBusqueda vista,
+			String codeSede, String nombreSede, String codeUnidad, String fono,
+			String extension) {
+
+		ConexionLocal cn = new ConexionLocal();
+		ResultSet lastRegistro = null;
+
+		// consultar si el Personal ya esta en la BDD de la Guia para guardar
+		// sus datos o pasar a guardar la Extensión.
+		lastRegistro = cn.consultaFindPersonalEdicion(vista, codeSede,
+				codeUnidad);
+		try {
+			if (lastRegistro.next()) {
+				System.out.println("AgregarExtension: El registro ya existe");
+				return null;
+			} else {
+
+				cn.modificarPersonal(vista.getIdentidad(), codeSede,
+						nombreSede, codeUnidad);
+
+				cn.modificarTelefono(vista.getIdAsignacion(), fono);
+				int confirma = cn.modificarExtension(vista.getIdAsignacion(),
+						extension);
+
+				if (confirma != 1) {
+					System.out
+							.println("AgregarExtension: Error Dato de Personal no guardado");
+
+				} else {
+					List<VistaBusqueda> vistaBusqueda = new ArrayList<VistaBusqueda>();
+					lastRegistro = cn.consultaPorId(vista.getIdentidad());
+
+					while (lastRegistro.next()) {
+
+						vistaBusqueda
+								.add(new VistaBusqueda(
+										lastRegistro.getLong("UZGTPERSON_ID"),
+										lastRegistro
+												.getString("UZGTPERSON_ID_PERSONA"),
+										lastRegistro
+												.getString("UZGTPERSON_UNIDAD"),
+										lastRegistro
+												.getString("UZGTPERSON_SEDE"),
+										lastRegistro
+												.getString("UZGTPERSON_SEDE_CODE"),
+										lastRegistro
+												.getString("UZGTPERSON_PUEST"),
+										lastRegistro
+												.getString("UZGTPERSON_NOMBRE"),
+										lastRegistro
+												.getString("UZGTEXTE_NUM_EXTENSION"),
+										lastRegistro
+												.getString("UZGTTELE_NUM_TELEFONO"),
+										lastRegistro
+												.getString("UZGTPERSON_CORR"),
+										lastRegistro.getLong("UZGTEXTE_ID")));
+					}
+
+					return vistaBusqueda;
+
+				}
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return null;
+
+	}
+
+	/* *
+	 * Metodo para guardar la informacion de la Relacion del Personal y la
+	 * Extension que se guardara.
+	 */
+	private void guardarDataGuia(long idRegistro, String fono, String exte,
 			ConexionLocal cn) {
 		long lastIdTemp = 0;
 		ResultSet lastRegistro = null;
 
 		cn.guardarTelefono(fono);
 
+		// consultar el ultimo registro guardado del Telefono para obtener el
+		// Secuencial, y luego relacionarlo con la Extension.
 		lastRegistro = cn.consultaLastTelefono();
 		if (lastRegistro == null) {
 			System.out.println("Error ultimo registro no Encontrado:");
@@ -179,11 +273,13 @@ public class AgregarServicio implements Serializable {
 				}
 				cn.guardarExtension(exte, lastIdTemp);
 
+				// consultar el ultimo registro guardado de la Extension, para
+				// luego relacionarlo con el Personal que tendra esa Extensión.
 				lastRegistro = cn.consultaLastExte();
 				while (lastRegistro.next()) {
 					lastIdTemp = lastRegistro.getLong("ID_EXTE");
 				}
-				cn.guardarRelPersonaExt(personal, lastIdTemp);
+				cn.guardarRelPersonaExt(idRegistro, lastIdTemp);
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -194,38 +290,67 @@ public class AgregarServicio implements Serializable {
 
 		}
 	}
-	
-	
-	
+
 	/*
-	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada dentro del Banner.
-	 * */
-	public List<Busqueda> obtenerUnidadesPorSede(String sedeCode){
-		
+	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada dentro
+	 * del Banner.
+	 */
+	public List<Busqueda> obtenerUnidadesPorSede(String sedeCode) {
+
 		Conexion cn = new Conexion();
 		ResultSet res = cn.consultarSedesUnidades(sedeCode);
 		List<Busqueda> unidadesAll = new ArrayList<Busqueda>();
-		
-		if(res == null){
-			 System.out.println("Error No Hay Datos");
-		}else{
-			try{
-				while(res.next()){
-					unidadesAll.add(new Busqueda(res.getString("UNIDAD_NOMBRE"),
-							res.getString("UNIDAD_NOMBRE")));
+
+		if (res == null) {
+			System.out.println("Error No Hay Datos");
+		} else {
+			try {
+				while (res.next()) {
+					unidadesAll.add(new Busqueda(
+							res.getString("UNIDAD_NOMBRE"), res
+									.getString("UNIDAD_NOMBRE")));
 				}
-				
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			
+
 			}
-			
-		}	
-	
+
+		}
 
 		return unidadesAll;
-	} 
+	}
+
+	/*
+	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada dentro
+	 * de la base Guia.
+	 */
+	public List<Busqueda> obtenerUnidadesPorSedeEditar(String sedeCode) {
+
+		ConexionLocal cn = new ConexionLocal();
+		ResultSet res = cn.consultarSedesUnidades(sedeCode);
+		List<Busqueda> unidadesAll = new ArrayList<Busqueda>();
+
+		if (res == null) {
+			System.out.println("Error No Hay Datos");
+		} else {
+			try {
+				while (res.next()) {
+					unidadesAll.add(new Busqueda(
+							res.getString("CODIGO_UNIDAD"), res
+									.getString("CODIGO_UNIDAD")));
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+
+		}
+
+		return unidadesAll;
+	}
 
 }

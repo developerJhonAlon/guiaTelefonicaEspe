@@ -70,7 +70,7 @@ public class ModificarServicio implements Serializable {
 
 		}
 
-		res = cn.consultaPorId(idPersonal);
+		res = cn.consultaPorId(idExtension);
 
 		if (res == null) {
 			System.out.println("Error No Hay Datos modificaExtOrFono");

@@ -84,7 +84,7 @@ public class Conexion {
 	 * */
 	public ResultSet consultarSedesUnidades(String codigoSede){
 		
-		String query = "SELECT DISTINCT (ftvorgn_title) AS UNIDAD_NOMBRE, pebempl_jbln_code  FROM pebempl, FTVORGN WHERE pebempl_jbln_code='"+codigoSede+"' AND ftvorgn_orgn_code=pebempl.pebempl_ORGN_code_home" ;
+		String query = "SELECT DISTINCT (ftvorgn_title) AS UNIDAD_NOMBRE, pebempl_jbln_code  FROM pebempl, FTVORGN WHERE pebempl_jbln_code='"+codigoSede+"' AND ftvorgn_orgn_code=pebempl.pebempl_ORGN_code_home ORDER BY UNIDAD_NOMBRE ASC" ;
 		
 		try {
 			state = cnn.createStatement();

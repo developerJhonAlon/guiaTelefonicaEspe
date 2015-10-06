@@ -24,7 +24,7 @@ public class LoginServicio implements Serializable{
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet lastRegistro = null;
 		
-		lastRegistro = cn.consultaFindAdministrador(idAdministrador);
+		lastRegistro = cn.consultarAdministradorFind(idAdministrador);
 		try {
 			if(lastRegistro.next()){
 				return true;

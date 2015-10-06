@@ -129,10 +129,10 @@
 
 						<p:ajax event="rowSelect"
 							listener="#{administradorBean.onRowSelect}"
-							update=":form:ComboSedes" />
+							update=" :form:ComboSedes" />
 
 						<p:ajax event="rowUnselect"
-							listener="#{administradorBean.onRowUnselect}" />
+							listener="#{administradorBean.onRowUnselect}" update=" :form:ComboSedes" />
 
 						<p:column headerText="ADMINISTRADORES">
 							<h:outputText value="#{vist.nombre}" />
