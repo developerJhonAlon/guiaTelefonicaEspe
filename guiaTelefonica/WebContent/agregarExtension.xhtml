@@ -12,79 +12,18 @@
 	<ui:define name="contenido">
 		<p:layout fullPage="true">
 
-			<p:layoutUnit position="north" style="width:100%;" size="200px"
-				minSize="200">
-				<p:spacer height="20px" />
+			<p:layoutUnit position="north" resizable="true" size="100px"
+				minSize="100"
+				header="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS - ESPE  ">
 
 
-				<center>
-					<h:outputText
-						value="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE"
-						style="margin-top: 0" />
-
-				</center>
-				<p:spacer height="20px" />
-
-				<!-- 				<h:commandLink action="index">Modificar</h:commandLink> -->
-
-				<!-- 				<p:tabMenu> -->
-				<!-- 					<p:menuitem value="Agregar" ajax="false" -->
-				<!-- 						action="agregarExtension" icon="ui-icon-mail-open" /> -->
-				<!-- 					<p:menuitem value="Modificar" ajax="false" -->
-				<!-- 						action="modificarExtension" icon="ui-icon-mail-open" /> -->
-				<!-- 				</p:tabMenu> -->
-
-				<p:panel
-					header="Agregar Extensiones - Administrador: #{agregarBean.nombreAdministrador}">
-
-					<p:panelGrid id="panelFiltro" columns="6" layout="grid">
-
-						<p:outputLabel for="codigoSede" value="Lista de Sedes:" /> 
-						<p:selectOneMenu id="codigoSede" style="width: 300px"
-							value="#{agregarBean.sedeSeleccionada}">
-							<f:selectItem itemLabel="Seleccione..." />
-							<f:selectItems value="#{agregarBean.administrado}" var="crit"
-								itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
-							<p:ajax update="codigoUnidad"
-								listener="#{agregarBean.actualizarUnidades()}" />
-
-						</p:selectOneMenu>
+				<p:outputLabel>Administración de Extensiones - Usuario: #{agregarBean.nombreAdministrador}</p:outputLabel>
 
 
-						<p:outputLabel for="codigoUnidad" value="Lista de Unidades:" />
-						<p:selectOneMenu id="codigoUnidad" style="width: 500px"
-							value="#{agregarBean.unidadSeleccionada}">
-							<f:selectItem itemLabel="Seleccione..." />
-							<f:selectItems value="#{agregarBean.listaUnidades}" var="crit"
-								itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
-							<p:ajax update="tablaUnidadExtension"
-								listener="#{agregarBean.actualizarExtensiones}" />
-
-						</p:selectOneMenu>
-						
-					
-					</p:panelGrid>
-
-
-
-
-
-					<!-- 					<p:dataList  value="#{agregarBean.administrado}" var="car" -->
-					<!-- 						type="ordered"> -->
-					<!-- 						<f:facet name="header"> -->
-					<!--             					Sedes -->
-					<!--         					</f:facet> -->
-					<!--         					#{car.nombSede} -->
-					<!--     						</p:dataList> -->
-
-
-				</p:panel>
 			</p:layoutUnit>
 
 			<p:layoutUnit position="west" resizable="true" size="300px"
 				minSize="300" header="Busquedas">
-
-
 
 				<p:panelGrid id="panelBusqueda" columns="1" layout="grid"
 					style="width:100%;">
@@ -96,69 +35,30 @@
 					<p:growl id="growl" life="2000" />
 					<p:commandButton id="botonBuscar" value="Buscar"
 						update="vistaPresen,growl"
-						actionListener="#{agregarBean.botonAction()}"
-						process="@this :form:panelBusqueda"
+						actionListener="#{agregarBean.botonBusqueda()}" process="@form"
 						styleClass="ui-priority-primary" />
 
 				</p:panelGrid>
 				<p:spacer height="20px" />
 
 
-				<p:panel header="Información a Guardar">
-
-
-					<p:panelGrid id="panelDatos" columns="1" style="width:100%;"
-						layout="grid">
-
-						<p:outputLabel for="valorFono" value="Ingrese el Teléfono:" />
-						<p:inputText id="valorFono" value="#{agregarBean.telefono}"
-							required="true" style="width:100%;" maxlength="10"
-							validatorMessage="Teléfono Invalido">
-							<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
-						</p:inputText>
-
-
-						<p:outputLabel for="valorExten" value="Ingrese la Extensión:" />
-						<p:inputText id="valorExten" value="#{agregarBean.extension}"
-							required="true" style="width:100%;" maxlength="4"
-							validatorMessage="Extensión Invalido">
-
-							<f:validateRegex pattern="[0-9]{4}" />
-
-						</p:inputText>
-
-						<p:commandButton id="botonGuardar" value="Guardar Extensión"
-							update="tablaUnidadExtension,growl,codigoUnidad" actionListener="#{agregarBean.botonGuardar()}"
-							styleClass="ui-priority-primary" process="@form :form:panelDatos">
-							<p:confirm header="Confirmación" message="¿Guardar Registro?"
-								icon="ui-icon-alert" />
-						</p:commandButton>
-						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Si" type="button"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-							<p:commandButton value="No" type="button"
-								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-						</p:confirmDialog>
-						<p:spacer height="20px" />
-					</p:panelGrid>
-
-				</p:panel>
-
-
-
 			</p:layoutUnit>
 
 			<center>
-				<p:layoutUnit position="center" header="Resultados de la busqueda">
+				<p:layoutUnit position="center" header="Resultados de la Busqueda">
 
 					<p:panel>
 
-						<p:dataTable id="vistaPresen" var="vis" layout="grid"
+						<p:dataTable id="vistaPresen" var="vis"
 							value="#{agregarBean.personal}" scrollable="true"
-							scrollHeight="300" selectionMode="single"
+							scrollHeight="200" selectionMode="single"
 							selection="#{agregarBean.selectPersonal}"
 							rowKey="#{vis.idDocente}">
 
+							<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect}" />
+
+							<p:ajax event="rowUnselect"
+								listener="#{agregarBean.onRowUnselect}" />
 
 							<p:column headerText="NOMBRES">
 								<h:outputText value="#{vis.nombres}" />
@@ -172,19 +72,22 @@
 								<h:outputText value="#{vis.idDocente}" />
 							</p:column>
 
-							<p:column headerText="PUESTO">
-								<h:outputText value="#{vis.puesto}" />
-							</p:column>
-
-							<p:column headerText="UBICACION">
+							<p:column headerText="UBICACIÓN">
 								<h:outputText value="#{vis.unidad}" />
 							</p:column>
+
 
 							<p:column headerText="SEDE">
 								<h:outputText value="#{vis.sede}" />
 							</p:column>
 
+							<f:facet name="footer">
+								<p:commandButton process="vistaPresen"
+									update=":form:panelDetalle" icon="ui-icon-plusthick"
+									value="Agregar" oncomplete="PF('dlg2').show()" />
 
+
+							</f:facet>
 
 
 						</p:dataTable>
@@ -194,12 +97,45 @@
 
 					<p:panel header="Usuarios con Extensiones">
 
+						<p:panelGrid id="panelFiltro" columns="4" layout="grid">
+
+							<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
+							<p:selectOneMenu id="codigoSede" style="width: 300px"
+								value="#{agregarBean.sedeSeleccionada}">
+								<f:selectItem itemLabel="Seleccione..." />
+								<f:selectItems value="#{agregarBean.administrado}" var="crit"
+									itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
+								<p:ajax update="codigoUnidad"
+									listener="#{agregarBean.actualizarUnidades()}" />
+
+							</p:selectOneMenu>
+
+
+							<p:outputLabel for="codigoUnidad" value="Lista de Unidades:" />
+							<p:selectOneMenu id="codigoUnidad" style="width: 500px"
+								value="#{agregarBean.unidadSeleccionada}">
+								<f:selectItem itemLabel="Seleccione..." />
+								<f:selectItems value="#{agregarBean.listaUnidades}" var="crit"
+									itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
+								<p:ajax update="tablaUnidadExtension"
+									listener="#{agregarBean.actualizarExtensiones()}" />
+
+							</p:selectOneMenu>
+
+						</p:panelGrid>
+
+
 						<p:dataTable id="tablaUnidadExtension" var="vis" layout="grid"
 							value="#{agregarBean.listaUnidadExtension}" scrollable="true"
-							scrollHeight="300" selectionMode="single"
+							scrollHeight="200" selectionMode="single"
 							selection="#{agregarBean.unidadExtensionSelect}"
-							rowKey="#{vis.idAsignacion}">
+							rowKey="#{vis.identidad}">
 
+
+							<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect2}" update=" :form:codigoSede3"/>
+
+							<p:ajax event="rowUnselect"
+								listener="#{agregarBean.onRowUnselect2}" />
 
 							<p:column headerText="NOMBRES">
 								<h:outputText value="#{vis.personalNomb}" />
@@ -218,11 +154,8 @@
 								<h:outputText value="#{vis.idPersonal}" />
 							</p:column>
 
-							<p:column headerText="PUESTO">
-								<h:outputText value="#{vis.cargoNomb}" />
-							</p:column>
 
-							<p:column headerText="UBICACION">
+							<p:column headerText="UBICACIÓN">
 								<h:outputText value="#{vis.unidadNomb}" />
 							</p:column>
 
@@ -230,8 +163,15 @@
 								<h:outputText value="#{vis.sedeNomeb}" />
 							</p:column>
 
+							<f:facet name="footer">
+								<p:commandButton process="tablaUnidadExtension"
+									update=":form:panelEditar" icon="ui-icon-pencil" value="Editar"
+									oncomplete="PF('dlg3').show()" />
 
-
+								<p:commandButton process="tablaUnidadExtension"
+									update=":form:panelEditar" icon="ui-icon-close"
+									value="Eliminar" oncomplete="PF('dlg3').show()" />
+							</f:facet>
 
 						</p:dataTable>
 
@@ -242,6 +182,167 @@
 			</center>
 
 		</p:layout>
+
+		<p:dialog id="modalGuardar" header="Extensión" widgetVar="dlg2"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+
+			<p:panel id="panelDetalle" style="text-align:center;">
+
+				<p:panelGrid id="panelGuarda" columns="2"
+					rendered="#{not empty agregarBean.selectPersonal}"
+					columnClasses="label,value" layout="grid">
+
+					<h:outputText value="ID:" />
+					<h:outputText id="id"
+						value="#{agregarBean.selectPersonal.idDocente}" />
+
+					<h:outputText value="Nombre:" />
+					<h:outputText id="nombre"
+						value="#{agregarBean.selectPersonal.nombres}" />
+
+
+					<p:outputLabel for="codigoSede2" value="Sede:" />
+					<p:selectOneMenu id="codigoSede2" style="width: 370px"
+						value="#{agregarBean.selectPersonal.sedeCode}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{agregarBean.administrado}" var="crit"
+							itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
+						<p:ajax update="codigoUnidad2"
+							listener="#{agregarBean.actualizarUnidadesGuardar()}" />
+
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="codigoUnidad2" value="Unidad:" />
+					<p:selectOneMenu id="codigoUnidad2" style="width: 370px"
+						value="#{agregarBean.selectPersonal.unidad}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{agregarBean.listaUnidadesGuadar}"
+							var="crit" itemValue="#{crit.valor}"
+							itemLabel="#{crit.descripcion}" />
+
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="valorFono" value="Teléfono:" />
+					<p:inputText id="valorFono" value="#{agregarBean.telefono}"
+						required="true" style="width:100%;" maxlength="10"
+						validatorMessage="Teléfono Invalido">
+						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
+					</p:inputText>
+
+
+					<p:outputLabel for="valorExten" value="Extensión:" />
+					<p:inputText id="valorExten" value="#{agregarBean.extension}"
+						required="true" style="width:100%;" maxlength="4"
+						validatorMessage="Extensión Invalido">
+
+						<f:validateRegex pattern="[0-9]{4}" />
+
+					</p:inputText>
+
+				</p:panelGrid>
+
+				<p:spacer height="20px" />
+				<p:commandButton id="botonGuardar" value="Guardar"
+					update="tablaUnidadExtension,growl,codigoUnidad"
+					actionListener="#{agregarBean.botonGuardar()}"
+					styleClass="ui-priority-primary" process="@form :form:panelDetalle">
+					<p:confirm header="Confirmación" message="¿Guardar Registro?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</p:panel>
+		</p:dialog>
+
+
+		<p:dialog id="modalEditar" header="Extensión" widgetVar="dlg3"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+
+			<p:panel id="panelEditar" style="text-align:center;">
+
+				<p:panelGrid id="panelEditar2" columns="2"
+					rendered="#{not empty agregarBean.extensionSelectModal}"
+					columnClasses="label,value" layout="grid">
+
+					<h:outputText value="ID:" />
+					<h:outputText id="id2"
+						value="#{agregarBean.extensionSelectModal.idPersonal}" />
+
+					<h:outputText value="Nombre:" />
+					<h:outputText id="nombre2"
+						value="#{agregarBean.extensionSelectModal.personalNomb}" />
+
+
+					<p:outputLabel for="codigoSede3" value="Sede:" />
+					<p:selectOneMenu id="codigoSede3" style="width: 370px"
+						required="true"
+						value="#{agregarBean.extensionSelectModal.sedeCodigo}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{agregarBean.listaSedeExtension2}" var="crit"
+							itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
+						<p:ajax update="codigoUnidad3"
+							listener="#{agregarBean.actualizarUnidadesGuardar2()}" />
+
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="codigoUnidad3" value="Unidad:" />
+					<p:selectOneMenu id="codigoUnidad3" style="width: 370px"
+						required="true"
+						value="#{agregarBean.extensionSelectModal.unidadNomb}">
+						<f:selectItem itemLabel="Seleccione..." />
+						<f:selectItems value="#{agregarBean.listaUnidadesGuadar2}"
+							var="crit" itemValue="#{crit.valor}"
+							itemLabel="#{crit.descripcion}" />
+
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="valorFono2" value="Teléfono:" />
+					<p:inputText id="valorFono2"
+						value="#{agregarBean.extensionSelectModal.telefonoNomb}"
+						required="true" style="width:100%;" maxlength="10"
+						validatorMessage="Teléfono Invalido">
+						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
+					</p:inputText>
+
+
+					<p:outputLabel for="valorExten2" value="Extensión:" />
+					<p:inputText id="valorExten2"
+						value="#{agregarBean.extensionSelectModal.extensionNomb}"
+						required="true" style="width:100%;" maxlength="4"
+						validatorMessage="Extensión Invalido">
+
+						<f:validateRegex pattern="[0-9]{4}" />
+
+					</p:inputText>
+
+				</p:panelGrid>
+
+				<p:spacer height="20px" />
+				<p:commandButton id="botonGuardar2" value="Editar"
+					update="tablaUnidadExtension,growl"
+					actionListener="#{agregarBean.botonEditar()}"
+					styleClass="ui-priority-primary" process="@form :form:modalEditar">
+					<p:confirm header="Confirmación" message="¿Guardar Registro?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</p:panel>
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>

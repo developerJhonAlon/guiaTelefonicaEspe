@@ -27,20 +27,27 @@ public class AsignarAdministradorServicio implements Serializable {
 	public void guardarAdministrador(Personal administrador, String[] sedes) {
 
 		ConexionLocal cn = new ConexionLocal();
-		ResultSet lastRegistro = cn.consultaFindPersonal(administrador);
-
+		ResultSet lastRegistro = cn.consultaFindPersonalAdmin(administrador);
+		long idRegistro = 0;
 		try {
 			if (lastRegistro.next()) {
-				guardarAdminSedes(administrador, sedes, cn);
+				idRegistro = lastRegistro.getLong("IDENTIDAD");
+				guardarAdminSedes(idRegistro, sedes, cn);
 			} else {
 
-				int confirma = cn.guardarPersonal(administrador);
-
+				int confirma = cn.guardarPersonalAdmin(administrador);
+					
 				if (confirma != 1) {
 					System.out.println("Error Dato de Personal no guardado");
 
 				} else {
-					guardarAdminSedes(administrador, sedes, cn);
+					lastRegistro = cn.consultaFindPersonalAdmin(administrador);
+					
+					if (lastRegistro.next()) {
+						idRegistro = lastRegistro.getLong("IDENTIDAD");
+						guardarAdminSedes(idRegistro, sedes, cn);
+					}
+					
 
 				}
 
@@ -54,24 +61,24 @@ public class AsignarAdministradorServicio implements Serializable {
 	/* *
 	 * Metodo para guardar la informacion para la Guia.
 	 */
-	private void guardarAdminSedes(Personal administrador, String[] sedes,
+	private void guardarAdminSedes(long identificador, String[] sedes,
 			ConexionLocal cn) {
 
-		ResultSet lastRegistro = cn.consultaFindAdministrador(administrador
-				.getIdDocente());
+		ResultSet lastRegistro = cn.consultaFindAdministrador(identificador);
 
 		try {
 			if (lastRegistro.next()) {
-				guardarRelAdminSedes(administrador, sedes, cn);
+				
+				guardarRelAdminSedes(identificador, sedes, cn);
 				System.out.println("Administrador ya esta registrado");
 			} else {
-				int actividad = cn.guardarAdministrador(administrador);
+				int actividad = cn.guardarAdministrador(identificador);
 
 				if (actividad != 1) {
 
 					System.out.println("Error de Guardar Administrador");
 				} else {
-					guardarRelAdminSedes(administrador, sedes, cn);
+					guardarRelAdminSedes(identificador, sedes, cn);
 				}
 
 			}
@@ -82,7 +89,7 @@ public class AsignarAdministradorServicio implements Serializable {
 
 	}
 
-	private void guardarRelAdminSedes(Personal administrador, String[] sedes,
+	private void guardarRelAdminSedes(long idRegistro, String[] sedes,
 			ConexionLocal cnLocal) {
 
 		Conexion cnRemoto = new Conexion();
@@ -129,14 +136,14 @@ public class AsignarAdministradorServicio implements Serializable {
 		// Guardar la relacion entre Administradores y Sedes.
 		for (Busqueda busqueda : listaDeSedes) {
 			registroSede = cnLocal.consultaFindRelaAdminSede(
-					administrador.getIdDocente(), busqueda.getValor());
+					idRegistro, busqueda.getValor());
 
 			try {
 				if (registroSede.next()) {
 
 					System.out.println("Sede_Admin Ya existe");
 				} else {
-					cnLocal.guardarRelAdminSede(administrador, busqueda);
+					cnLocal.guardarRelAdminSede(idRegistro, busqueda);
 
 				}
 			} catch (SQLException e) {

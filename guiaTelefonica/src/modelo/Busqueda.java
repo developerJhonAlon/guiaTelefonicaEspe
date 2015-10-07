@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Busqueda implements Serializable{
 
 	/**
-	 * A
+	 * Esta clase es un auxiliar para la persistir los valores de los combos.
 	 */
 	private static final long serialVersionUID = 1L;
 	private String valor;

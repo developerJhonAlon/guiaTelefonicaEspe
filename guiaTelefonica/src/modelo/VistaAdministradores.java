@@ -10,8 +10,7 @@ public class VistaAdministradores  implements Serializable{
 	private String id_sede;
 	private String id_persona;
 	
-	public VistaAdministradores()
-	{}
+	public VistaAdministradores(){}
 	
 	public VistaAdministradores(String nombre, String sede, String id_sede,
 			String id_persona) {

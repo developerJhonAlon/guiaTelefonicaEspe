@@ -59,7 +59,7 @@
 
 
 			<p:layoutUnit position="west" resizable="true" size="450px"
-				minSize="450" header="Criterios de Busqueda" styleClass="letras">
+				minSize="450" header="Criterios de Busqueda">
 
 
 				<p:panelGrid columns="1" style="width:100%;" layout="grid">
@@ -78,7 +78,7 @@
 
 
 				<p:panelGrid id="panelSedes" columns="1" style="width:100%;"
-					layout="grid" styleClass="letras">
+					layout="grid" >
 
 					<p:outputLabel for="codigoSede" value="Sede:"
 						rendered="#{busquedaBean.desplegarSedes}" />
@@ -175,26 +175,25 @@
 							update=":form:dataTheStaff" />
 
 
-						<p:column headerText="NOMBRE" >
-							<h:outputText value="#{vis.personalNomb}" styleClass="letras2" />
+						<p:column headerText="NOMBRE">
+							<h:outputText value="#{vis.personalNomb}" />
 						</p:column>
 
-						<p:column headerText="EXT" >
-							<h:outputText value="#{vis.extensionNomb}" styleClass="letras2" />
+						<p:column headerText="EXT">
+							<h:outputText value="#{vis.extensionNomb}" />
 						</p:column>
 
-						<p:column headerText="TELEFONO" >
-							<h:outputText value="#{vis.telefonoNomb}" styleClass="letras2" />
+						<p:column headerText="TELEFONO">
+							<h:outputText value="#{vis.telefonoNomb}" />
 						</p:column>
 
 
-						<p:column headerText="UNIDAD" >
-							<h:outputText value="#{vis.unidadNomb}" styleClass="letras2" />
+						<p:column headerText="UNIDAD">
+							<h:outputText value="#{vis.unidadNomb}" />
 						</p:column>
 
-						<p:column headerText="SEDE" >
-							<h:outputText value="#{vis.sedeNomeb}" 
-								styleClass="letras2" />
+						<p:column headerText="SEDE">
+							<h:outputText value="#{vis.sedeNomeb}" />
 						</p:column>
 
 
@@ -203,39 +202,30 @@
 
 				</p:panel>
 
-				<p:panel id="dataTheStaff" header="Información Seleccionada"
-					styleClass="letras2">
+				<p:panel id="dataTheStaff" header="Información Seleccionada">
 
 					<p:panelGrid rendered="#{busquedaBean.desplegarInf}" columns="2">
 
-						<h:outputText value="Nombre: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}"
-							styleClass="letras2" />
+						<h:outputText value="Nombre: " />
+						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}" />
 
-						<h:outputText value="Extensión: " styleClass="letras3" />
+						<h:outputText value="Extensión: " />
 						<h:outputText
-							value="#{busquedaBean.selectedPersona.extensionNomb}"
-							styleClass="letras2" />
+							value="#{busquedaBean.selectedPersona.extensionNomb}" />
 
-						<h:outputText value="Telefono: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}"
-							styleClass="letras2" />
+						<h:outputText value="Telefono: " />
+						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}" />
 
-						<h:outputText value="Unidad: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}"
-							styleClass="letras2" />
+						<h:outputText value="Unidad: " />
+						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}" />
 
-						<h:outputText value="Cargo: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.cargoNomb}"
-							styleClass="letras2" />
 
-						<h:outputText value="Sede: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}"
-							styleClass="letras2" />
 
-						<h:outputText value="Correo: " styleClass="letras3" />
-						<h:outputText value="#{busquedaBean.selectedPersona.correo}"
-							styleClass="letras2" />
+						<h:outputText value="Sede: " />
+						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}" />
+
+						<h:outputText value="Correo: " />
+						<h:outputText value="#{busquedaBean.selectedPersona.correo}" />
 
 					</p:panelGrid>
 
