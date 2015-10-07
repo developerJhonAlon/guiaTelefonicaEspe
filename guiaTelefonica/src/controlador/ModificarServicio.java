@@ -43,7 +43,6 @@ public class ModificarServicio implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 
-				
 			}
 
 		}
@@ -106,40 +105,32 @@ public class ModificarServicio implements Serializable {
 	 * Metodo para guardar la informacion de un Personal con su Extension
 	 * asignada.
 	 */
-	public List<VistaBusqueda> eliminaRegistro(VistaBusqueda datoDelete) {
+	public boolean eliminaRegistro(VistaBusqueda datoDelete) {
 
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet res = null;
-		int checar = 0;
-		List<VistaBusqueda> vistaBusqueda = null;
 
-		if (datoDelete.getIdPersonal() != "") {
-			cn.eliminarRelacion(datoDelete);
-			cn.eliminarExtension(datoDelete);
-			checar = cn.eliminarTelefono(datoDelete);
-			if (checar != 1) {
-				System.out.println("Error de Eliminacion ");
-			} else {
-				res = cn.consultaFindRelacion(datoDelete);
-
-				if (res == null) {
-					cn.eliminarIdPersonal(datoDelete);
-				} else {
-					res = cn.consultaPorIdAsignado(datoDelete);
-					if (res == null) {
-						System.out.println("Todos Datos Eliminados ");
-						return vistaBusqueda;
-					} else {
-						System.out.println("Existen Registros");
-						return vistaBusqueda;
-					}
-
-				}
+		res = cn.consultaRelaAdminPersonal(datoDelete);
+		try {
+			if(res.next()){
+				cn.eliminarRelacion(datoDelete);
+				cn.eliminarExtension(datoDelete);
+				cn.eliminarTelefono(datoDelete);
+				return true;
+			}else{
+				cn.eliminarRelacion(datoDelete);
+				cn.eliminarExtension(datoDelete);
+				cn.eliminarTelefono(datoDelete);
+				cn.eliminarIdPersonal(datoDelete);
+				return true;
 			}
-
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		return vistaBusqueda;
+		
+		return false;
 
 	}
 }

@@ -35,7 +35,8 @@
 					<p:growl id="growl" life="2000" />
 					<p:commandButton id="botonBuscar" value="Buscar"
 						update="vistaPresen,growl"
-						actionListener="#{agregarBean.botonBusqueda()}" process="@form"
+						actionListener="#{agregarBean.botonBusqueda()}"
+						process="@this form:panelBusqueda"
 						styleClass="ui-priority-primary" />
 
 				</p:panelGrid>
@@ -83,8 +84,11 @@
 
 							<f:facet name="footer">
 								<p:commandButton process="vistaPresen"
-									update=":form:panelDetalle" icon="ui-icon-plusthick"
-									value="Agregar" oncomplete="PF('dlg2').show()" />
+									update=":form:panelDetalle"
+									icon="ui-icon-plusthick" value="Agregar"
+									oncomplete="PF('dlg2').show()" />
+
+
 
 
 							</f:facet>
@@ -132,7 +136,7 @@
 							rowKey="#{vis.identidad}">
 
 
-							<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect2}" update=" :form:codigoSede3"/>
+							<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect2}" />
 
 							<p:ajax event="rowUnselect"
 								listener="#{agregarBean.onRowUnselect2}" />
@@ -164,13 +168,33 @@
 							</p:column>
 
 							<f:facet name="footer">
+								<p:growl id="growl2" life="2000" />
 								<p:commandButton process="tablaUnidadExtension"
 									update=":form:panelEditar" icon="ui-icon-pencil" value="Editar"
 									oncomplete="PF('dlg3').show()" />
 
-								<p:commandButton process="tablaUnidadExtension"
-									update=":form:panelEditar" icon="ui-icon-close"
-									value="Eliminar" oncomplete="PF('dlg3').show()" />
+
+
+
+
+								<p:commandButton id="botonEliminar" value="Eliminar"
+									update="tablaUnidadExtension,growl2" icon="ui-icon-close"
+									actionListener="#{agregarBean.botonEliminar()}"
+									styleClass="ui-priority-primary" process="@this :form:tablaUnidadExtension" >
+									<p:confirm  message="¿Eliminar Registro?"
+										icon="ui-icon-alert" />
+
+								</p:commandButton>
+
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Si" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+									<p:commandButton value="No" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+								</p:confirmDialog>
+								
 							</f:facet>
 
 						</p:dataTable>
@@ -189,21 +213,22 @@
 			<p:panel id="panelDetalle" style="text-align:center;">
 
 				<p:panelGrid id="panelGuarda" columns="2"
-					rendered="#{not empty agregarBean.selectPersonal}"
+					rendered="#{not empty agregarBean.personalSelectModal}"
 					columnClasses="label,value" layout="grid">
 
 					<h:outputText value="ID:" />
 					<h:outputText id="id"
-						value="#{agregarBean.selectPersonal.idDocente}" />
+						value="#{agregarBean.personalSelectModal.idDocente}" />
 
 					<h:outputText value="Nombre:" />
 					<h:outputText id="nombre"
-						value="#{agregarBean.selectPersonal.nombres}" />
+						value="#{agregarBean.personalSelectModal.nombres}" />
 
 
 					<p:outputLabel for="codigoSede2" value="Sede:" />
 					<p:selectOneMenu id="codigoSede2" style="width: 370px"
-						value="#{agregarBean.selectPersonal.sedeCode}">
+						required="true"
+						value="#{agregarBean.personalSelectModal.sedeCode}">
 						<f:selectItem itemLabel="Seleccione..." />
 						<f:selectItems value="#{agregarBean.administrado}" var="crit"
 							itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
@@ -215,7 +240,7 @@
 
 					<p:outputLabel for="codigoUnidad2" value="Unidad:" />
 					<p:selectOneMenu id="codigoUnidad2" style="width: 370px"
-						value="#{agregarBean.selectPersonal.unidad}">
+						required="true" value="#{agregarBean.personalSelectModal.unidad}">
 						<f:selectItem itemLabel="Seleccione..." />
 						<f:selectItems value="#{agregarBean.listaUnidadesGuadar}"
 							var="crit" itemValue="#{crit.valor}"
@@ -247,15 +272,17 @@
 				<p:commandButton id="botonGuardar" value="Guardar"
 					update="tablaUnidadExtension,growl,codigoUnidad"
 					actionListener="#{agregarBean.botonGuardar()}"
-					styleClass="ui-priority-primary" process="@form :form:panelDetalle">
+					styleClass="ui-priority-primary" process="@this form:panelDetalle">
 					<p:confirm header="Confirmación" message="¿Guardar Registro?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Si" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						oncomplete="PF('dlg2').hide()" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check" />
 					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						oncomplete="PF('dlg2').hide()" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" />
 				</p:confirmDialog>
 
 			</p:panel>
@@ -285,8 +312,9 @@
 						required="true"
 						value="#{agregarBean.extensionSelectModal.sedeCodigo}">
 						<f:selectItem itemLabel="Seleccione..." />
-						<f:selectItems value="#{agregarBean.listaSedeExtension2}" var="crit"
-							itemValue="#{crit.valor}" itemLabel="#{crit.descripcion}" />
+						<f:selectItems value="#{agregarBean.listaSedeExtension2}"
+							var="crit" itemValue="#{crit.valor}"
+							itemLabel="#{crit.descripcion}" />
 						<p:ajax update="codigoUnidad3"
 							listener="#{agregarBean.actualizarUnidadesGuardar2()}" />
 
@@ -330,19 +358,24 @@
 				<p:commandButton id="botonGuardar2" value="Editar"
 					update="tablaUnidadExtension,growl"
 					actionListener="#{agregarBean.botonEditar()}"
-					styleClass="ui-priority-primary" process="@form :form:modalEditar">
+					styleClass="ui-priority-primary" process="@this form:panelEditar">
 					<p:confirm header="Confirmación" message="¿Guardar Registro?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Si" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						 />
 					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						 />
 				</p:confirmDialog>
 
 			</p:panel>
 		</p:dialog>
+
+
+
 
 	</ui:define>
 </ui:composition>

@@ -23,6 +23,7 @@ import controlador.AgregarServicio;
 import controlador.AsignarAdministradorServicio;
 import controlador.BusquedaServicio;
 import controlador.LoginServicio;
+import controlador.ModificarServicio;
 
 @ManagedBean
 @ViewScoped
@@ -37,6 +38,7 @@ public class AgregarBean implements Serializable {
 	private LoginServicio loginServicio = new LoginServicio();
 	private BusquedaServicio busquedaServicio = new BusquedaServicio();
 	private AsignarAdministradorServicio asigAdminServicio = new AsignarAdministradorServicio();
+	private ModificarServicio modificarServicio = new ModificarServicio();
 	private List<VistaBusqueda> listaUnidadExtension;
 	private VistaBusqueda extensionSelectModal;
 	private VistaBusqueda unidadExtensionSelect;
@@ -53,6 +55,7 @@ public class AgregarBean implements Serializable {
 
 	private List<Personal> personal;
 	private Personal selectPersonal;
+	private Personal personalSelectModal;
 	private String textoBuscado;
 	private String telefono;
 	private String extension;
@@ -71,9 +74,22 @@ public class AgregarBean implements Serializable {
 		this.loginBean = loginBean;
 	}
 
-	
-	
-	
+	public ModificarServicio getModificarServicio() {
+		return modificarServicio;
+	}
+
+	public void setModificarServicio(ModificarServicio modificarServicio) {
+		this.modificarServicio = modificarServicio;
+	}
+
+	public Personal getPersonalSelectModal() {
+		return personalSelectModal;
+	}
+
+	public void setPersonalSelectModal(Personal personalSelectModal) {
+		this.personalSelectModal = personalSelectModal;
+	}
+
 	public List<Busqueda> getListaSedeExtension2() {
 		return listaSedeExtension2;
 	}
@@ -319,14 +335,33 @@ public class AgregarBean implements Serializable {
 
 		addMessage(mensaje);
 
+		setTelefono("");
+		setExtension("");
+
+	}
+
+	public void botonEliminar() {
+		System.out.println("ELIIMINAR EXTENSION --->>");
+		String mensaje = "";
+		
+		if (this.modificarServicio.eliminaRegistro(this.unidadExtensionSelect)) {
+			mensaje = "Registro Eliminado !!";
+			//Para observar la eliminar del registro.
+			this.listaUnidadExtension.remove(this.unidadExtensionSelect);
+		} else {
+			mensaje = "Error no se puedo Eliminar !!";
+		}
+
+		addMessage(mensaje);
+
 	}
 
 	public void botonEditar() {
 		System.out.println("GUADAR EXTENSION --->>");
 		String nombreSede = "";
 		List<VistaBusqueda> auxiliar = null;
-		String mensaje="";
-		
+		String mensaje = "";
+
 		for (Administrador administrador : administrado) {
 			if (administrador.getCodigoSede().equals(
 					this.unidadExtensionSelect.getSedeCodigo())) {
@@ -336,21 +371,20 @@ public class AgregarBean implements Serializable {
 
 		}
 
-		
-		 auxiliar = this.admiSedeServicio.editarInformacion(
+		auxiliar = this.admiSedeServicio.editarInformacion(
 				this.unidadExtensionSelect,
-				this.unidadExtensionSelect.getSedeCodigo(),nombreSede,
-				this.unidadExtensionSelect.getUnidadNomb(),this.unidadExtensionSelect.getTelefonoNomb(),this.unidadExtensionSelect.getExtensionNomb());
+				this.unidadExtensionSelect.getSedeCodigo(), nombreSede,
+				this.unidadExtensionSelect.getUnidadNomb(),
+				this.unidadExtensionSelect.getTelefonoNomb(),
+				this.unidadExtensionSelect.getExtensionNomb());
 
-		 
-		
-		if(auxiliar.size() < 0){
+		if (auxiliar.size() < 0) {
 			mensaje = "Este Registro ya Existe !!";
-		}else{
+		} else {
 			this.listaUnidadExtension = auxiliar;
 			mensaje = "Información Modificada !!";
 		}
-		
+
 		addMessage(mensaje);
 
 	}
@@ -362,7 +396,7 @@ public class AgregarBean implements Serializable {
 
 	public void actualizarUnidadesGuardar() {
 		this.listaUnidadesGuadar = this.admiSedeServicio
-				.obtenerUnidadesPorSede(this.selectPersonal.getSedeCode());
+				.obtenerUnidadesPorSede(this.personalSelectModal.getSedeCode());
 	}
 
 	public void actualizarUnidadesGuardar2() {
@@ -378,6 +412,10 @@ public class AgregarBean implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		System.out.println("Seleccion Row ");
+
+		this.personalSelectModal = this.selectPersonal;
+		setTelefono("");
+		setExtension("");
 		this.listaUnidadesGuadar = this.admiSedeServicio
 				.obtenerUnidadesPorSede(this.selectPersonal.getSedeCode());
 
@@ -390,24 +428,22 @@ public class AgregarBean implements Serializable {
 
 	public void onRowSelect2(SelectEvent event) {
 		System.out.println("Seleccion Row ");
-		
-	 
+
 		this.extensionSelectModal = this.unidadExtensionSelect;
-			
+
 		List<Busqueda> auxiliar = new ArrayList<Busqueda>();
 		for (Administrador administrador : this.administrado) {
-			auxiliar.add(new Busqueda(administrador.getCodigoSede(),administrador.getNombSede()));
+			auxiliar.add(new Busqueda(administrador.getCodigoSede(),
+					administrador.getNombSede()));
 		}
-		
-			
+
 		this.listaSedeExtension2 = auxiliar;
-			
-		
+		this.extensionSelectModal.setSedeCodigo(this.unidadExtensionSelect
+				.getSedeCodigo());
+
 		this.listaUnidadesGuadar2 = this.admiSedeServicio
 				.obtenerUnidadesPorSedeEditar(this.extensionSelectModal
 						.getSedeCodigo());
-	
-		
 
 	}
 

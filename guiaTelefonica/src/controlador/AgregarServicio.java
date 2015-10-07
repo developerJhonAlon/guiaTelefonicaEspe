@@ -140,7 +140,7 @@ public class AgregarServicio implements Serializable {
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet lastRegistro = null;
 		long lastIdTemp = 0;
-
+		
 		// consultar si el Personal ya esta en la BDD de la Guia para guardar
 		// sus datos o pasar a guardar la Extensión.
 		lastRegistro = cn.consultaFindPersonal(personal, codeSede, codeUnidad);
@@ -149,21 +149,35 @@ public class AgregarServicio implements Serializable {
 				System.out.println("AgregarExtension: El registro ya existe");
 				return false;
 			} else {
-
-				int confirma = cn.guardarPersonal(personal, codeSede,
-						nombreSede, codeUnidad);
-
-				if (confirma != 1) {
-					System.out
-							.println("AgregarExtension: Error Dato de Personal no guardado");
-
-				} else {
-					lastRegistro = cn.consultaLastPersonal();
+				lastRegistro = cn.consultaFindRegistroAuxiliar(personal);
+				if (lastRegistro.next()) {
+					
+					lastRegistro = cn.consultaFindRegistroAuxiliar(personal);
 					lastRegistro.next();
-					lastIdTemp = lastRegistro.getLong("IDREGISTRO");
+					lastIdTemp	 =  lastRegistro.getLong("IDENTIDAD");
 					guardarDataGuia(lastIdTemp, fono, exte, cn);
 					return true;
+				}else{
+					int confirma = cn.guardarPersonal(personal, codeSede,
+							nombreSede, codeUnidad);
+
+					if (confirma != 1) {
+						System.out
+								.println("AgregarExtension: Error Dato de Personal no guardado");
+
+					} else {
+						ResultSet lastRegistro2 = cn.consultaLastPersonal();
+						lastRegistro2.next();
+						lastIdTemp = lastRegistro2.getLong("IDREGISTRO");
+						
+						guardarDataGuia(lastIdTemp, fono, exte, cn);
+						return true;
+					}
 				}
+				
+				
+				
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

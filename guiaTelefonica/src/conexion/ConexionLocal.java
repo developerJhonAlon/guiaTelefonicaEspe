@@ -346,8 +346,28 @@ public class ConexionLocal {
 			String codeUnidad) {
 		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
 				+ personal.getIdDocente()
-				+ "' AND UZGTPERSON_SEDE_CODE'"
+				+ "' AND UZGTPERSON_SEDE_CODE='"
 				+ codeSede + "' AND UZGTPERSON_UNIDAD='" + codeUnidad + "'";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	
+	/*
+	 * Metodo para consultar la existencia de un registro de Personal dentro de Tabla Personal.
+	 */
+	public ResultSet consultaFindRegistroAuxiliar(Personal personal) {
+		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
+				+ personal.getIdDocente()
+				+ "' AND UZGTPERSON_SEDE_CODE='"
+				+ personal.getSedeCode() + "' AND UZGTPERSON_UNIDAD='" + personal.getUnidad() + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -421,7 +441,7 @@ public class ConexionLocal {
 	public ResultSet consultaFindRelacion(VistaBusqueda personal) {
 		String query = "SELECT UZGTPERSON_ID AS IDRELACION FROM UZGTEXTEPERSON WHERE UZGTPERSON_ID='"
 				+ personal.getIdPersonal() + "'";
-
+		
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -431,6 +451,26 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	
+	/*
+	 * Metodo para consultar la existencia de Administrador como parte de este ID para no eliminar la referencia del ID.
+	 */
+	public ResultSet consultaRelaAdminPersonal(VistaBusqueda personal) {
+		
+		String query = "SELECT UZGTPERSON_ID_PERSONA AS ID_ADMIN FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA='"
+				+ personal.getIdPersonal() + "'";
+		
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	
 	
 	/*
@@ -650,8 +690,8 @@ public class ConexionLocal {
 	}
 
 	public int eliminarRelacion(VistaBusqueda eliminar) {
-		String query = "DELETE FROM UZGTEXTEPERSON WHERE UZGTEXTE_ID="
-				+ eliminar.getIdAsignacion() + "";
+		String query = "DELETE FROM UZGTEXTEPERSON WHERE UZGTPERSON_ID="
+				+ eliminar.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -692,8 +732,8 @@ public class ConexionLocal {
 	}
 
 	public int eliminarIdPersonal(VistaBusqueda eliminar) {
-		String query = "DELETE FROM UZGTPERSON WHERE UZGTPERSON_ID='"
-				+ eliminar.getIdPersonal() + "'";
+		String query = "DELETE FROM UZGTPERSON WHERE UZGTPERSON_ID="
+				+ eliminar.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
