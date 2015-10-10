@@ -64,8 +64,8 @@ public class ModificarAdmin implements Serializable {
 			try {
 				while (res.next()) {
 					vistaAdmin.add(new Busqueda(res
-							.getString("UZGTSEDE_NOMBRE"), res
-							.getString("UZGTSEDE_ID_PERSONA")));
+							.getString("UZGTSEDE_ID"), res
+							.getString("UZGTSEDE_NOMBRE")));
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

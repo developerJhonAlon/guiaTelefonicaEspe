@@ -1,5 +1,4 @@
 package beans;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +194,7 @@ public class AdministradorBean implements Serializable {
 				.obtenerUnAdmin(this.selectedPersona.getId_persona());
 
 		for (Busqueda busqueda : vistaUnAdmin) {
-			this.todas.add(busqueda.getDescripcion());
+			this.todas.add(busqueda.getValor());
 		}
 	}
 
@@ -218,21 +217,29 @@ public class AdministradorBean implements Serializable {
 	}
 	
 	public void botonAsignar() {
-		addMessage("Guardando Información !!");
-		System.out.println("ASIGNAR ADMINISTRADOR --->>"
-				+ selectSedes[0].toString());
+		System.out.println("ASIGNAR ADMINISTRADOR --->>");
 
-		this.asignarServicio.guardarAdministrador(this.administrador,
-				this.selectSedes);
-		
-		this.listaSedes.clear();
-		this.listaSedes = this.asignarServicio.obtenerSedes();
-		this.vistaAdmin = modificarAdmin.obtenerAdmin();
-
-		
+		if(this.asignarServicio.guardarAdministrador(this.administrador,
+				this.selectSedes)==true)
+		{
+			if(this.selectSedes.length!=0)
+			{
+				addMessage("Información Guardada !!");
+				this.listaSedes.clear();
+				this.listaSedes = this.asignarServicio.obtenerSedes();
+				this.vistaAdmin = modificarAdmin.obtenerAdmin();
+				
+				
+			}else addMessage("Debe seleccionar al menos una Sede !!");
+			
+			
+		}else if (this.asignarServicio.guardarAdministrador(this.administrador,
+				this.selectSedes)==false)
+		{
+			addMessage("Ya existe administrador !!");
+		}
 
 	}
-	
 	
 	public void botonBuscar() {
 		addMessage("Buscando Información !!");

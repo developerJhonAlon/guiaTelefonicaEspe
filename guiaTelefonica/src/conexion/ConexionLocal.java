@@ -57,7 +57,7 @@ public class ConexionLocal {
 	public ResultSet consultaUnidades(String sedeCode) {
 
 		String query = "SELECT DISTINCT UPPER(UZGTPERSON_UNIDAD) AS UNIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_SEDE_CODE='"
-				+ sedeCode + "'";
+				+ sedeCode + "' ORDER BY UNIDAD ASC";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -91,7 +91,7 @@ public class ConexionLocal {
 				+ "UPPER(UZGTPERSON_SEDE_CODE)as UZGTPERSON_SEDE_CODE ,UPPER(UZGTPERSON_DIREC) as UZGTPERSON_DIREC ,"
 				+ "UPPER(UZGTPERSON_CIUDAD) as UZGTPERSON_CIUDAD ,UZGTPERSON_CORR,UZGTPERSON_ID,"
 				+ "UZGTEXTE_NUM_EXTENSION,UZGTTELE_NUM_TELEFONO,UZGTEXTE_ESTADO,UZGTEXTE_ID FROM UZGVEXTEPERSON WHERE UZGTPERSON_NOMBRE LIKE UPPER('%"
-				+ valorTexto + "%')";
+				+ valorTexto + "%') ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -119,7 +119,7 @@ public class ConexionLocal {
 
 	public ResultSet consultaPorTelefono(String valorTexto) {
 		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTTELE_NUM_TELEFONO LIKE'%"
-				+ valorTexto + "%' ";
+				+ valorTexto + "%' ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -133,7 +133,7 @@ public class ConexionLocal {
 
 	public ResultSet consultaPorExtension(String valorTexto) {
 		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTEXTE_NUM_EXTENSION LIKE'%"
-				+ valorTexto + "%' ";
+				+ valorTexto + "%' ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -205,7 +205,7 @@ public class ConexionLocal {
 				+ codeSede
 				+ "' AND UZGTPERSON_UNIDAD='"
 				+ codeUnidad
-				+ "' AND UZGTPERSON_NOMBRE LIKE'%" + valorTexto + "%' ";
+				+ "' AND UZGTPERSON_NOMBRE LIKE'%" + valorTexto + "%' ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -225,7 +225,7 @@ public class ConexionLocal {
 				+ codeSede
 				+ "' AND UZGTPERSON_NOMBRE LIKE'%"
 				+ valorTexto
-				+ "%' ";
+				+ "%' ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -237,6 +237,27 @@ public class ConexionLocal {
 		return res;
 	}
 
+	
+	/*
+	 * Metodos para consultar el Perrsonal con Extension de una Sede Determinada.
+	 */
+	public ResultSet consultaUsuarioExtensionPorSede( String valorTexto,String codeSede) {
+		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTPERSON_SEDE_CODE='"
+				+ codeSede
+				+ "' AND UZGTPERSON_NOMBRE LIKE'%"
+				+ valorTexto
+				+ "%' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	/*
 	 * Metodo para consultar el ultimo registro de Extensiones.
 	 */
@@ -346,8 +367,28 @@ public class ConexionLocal {
 			String codeUnidad) {
 		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
 				+ personal.getIdDocente()
-				+ "' AND UZGTPERSON_SEDE_CODE'"
+				+ "' AND UZGTPERSON_SEDE_CODE='"
 				+ codeSede + "' AND UZGTPERSON_UNIDAD='" + codeUnidad + "'";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	
+	/*
+	 * Metodo para consultar la existencia de un registro de Personal dentro de Tabla Personal.
+	 */
+	public ResultSet consultaFindRegistroAuxiliar(Personal personal) {
+		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
+				+ personal.getIdDocente()
+				+ "' AND UZGTPERSON_SEDE_CODE='"
+				+ personal.getSedeCode() + "' AND UZGTPERSON_UNIDAD='" + personal.getUnidad() + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -397,6 +438,25 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	
+	/*
+	 * Metodo para consultar la existencia de un ID de Personal para la
+	 * Administracion.
+	 */
+	public ResultSet consultaExiteciaAdmin(Personal personal) {
+		String query = "SELECT UZGTPERSON_ID_PERSONA FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA='"
+				+ personal.getIdDocente() + "'";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	/*
 	 * Metodos para consultar el ultimo registro de una Persona.
@@ -421,7 +481,7 @@ public class ConexionLocal {
 	public ResultSet consultaFindRelacion(VistaBusqueda personal) {
 		String query = "SELECT UZGTPERSON_ID AS IDRELACION FROM UZGTEXTEPERSON WHERE UZGTPERSON_ID='"
 				+ personal.getIdPersonal() + "'";
-
+		
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -431,6 +491,26 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	
+	/*
+	 * Metodo para consultar la existencia de Administrador como parte de este ID para no eliminar la referencia del ID.
+	 */
+	public ResultSet consultaRelaAdminPersonal(VistaBusqueda personal) {
+		
+		String query = "SELECT UZGTPERSON_ID_PERSONA AS ID_ADMIN FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA='"
+				+ personal.getIdPersonal() + "'";
+		
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	
 	
 	/*
@@ -650,8 +730,8 @@ public class ConexionLocal {
 	}
 
 	public int eliminarRelacion(VistaBusqueda eliminar) {
-		String query = "DELETE FROM UZGTEXTEPERSON WHERE UZGTEXTE_ID="
-				+ eliminar.getIdAsignacion() + "";
+		String query = "DELETE FROM UZGTEXTEPERSON WHERE UZGTPERSON_ID="
+				+ eliminar.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -692,8 +772,8 @@ public class ConexionLocal {
 	}
 
 	public int eliminarIdPersonal(VistaBusqueda eliminar) {
-		String query = "DELETE FROM UZGTPERSON WHERE UZGTPERSON_ID='"
-				+ eliminar.getIdPersonal() + "'";
+		String query = "DELETE FROM UZGTPERSON WHERE UZGTPERSON_ID="
+				+ eliminar.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -722,7 +802,7 @@ public class ConexionLocal {
 	}
 
 	public ResultSet consultaUnAdministrador(String valor) {
-		String query = "SELECT * FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA = '"
+		String query = "SELECT UZGTSEDE_NOMBRE, UZGTSEDE_ID FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA = '"
 				+ valor + "'";
 		try {
 			state = cnn.createStatement();

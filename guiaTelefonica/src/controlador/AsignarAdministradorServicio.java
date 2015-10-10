@@ -24,15 +24,28 @@ public class AsignarAdministradorServicio implements Serializable {
 	/*
 	 * Metodo para asignar Administradores.
 	 */
-	public void guardarAdministrador(Personal administrador, String[] sedes) {
+	
+	public boolean guardarAdministrador(Personal administrador, String[] sedes) {
 
+		
+		
 		ConexionLocal cn = new ConexionLocal();
+		
+		ResultSet existeRegistro = cn.consultaExiteciaAdmin(administrador);
+		try {
+			
+		if(existeRegistro.next())
+		{
+			return false;
+		}
+		else{
 		ResultSet lastRegistro = cn.consultaFindPersonalAdmin(administrador);
 		long idRegistro = 0;
-		try {
+		
 			if (lastRegistro.next()) {
 				idRegistro = lastRegistro.getLong("IDENTIDAD");
 				guardarAdminSedes(idRegistro, sedes, cn);
+				return true;
 			} else {
 
 				int confirma = cn.guardarPersonalAdmin(administrador);
@@ -46,16 +59,17 @@ public class AsignarAdministradorServicio implements Serializable {
 					if (lastRegistro.next()) {
 						idRegistro = lastRegistro.getLong("IDENTIDAD");
 						guardarAdminSedes(idRegistro, sedes, cn);
+						return true;
 					}
-					
-
 				}
 
 			}
+		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/* *

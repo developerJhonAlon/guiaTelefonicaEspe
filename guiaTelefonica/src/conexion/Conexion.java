@@ -114,7 +114,7 @@ public class Conexion {
 	}
 	
 	public ResultSet consultaSedes(){
-		String query = "SELECT PTRJBLN_CODE AS CODESEDE, PTRJBLN_DESC AS DESCRIP FROM PTRJBLN WHERE NOT PTRJBLN_CODE LIKE'%CA%'";
+		String query = "SELECT PTRJBLN_CODE AS CODESEDE, PTRJBLN_DESC AS DESCRIP FROM PTRJBLN WHERE NOT PTRJBLN_CODE LIKE '%CA%'";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);

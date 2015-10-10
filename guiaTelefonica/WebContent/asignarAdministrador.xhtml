@@ -60,19 +60,21 @@
 
 					<p:spacer height="20px" />
 
-					<p:selectCheckboxMenu id="menu"
-						value="#{administradorBean.selectSedes}" label="Lista de Sedes"
-						filter="true" required="false"  >
+					<p:panelGrid columns="1" style="width: 350px;">
+					
+					<h:outputText value="Sedes" styleClass="negrita"/>
+					 <p:selectManyCheckbox id="menu" value="#{administradorBean.selectSedes}" label="Lista de Sedes"
+						filter="true" required="false" columns="1" layout="pageDirection">
 						<f:selectItems value="#{administradorBean.listaSedes}"
 							var="item" itemValue="#{item.valor}"
 							itemLabel="#{item.descripcion}"  />
-							
-					</p:selectCheckboxMenu>
-
-					<h:outputText value="Guardar Cambios" />
-
+        
+    				</p:selectManyCheckbox>
+					
+					</p:panelGrid>
+					
 					<p:commandButton id="botonGuardar" value="Asignar"
-						update="growl,vistaAdmin"
+						update="growl,vistaAdmin2"
 						actionListener="#{administradorBean.botonAsignar()}"
 						styleClass="ui-priority-primary" style="width: 120px;" >
 						<p:confirm header="Confirmación" message="¿Asignar Administrador?"
@@ -86,17 +88,14 @@
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 					<p:spacer height="20px" />
-
-
 				</p:panelGrid>
-
 
 			</p:layoutUnit>
 
 
-			<p:layoutUnit position="center" header="Resultados de la busqueda">
+			<p:layoutUnit position="center" header="Resultados de la búsqueda">
 
-				<p:panelGrid columns="2">
+				<p:panelGrid columns="1">
 
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
 						value="#{administradorBean.personal}" scrollable="true"
@@ -122,53 +121,43 @@
 
 					</p:dataTable>
 
-					<p:dataTable id="vistaAdmin" var="vist" layout="grid"
+				</p:panelGrid>
+
+
+				<p:panel header="Administradores">
+				
+					<p:panelGrid columns="2" style="width: 70%;"> 
+				
+					<p:dataTable id="vistaAdmin2" var="vist" layout="grid"
 						value="#{administradorBean.vistaAdmin}" scrollable="true"
 						scrollHeight="200" selectionMode="single" rowKey="#{vist.id_persona}"
 						selection="#{administradorBean.selectedPersona}">
 
 						<p:ajax event="rowSelect"
 							listener="#{administradorBean.onRowSelect}"
-							update=" :form:ComboSedes" />
+							update="@all"/>
 
 						<p:ajax event="rowUnselect"
-							listener="#{administradorBean.onRowUnselect}" update=" :form:ComboSedes" />
+							listener="#{administradorBean.onRowUnselect}" update="@all" />
 
-						<p:column headerText="ADMINISTRADORES">
+						<p:column headerText="NOMBRES">
 							<h:outputText value="#{vist.nombre}" />
 						</p:column>
 
-						<f:facet name="footer">
-							<p:commandButton process="vistaAdmin" update=":form:panelModel"
-								icon="ui-icon-search" value="Ver" oncomplete="PF('dlg2').show()" />
-						</f:facet>
 					</p:dataTable>
+					
+					<p:panel id="panelModel">
+					
+				<p:panelGrid id="Adm" columns="3"
+					
+					style="width: 50%;" >
 
-
-
-				</p:panelGrid>
-
-
-			</p:layoutUnit>
-
-		</p:layout>
-
-		<p:dialog id="dialogo" header="GESTIONAR ADMINISTRADOR"
-			widgetVar="dlg2" modal="true" showEffect="fade" hideEffect="fade"
-			resizable="false">
-
-			<p:panel id="panelModel">
-				<p:panelGrid columns="3"
-					rendered="#{not empty administradorBean.selectedPersona}"
-					columnClasses="label,value">
-
-					<h:outputText value="#{administradorBean.selectedPersona.nombre}" />
+					<h:outputText value="#{administradorBean.selectedPersona.nombre}"  />
 
 					<p:commandButton id="botonEliminar" value="Eliminar"
-						update="vistaAdmin,growl" icon="ui-icon-trash"
+						update="vistaAdmin2,growl" icon="ui-icon-trash"
 						actionListener="#{administradorBean.Eliminar()}"
-						styleClass="ui-priority-primary" style="width: 120px;"
-						oncomplete="PF('dlg2').hide()">
+						styleClass="ui-priority-primary" style="width: 120px;">
 						<p:confirm header="Confirmación"
 							message="¿Desea eliminar el Administrador?" icon="ui-icon-alert" />
 					</p:commandButton>
@@ -179,23 +168,23 @@
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 
-					<p:selectCheckboxMenu id="ComboSedes"
+					<p:selectCheckboxMenu id="ComboSedes" 
 						value="#{administradorBean.todas}" label="Lista de Sedes"
 						filter="true" panelStyle="width:300px"
 						style="width:250px; font-size: 12pt;" styleClass="letras">
 
-						<f:selectItems id="sedes" value="#{administradorBean.todasSedes}"
-							var="item" itemValue="#{item.valor}"
-							itemLabel="#{item.descripcion}" style="font-size: 12pt;" />
+						<f:selectItems  value="#{administradorBean.todasSedes}" var="item" 
+							itemValue="#{item.valor}" itemLabel="#{item.descripcion}" style="font-size: 12pt;" />
 					</p:selectCheckboxMenu>
 
+
 					<p:commandButton id="botonModificar" value="Modificar"
-						update="vistaAdmin growl"
+						update="vistaAdmin2,growl"
 						actionListener="#{administradorBean.Modificar()}"
 						styleClass="ui-priority-primary" icon="ui-icon-pencil"
 						style="width: 120px;">
 						<p:confirm header="Confirmación"
-							message="¿Desea modificar las sedes a Administrar?" icon="ui-icon-alert" />
+							message="¿Desea modificar sedes?" icon="ui-icon-alert" />
 					</p:commandButton>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 						<p:commandButton value="Si" type="button"
@@ -204,9 +193,19 @@
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 
+				
 				</p:panelGrid>
 			</p:panel>
-		</p:dialog>
+					
+				 </p:panelGrid>
+				</p:panel>
 
+
+
+			</p:layoutUnit>
+			
+
+
+		</p:layout>
 	</ui:define>
 </ui:composition>
