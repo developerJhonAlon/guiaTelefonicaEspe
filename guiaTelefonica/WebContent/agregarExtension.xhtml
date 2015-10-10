@@ -16,92 +16,83 @@
 				minSize="100"
 				header="GUIA TELEFONICA - UNIVERSIDAD DE LAS FUERZAS ARMADAS - ESPE  ">
 
-
 				<p:outputLabel>Administración de Extensiones - Usuario: #{agregarBean.nombreAdministrador}</p:outputLabel>
-
-
-			</p:layoutUnit>
-
-			<p:layoutUnit position="west" resizable="true" size="300px"
-				minSize="300" header="Busquedas">
-
-				<p:panelGrid id="panelBusqueda" columns="1" layout="grid"
-					style="width:100%;">
-
-					<p:outputLabel for="valorBus2" value="Ingrese el Apellido:" />
-					<p:inputText id="valorBus2" value="#{agregarBean.textoBuscado}"
-						required="true" style="width:100%;" maxlength="15" />
-
-					<p:growl id="growl" life="2000" />
-					<p:commandButton id="botonBuscar" value="Buscar"
-						update="vistaPresen,growl"
-						actionListener="#{agregarBean.botonBusqueda()}"
-						process="@this form:panelBusqueda"
-						styleClass="ui-priority-primary" />
-
-				</p:panelGrid>
-				<p:spacer height="20px" />
-
 
 			</p:layoutUnit>
 
 			<center>
-				<p:layoutUnit position="center" header="Resultados de la Busqueda">
+				<p:layoutUnit position="center" >
 
-					<p:panel>
+					<p:growl id="growl" life="2000" />
+					<p:panel id="panelBusqueda2" header="Resultados de la Busqueda">
+					
+						<p:panelGrid id="panelBusqueda" columns="3" layout="grid">
 
-						<p:dataTable id="vistaPresen" var="vis"
-							value="#{agregarBean.personal}" scrollable="true"
-							scrollHeight="200" selectionMode="single"
-							selection="#{agregarBean.selectPersonal}"
-							rowKey="#{vis.idDocente}">
-
-							<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect}" />
-
-							<p:ajax event="rowUnselect"
-								listener="#{agregarBean.onRowUnselect}" />
-
-							<p:column headerText="NOMBRES">
-								<h:outputText value="#{vis.nombres}" />
-							</p:column>
-
-							<p:column headerText="CEDULA">
-								<h:outputText value="#{vis.cedula}" />
-							</p:column>
-
-							<p:column headerText="ID BANNER">
-								<h:outputText value="#{vis.idDocente}" />
-							</p:column>
-
-							<p:column headerText="UBICACIÓN">
-								<h:outputText value="#{vis.unidad}" />
-							</p:column>
+							<p:outputLabel for="valorBus2" value="Ingrese el Apellido:" />
+							<p:inputText id="valorBus2" value="#{agregarBean.textoBuscado}"
+								required="true" style="width:100%;" maxlength="15" />
 
 
-							<p:column headerText="SEDE">
-								<h:outputText value="#{vis.sede}" />
-							</p:column>
+							<p:commandButton id="botonBuscar" value="Buscar"
+								update="vistaPresen,growl"
+								actionListener="#{agregarBean.botonBusqueda()}"
+								process="@this form:panelBusqueda2" icon="ui-icon-search"
+								styleClass="ui-priority-primary" />
 
-							<f:facet name="footer">
-								<p:commandButton process="vistaPresen"
-									update=":form:panelDetalle"
-									icon="ui-icon-plusthick" value="Agregar"
-									oncomplete="PF('dlg2').show()" />
+						</p:panelGrid>
 
 
+						<p:panel>
+
+							<p:dataTable id="vistaPresen" var="vis"
+								value="#{agregarBean.personal}" scrollable="true"
+								scrollHeight="200" selectionMode="single"
+								selection="#{agregarBean.selectPersonal}"
+								rowKey="#{vis.idDocente}">
+
+								<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect}" />
+
+								<p:ajax event="rowUnselect"
+									listener="#{agregarBean.onRowUnselect}" />
+
+								<p:column headerText="NOMBRES">
+									<h:outputText value="#{vis.nombres}" />
+								</p:column>
+
+								<p:column headerText="CEDULA">
+									<h:outputText value="#{vis.cedula}" />
+								</p:column>
+
+								<p:column headerText="ID BANNER">
+									<h:outputText value="#{vis.idDocente}" />
+								</p:column>
+
+								<p:column headerText="UBICACIÓN">
+									<h:outputText value="#{vis.unidad}" />
+								</p:column>
 
 
-							</f:facet>
+								<p:column headerText="SEDE">
+									<h:outputText value="#{vis.sede}" />
+								</p:column>
 
+								<f:facet name="footer">
+									<p:commandButton process="vistaPresen"
+										update=":form:modalGuardar,:form:panelDetalle"
+										icon="ui-icon-plusthick" value="Agregar"
+										oncomplete="PF('dlg2').show()" />
+								</f:facet>
 
-						</p:dataTable>
+							</p:dataTable>
 
+						</p:panel>
 
 					</p:panel>
 
-					<p:panel header="Usuarios con Extensiones">
 
-						<p:panelGrid id="panelFiltro" columns="4" layout="grid">
+					<p:panel  id="panelFiltro2" header="Usuarios con Extensiones">
+
+						<p:panelGrid id="panelFiltro" columns="7" layout="grid">
 
 							<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
 							<p:selectOneMenu id="codigoSede" style="width: 300px"
@@ -125,6 +116,17 @@
 									listener="#{agregarBean.actualizarExtensiones()}" />
 
 							</p:selectOneMenu>
+
+							<p:outputLabel for="buscarLocal" value="Busqueda:" />
+							<p:inputText id="buscarLocal" value="#{agregarBean.valorBusquedaLocal}"
+								required="true" style="width:100%;" maxlength="15" />
+
+
+							<p:commandButton id="botonBuscaLocal" title="Buscar"
+								update="tablaUnidadExtension,growl"
+								actionListener="#{agregarBean.busquedaLocal()}"
+								process="@this form:panelFiltro2"
+								styleClass="ui-priority-primary" icon="ui-icon-search" />
 
 						</p:panelGrid>
 
@@ -170,23 +172,23 @@
 							<f:facet name="footer">
 								<p:growl id="growl2" life="2000" />
 								<p:commandButton process="tablaUnidadExtension"
-									update=":form:panelEditar" icon="ui-icon-pencil" value="Editar"
-									oncomplete="PF('dlg3').show()" />
-
-
+									update=":form:modalEditar,:form:panelEditar"
+									icon="ui-icon-pencil" value="Editar"
+									oncomplete="PF('dlg3').show()">
+								</p:commandButton>
 
 
 
 								<p:commandButton id="botonEliminar" value="Eliminar"
 									update="tablaUnidadExtension,growl2" icon="ui-icon-close"
-									actionListener="#{agregarBean.botonEliminar()}"
-									styleClass="ui-priority-primary" process="@this :form:tablaUnidadExtension" >
-									<p:confirm  message="¿Eliminar Registro?"
-										icon="ui-icon-alert" />
+									actionListener="#{agregarBean.botonEliminar()}" process="@this "
+									styleClass="ui-priority-primary">
+									<p:confirm message="¿Eliminar Registro?" icon="ui-icon-alert" />
 
 								</p:commandButton>
 
-								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade">
 									<p:commandButton value="Si" type="button"
 										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 
@@ -194,7 +196,7 @@
 										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 
 								</p:confirmDialog>
-								
+
 							</f:facet>
 
 						</p:dataTable>
@@ -208,7 +210,8 @@
 		</p:layout>
 
 		<p:dialog id="modalGuardar" header="Extensión" widgetVar="dlg2"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			closable="false">
 
 			<p:panel id="panelDetalle" style="text-align:center;">
 
@@ -270,7 +273,7 @@
 
 				<p:spacer height="20px" />
 				<p:commandButton id="botonGuardar" value="Guardar"
-					update="tablaUnidadExtension,growl,codigoUnidad"
+					update="tablaUnidadExtension,growl,codigoUnidad,panelDetalle"
 					actionListener="#{agregarBean.botonGuardar()}"
 					styleClass="ui-priority-primary" process="@this form:panelDetalle">
 					<p:confirm header="Confirmación" message="¿Guardar Registro?"
@@ -278,19 +281,25 @@
 				</p:commandButton>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Si" type="button"
-						oncomplete="PF('dlg2').hide()" styleClass="ui-confirmdialog-yes"
-						icon="ui-icon-check" />
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 					<p:commandButton value="No" type="button"
-						oncomplete="PF('dlg2').hide()" styleClass="ui-confirmdialog-no"
-						icon="ui-icon-close" />
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				</p:confirmDialog>
+
+				<p:commandButton id="botonCerrar" value="Cerrar"
+					update="panelDetalle" actionListener="#{agregarBean.cerrar()}"
+					styleClass="ui-priority-primary" process="@this "
+					oncomplete="PF('dlg2').hide()">
+					<p:resetInput target="panelDetalle" />
+				</p:commandButton>
 
 			</p:panel>
 		</p:dialog>
 
 
 		<p:dialog id="modalEditar" header="Extensión" widgetVar="dlg3"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			closable="false">
 
 			<p:panel id="panelEditar" style="text-align:center;">
 
@@ -356,20 +365,25 @@
 
 				<p:spacer height="20px" />
 				<p:commandButton id="botonGuardar2" value="Editar"
-					update="tablaUnidadExtension,growl"
+					update="tablaUnidadExtension,growl,panelEditar"
 					actionListener="#{agregarBean.botonEditar()}"
 					styleClass="ui-priority-primary" process="@this form:panelEditar">
-					<p:confirm header="Confirmación" message="¿Guardar Registro?"
+					<p:confirm header="Confirmación" message="¿Editar Registro?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 					<p:commandButton value="Si" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
-						 />
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						 />
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				</p:confirmDialog>
+
+				<p:commandButton id="botonCerrar2" value="Cerrar"
+					update="panelEditar" actionListener="#{agregarBean.cerrar2()}"
+					styleClass="ui-priority-primary" process="@this "
+					oncomplete="PF('dlg3').hide()">
+					<p:resetInput target="panelEditar" />
+				</p:commandButton>
 
 			</p:panel>
 		</p:dialog>

@@ -131,7 +131,7 @@ public class ModificarBean implements Serializable{
 	public void botonConsulta() {
 		addMessage("Información Consultada !!");
 		System.out.println("OBTENER EXTENSIONES --->>");
-		this.vistaBusqueda = modificarServicio.obtenerExtension(this.valorEnviado);
+//		this.vistaBusqueda = modificarServicio.obtenerExtension(this.valorEnviado);
 
 	}
 	

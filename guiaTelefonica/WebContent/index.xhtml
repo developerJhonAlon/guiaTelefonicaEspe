@@ -113,17 +113,17 @@
 
 					<!-- 				nombres y apellidos		  -->
 
-					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
+					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"  maxlength="15"
 						required="false" validatorMessage="#{busquedaBean.verMensaj}"
-						rendered="#{busquedaBean.verNombres}">
-						<f:validateLength minimum="0" maximum="30" />
+						rendered="#{busquedaBean.verNombres}" >
+						
 						<f:validateRegex pattern="[^0-9]*" />
 					</p:inputText>
 
 
 					<!-- 				extension	  -->
 
-					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"
+					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"  maxlength="4"
 						required="false" validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verExtension}">
 						<f:validateRegex pattern="[0-9]{4}" />
@@ -131,7 +131,7 @@
 
 					<!-- 				telefono  -->
 
-					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"
+					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"  maxlength="10"
 						required="false" validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verTelefono}">
 						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
@@ -156,9 +156,9 @@
 
 			<p:growl id="msgs" showDetail="true" />
 
-			<p:layoutUnit position="center" header="Resultados de la busqueda">
+			<p:layoutUnit position="center">
 
-				<p:panel>
+				<p:panel  header="Resultados de la busqueda">
 
 
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
