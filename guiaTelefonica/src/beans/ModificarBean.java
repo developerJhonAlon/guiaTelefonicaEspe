@@ -131,7 +131,7 @@ public class ModificarBean implements Serializable{
 	public void botonConsulta() {
 		addMessage("Información Consultada !!");
 		System.out.println("OBTENER EXTENSIONES --->>");
-		this.vistaBusqueda = modificarServicio.obtenerExtension(this.valorEnviado);
+//		this.vistaBusqueda = modificarServicio.obtenerExtension(this.valorEnviado);
 
 	}
 	
@@ -151,7 +151,7 @@ public class ModificarBean implements Serializable{
 	public void botonEliminar() {
 		addMessage("Información Eliminada !!");
 		System.out.println("REALIZAR ELIMINACION --->>");
-		this.vistaBusqueda =   this.modificarServicio.eliminaRegistro(this.busquedaSelect);
+//		this.vistaBusqueda =   this.modificarServicio.eliminaRegistro(this.busquedaSelect);
 		
 	}
 	

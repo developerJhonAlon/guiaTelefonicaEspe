@@ -16,37 +16,38 @@ public class ModificarServicio implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public List<VistaBusqueda> obtenerExtension(String valorRecibido) {
+	public List<VistaBusqueda> obtenerExtension(String valorRecibido,
+			String codeSede) {
+
 		ConexionLocal cn = new ConexionLocal();
 
-		ResultSet res = cn.consultaPorNombre(valorRecibido);
+		ResultSet res = cn.consultaUsuarioExtensionPorSede(valorRecibido,
+				codeSede);
 
 		List<VistaBusqueda> vistaBusqueda = new ArrayList<VistaBusqueda>();
-		if (res == null) {
-			System.out.println("Error No Hay Datos");
-		} else {
-			try {
-				while (res.next()) {
-					vistaBusqueda.add(new VistaBusqueda(res
-							.getString("UZGTPERSON_ID"), res
-							.getString("UZGTPERSON_UNIDAD"), res
-							.getString("UZGTPERSON_SEDE"), res
-							.getString("UZGTPERSON_PUEST"), res
-							.getString("UZGTPERSON_NOMBRE"), res
-							.getString("UZGTEXTE_NUM_EXTENSION"), res
-							.getString("UZGTTELE_NUM_TELEFONO"), res
-							.getString("UZGTPERSON_CORR"), res
-							.getLong("UZGTEXTE_ID")));
-				}
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-				
+		try {
+			while (res.next()) {
+				vistaBusqueda.add(new VistaBusqueda(res
+						.getLong("UZGTPERSON_ID"), res
+						.getString("UZGTPERSON_ID_PERSONA"), res
+						.getString("UZGTPERSON_UNIDAD"), res
+						.getString("UZGTPERSON_SEDE"), res
+						.getString("UZGTPERSON_SEDE_CODE"), res
+						.getString("UZGTPERSON_PUEST"), res
+						.getString("UZGTPERSON_NOMBRE"), res
+						.getString("UZGTEXTE_NUM_EXTENSION"), res
+						.getString("UZGTTELE_NUM_TELEFONO"), res
+						.getString("UZGTPERSON_CORR"), res
+						.getLong("UZGTEXTE_ID")));
 			}
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
 		}
+
 		return vistaBusqueda;
 	}
 
@@ -106,40 +107,32 @@ public class ModificarServicio implements Serializable {
 	 * Metodo para guardar la informacion de un Personal con su Extension
 	 * asignada.
 	 */
-	public List<VistaBusqueda> eliminaRegistro(VistaBusqueda datoDelete) {
+	public boolean eliminaRegistro(VistaBusqueda datoDelete) {
 
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet res = null;
-		int checar = 0;
-		List<VistaBusqueda> vistaBusqueda = null;
 
-		if (datoDelete.getIdPersonal() != "") {
-			cn.eliminarRelacion(datoDelete);
-			cn.eliminarExtension(datoDelete);
-			checar = cn.eliminarTelefono(datoDelete);
-			if (checar != 1) {
-				System.out.println("Error de Eliminacion ");
+		res = cn.consultaRelaAdminPersonal(datoDelete);
+		try {
+			if (res.next()) {
+				cn.eliminarRelacion(datoDelete);
+				cn.eliminarExtension(datoDelete);
+				cn.eliminarTelefono(datoDelete);
+				return true;
 			} else {
-				res = cn.consultaFindRelacion(datoDelete);
-
-				if (res == null) {
-					cn.eliminarIdPersonal(datoDelete);
-				} else {
-					res = cn.consultaPorIdAsignado(datoDelete);
-					if (res == null) {
-						System.out.println("Todos Datos Eliminados ");
-						return vistaBusqueda;
-					} else {
-						System.out.println("Existen Registros");
-						return vistaBusqueda;
-					}
-
-				}
+				cn.eliminarRelacion(datoDelete);
+				cn.eliminarExtension(datoDelete);
+				cn.eliminarTelefono(datoDelete);
+				cn.eliminarIdPersonal(datoDelete);
+				return true;
 			}
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		return vistaBusqueda;
+		return false;
 
 	}
 }
