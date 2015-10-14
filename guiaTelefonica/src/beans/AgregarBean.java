@@ -81,7 +81,7 @@ public class AgregarBean implements Serializable {
 	public boolean isValidacionDatos() {
 		return validacionDatos;
 	}
-	
+
 	public String getValorBusquedaLocal() {
 		return valorBusquedaLocal;
 	}
@@ -293,7 +293,8 @@ public class AgregarBean implements Serializable {
 	 */
 	@PostConstruct
 	public void inicializar() {
-		System.out.println("ID ADMINISTRADOR: " + loginBean.getIdentificador());
+		System.out.println("ID ADMINISTRADOR AGREGARBEAN: "
+				+ loginBean.getIdentificador());
 		if (this.loginBean.getIdentificador().equals("")) {
 			System.out.println("ERROR DE LOGIN");
 		} else {
@@ -326,20 +327,11 @@ public class AgregarBean implements Serializable {
 	}
 
 	public void busquedaLocal() {
-		
+
 		System.out.println("BUSQUEDA DE SOBRE GUIA --->>");
 
-//		List<String> sedesCodigos = new ArrayList<String>();
-//		for (Administrador sedecodigo : administrado) {
-//			sedesCodigos.add(sedecodigo.getCodigoSede());
-//		}
-
-		this.listaUnidadExtension = this.modificarServicio.obtenerExtension(this.valorBusquedaLocal,this.sedeSeleccionada);
-//		this.personal = this.admiSedeServicio.buscarPersonal(this.textoBuscado,
-//				sedesCodigos);
-
-//		this.personal = this.asigAdminServicio
-//				.buscarPersonal(this.textoBuscado);
+		this.listaUnidadExtension = this.modificarServicio.obtenerExtension(
+				this.valorBusquedaLocal, this.sedeSeleccionada);
 
 		String mensaje = (this.listaUnidadExtension.size() > 0) ? "Información Encontrada"
 				: "Información no Encontrada";
@@ -433,11 +425,11 @@ public class AgregarBean implements Serializable {
 			mensaje = "Este Registro ya Existe !!";
 		} else {
 			RequestContext context = RequestContext.getCurrentInstance();
-			
+
 			this.listaUnidadExtension = auxiliar;
 			context.execute("PF('dlg3').hide()");
 			mensaje = "Información Modificada !!";
-			
+
 		}
 
 		addMessage(mensaje);

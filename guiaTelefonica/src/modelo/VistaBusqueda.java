@@ -26,8 +26,6 @@ public class VistaBusqueda implements Serializable {
 	public VistaBusqueda() {
 	}
 
-	
-
 
 	public VistaBusqueda(long identidad, String idPersonal, String unidadNomb,
 			String sedeNomeb, String sedeCodigo, String cargoNomb,

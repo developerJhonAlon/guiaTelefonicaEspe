@@ -104,7 +104,7 @@ public class ModificarServicio implements Serializable {
 	}
 
 	/* *
-	 * Metodo para guardar la informacion de un Personal con su Extension
+	 * Metodo para eliminar la informacion de un Personal con su Extension
 	 * asignada.
 	 */
 	public boolean eliminaRegistro(VistaBusqueda datoDelete) {
@@ -116,13 +116,13 @@ public class ModificarServicio implements Serializable {
 		try {
 			if (res.next()) {
 				cn.eliminarRelacion(datoDelete);
-				cn.eliminarExtension(datoDelete);
-				cn.eliminarTelefono(datoDelete);
+				cn.eliminarExtension(datoDelete.getIdAsignacion());
+				cn.eliminarTelefono(datoDelete.getIdAsignacion());
 				return true;
 			} else {
 				cn.eliminarRelacion(datoDelete);
-				cn.eliminarExtension(datoDelete);
-				cn.eliminarTelefono(datoDelete);
+				cn.eliminarExtension(datoDelete.getIdAsignacion());
+				cn.eliminarTelefono(datoDelete.getIdAsignacion());
 				cn.eliminarIdPersonal(datoDelete);
 				return true;
 			}
