@@ -24,47 +24,46 @@ public class AsignarAdministradorServicio implements Serializable {
 	/*
 	 * Metodo para asignar Administradores.
 	 */
-	
+
 	public boolean guardarAdministrador(Personal administrador, String[] sedes) {
 
-		
-		
 		ConexionLocal cn = new ConexionLocal();
-		
+
 		ResultSet existeRegistro = cn.consultaExiteciaAdmin(administrador);
 		try {
-			
-		if(existeRegistro.next())
-		{
-			return false;
-		}
-		else{
-		ResultSet lastRegistro = cn.consultaFindPersonalAdmin(administrador);
-		long idRegistro = 0;
-		
-			if (lastRegistro.next()) {
-				idRegistro = lastRegistro.getLong("IDENTIDAD");
-				guardarAdminSedes(idRegistro, sedes, cn);
-				return true;
+
+			if (existeRegistro.next()) {
+				return false;
 			} else {
+				ResultSet lastRegistro = cn
+						.consultaFindPersonalAdmin(administrador);
+				long idRegistro = 0;
 
-				int confirma = cn.guardarPersonalAdmin(administrador);
-					
-				if (confirma != 1) {
-					System.out.println("Error Dato de Personal no guardado");
-
+				if (lastRegistro.next()) {
+					idRegistro = lastRegistro.getLong("IDENTIDAD");
+					guardarAdminSedes(idRegistro, sedes, cn);
+					return true;
 				} else {
-					lastRegistro = cn.consultaFindPersonalAdmin(administrador);
-					
-					if (lastRegistro.next()) {
-						idRegistro = lastRegistro.getLong("IDENTIDAD");
-						guardarAdminSedes(idRegistro, sedes, cn);
-						return true;
-					}
-				}
 
+					int confirma = cn.guardarPersonalAdmin(administrador);
+
+					if (confirma != 1) {
+						System.out
+								.println("Error Dato de Personal no guardado");
+
+					} else {
+						lastRegistro = cn
+								.consultaFindPersonalAdmin(administrador);
+
+						if (lastRegistro.next()) {
+							idRegistro = lastRegistro.getLong("IDENTIDAD");
+							guardarAdminSedes(idRegistro, sedes, cn);
+							return true;
+						}
+					}
+
+				}
 			}
-		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,7 +81,7 @@ public class AsignarAdministradorServicio implements Serializable {
 
 		try {
 			if (lastRegistro.next()) {
-				
+
 				guardarRelAdminSedes(identificador, sedes, cn);
 				System.out.println("Administrador ya esta registrado");
 			} else {
@@ -108,23 +107,43 @@ public class AsignarAdministradorServicio implements Serializable {
 
 		Conexion cnRemoto = new Conexion();
 		ResultSet registroSede = null;
-
+		boolean adminMatriz = false;
 		List<Busqueda> listaDeSedes = new ArrayList<Busqueda>();
 
-		for (String string : sedes) {
-			registroSede = cnRemoto.consultaSedePorId(string);
-			try {
+		for (String busqueda : sedes) {
+			if (busqueda.equals("ESPE-M")) {
+				adminMatriz = true;
+				break;
+			}
+
+		}
+
+		try {
+			if (adminMatriz) {
+				// Obtener los centros de apoyo
+				registroSede = cnRemoto.consultaCentrosApoyo();
+
+				while (registroSede.next()) {
+					listaDeSedes.add(new Busqueda(registroSede
+							.getString("CODECENTRO"), registroSede
+							.getString("DESCRIPCENTRO")));
+				}
+			}
+			for (String string : sedes) {
+
+				registroSede = cnRemoto.consultaSedePorId(string);
+
 				while (registroSede.next()) {
 					listaDeSedes.add(new Busqueda(registroSede
 							.getString("CODESEDE"), registroSede
 							.getString("DESCRIP")));
 				}
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
 			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 
 		}
 
@@ -149,8 +168,8 @@ public class AsignarAdministradorServicio implements Serializable {
 
 		// Guardar la relacion entre Administradores y Sedes.
 		for (Busqueda busqueda : listaDeSedes) {
-			registroSede = cnLocal.consultaFindRelaAdminSede(
-					idRegistro, busqueda.getValor());
+			registroSede = cnLocal.consultaFindRelaAdminSede(idRegistro,
+					busqueda.getValor());
 
 			try {
 				if (registroSede.next()) {

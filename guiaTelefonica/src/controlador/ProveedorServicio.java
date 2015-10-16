@@ -78,11 +78,11 @@ public class ProveedorServicio implements Serializable {
 	 * Unidad Seleccionada.
 	 */
 	public List<VistaProveedor> obtenerExtensionesExternasPorUnidad(
-			String codigoSede, String codigoUnidad) {
+			String codigoSede, String codigoUnidad, String responsable) {
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet res = null;
 
-		res = cn.consultaExtensionesExternasPorUnidad(codigoSede, codigoUnidad);
+		res = cn.consultaExtensionesExternasPorUnidad(codigoSede, codigoUnidad,responsable);
 
 		List<VistaProveedor> vistaProveedor = new ArrayList<VistaProveedor>();
 

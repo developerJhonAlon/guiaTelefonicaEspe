@@ -86,7 +86,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	/*
 	 * Metodo SQL para obtener un Personal con su Id Unico.
 	 */
@@ -103,7 +103,6 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
 
 	public ResultSet consultaPorNombre(String valorTexto) {
 		String query = "SELECT upper(UZGTPERSON_NOMBRE)as UZGTPERSON_NOMBRE ,UPPER(UZGTPERSON_PUEST)as UZGTPERSON_PUEST , "
@@ -122,6 +121,26 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	
+	
+	public ResultSet consultaPorNombreExterno(String valorTexto) {
+		String query = "SELECT upper(UZGTPRO_NOMBRES)as UZGTPRO_NOMBRES ,UPPER(UZGTPRO_AREA)as UZGTPRO_AREA , "
+				+ "UPPER(UZGTPRO_UNIDAD)as UZGTPRO_UNIDAD ,UPPER(UZGTPRO_CAMPUS) as UZGTPRO_CAMPUS, UZGTPRO_ID,"
+				+ "UZGTEXTE_NUM_EXTENSION,UZGTTELE_NUM_TELEFONO,UZGTEXTE_ID FROM UZGVEXTEPRO WHERE UZGTPRO_NOMBRES LIKE UPPER('%"
+				+ valorTexto + "%') ORDER BY UZGTPRO_NOMBRES ASC";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	
 
 	public ResultSet consultaAdminConSedes(String valorTexto) {
 		String query = "SELECT UZGTPERSON_ID_PERSONA AS IDADMIN, UZGTPERSON_NOMBRE AS NOMBADMIN, UZGTSEDE_NOMBRE AS NOMBSEDE, UZGTSEDE_ID AS IDSEDE FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA='"
@@ -202,15 +221,14 @@ public class ConexionLocal {
 	}
 
 	/*
-	 * Metodo SQL para obtener las Extensiones por medio de la Unidad y Sede seleccionada.
+	 * Metodo SQL para obtener las Extensiones por medio de la Unidad y Sede
+	 * seleccionada.
 	 */
 	public ResultSet consultaExtensionesExternasPorUnidad(String codigoSede,
-			String codigoUnidad) {
+			String codigoUnidad, String responsable) {
 		String query = "SELECT * FROM UZGVEXTEPRO WHERE UZGTPRO_CAMPUS='"
-				+ codigoSede
-				+ "' AND UZGTPRO_UNIDAD='"
-				+ codigoUnidad
-				+ "' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";
+				+ codigoSede + "' AND UZGTPRO_UNIDAD='" + codigoUnidad
+				+ "' AND UZGTPRO_RESPONSABLE='"+responsable+"' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -221,8 +239,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
 	 * Metodo Sql para obtener las Unidades con la seleccion de una Sede.
 	 */
@@ -241,9 +258,9 @@ public class ConexionLocal {
 		return res;
 	}
 
-	
 	/*
-	 * Metodo Sql para obtener las Sedes de los Proveedores en relacion a el Id del Administrador.
+	 * Metodo Sql para obtener las Sedes de los Proveedores en relacion a el Id
+	 * del Administrador.
 	 */
 	public ResultSet consultaListaSedeExterna(String codigoAdministrador) {
 
@@ -259,10 +276,10 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
-	 * Metodo Sql para obtener las Unidades de los Proveedores en relacion a el Id de la Sede.
+	 * Metodo Sql para obtener las Unidades de los Proveedores en relacion a el
+	 * Id de la Sede.
 	 */
 	public ResultSet consultaListaUnidadExterna(String codigoSede) {
 
@@ -278,16 +295,16 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
-	
+
 	public ResultSet consultaPorSedeUnidad(String codeSede, String codeUnidad,
 			String valorTexto) {
 		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTPERSON_SEDE_CODE='"
 				+ codeSede
 				+ "' AND UZGTPERSON_UNIDAD='"
 				+ codeUnidad
-				+ "' AND UZGTPERSON_NOMBRE LIKE'%" + valorTexto + "%' ORDER BY UZGTPERSON_NOMBRE ASC";
+				+ "' AND UZGTPERSON_NOMBRE LIKE'%"
+				+ valorTexto
+				+ "%' ORDER BY UZGTPERSON_NOMBRE ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -319,11 +336,11 @@ public class ConexionLocal {
 		return res;
 	}
 
-	
 	/*
 	 * Metodos para consultar el Personal con Extension de una Sede Determinada.
 	 */
-	public ResultSet consultaUsuarioExtensionPorSede( String valorTexto,String codeSede) {
+	public ResultSet consultaUsuarioExtensionPorSede(String valorTexto,
+			String codeSede) {
 		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTPERSON_SEDE_CODE='"
 				+ codeSede
 				+ "' AND UZGTPERSON_NOMBRE LIKE'%"
@@ -339,16 +356,15 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
-	 * Metodos para consultar un usuario Externo con Extension de una Sede Determinada.
+	 * Metodos para consultar un usuario Externo con Extension de una Sede
+	 * Determinada.
 	 */
-	public ResultSet consultaExtensionExternaPorSede( String valorTexto,String codeSede) {
+	public ResultSet consultaExtensionExternaPorSede(String valorTexto,
+			String codeSede) {
 		String query = "SELECT * FROM UZGVEXTEPRO WHERE UZGTPRO_CAMPUS='"
-				+ codeSede
-				+ "' AND UZGTPRO_NOMBRES LIKE'%"
-				+ valorTexto
+				+ codeSede + "' AND UZGTPRO_NOMBRES LIKE'%" + valorTexto
 				+ "%' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";
 
 		try {
@@ -360,8 +376,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
 	 * Metodo para consultar el ultimo registro de Extensiones.
 	 */
@@ -483,16 +498,18 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	/*
-	 * Metodo para consultar la existencia de un Proveedor Exteno dentro de Tabla
-	 * Vista.
+	 * Metodo para consultar la existencia de un Proveedor Exteno dentro de
+	 * Tabla Vista.
 	 */
 	public ResultSet consultaProveedor(VistaProveedor vistaProveedor) {
 		String query = "SELECT UZGTPRO_ID AS IDENTIDAD FROM UZGVEXTEPRO WHERE UZGTPRO_NOMBRES='"
 				+ vistaProveedor.getNombreProvee()
 				+ "' AND UZGTPRO_CAMPUS='"
-				+ vistaProveedor.getSedeNomb() + "' AND UZGTPRO_UNIDAD='" + vistaProveedor.getUnidadNomb() + "'";
+				+ vistaProveedor.getSedeNomb()
+				+ "' AND UZGTPRO_UNIDAD='"
+				+ vistaProveedor.getUnidadNomb() + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -503,16 +520,18 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
-	 * Metodo para consultar la existencia de un registro de Personal dentro de Tabla Personal.
+	 * Metodo para consultar la existencia de un registro de Personal dentro de
+	 * Tabla Personal.
 	 */
 	public ResultSet consultaFindRegistroAuxiliar(Personal personal) {
 		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
 				+ personal.getIdDocente()
 				+ "' AND UZGTPERSON_SEDE_CODE='"
-				+ personal.getSedeCode() + "' AND UZGTPERSON_UNIDAD='" + personal.getUnidad() + "'";
+				+ personal.getSedeCode()
+				+ "' AND UZGTPERSON_UNIDAD='"
+				+ personal.getUnidad() + "'";
 
 		try {
 			state = cnn.createStatement();
@@ -525,14 +544,18 @@ public class ConexionLocal {
 	}
 
 	/*
-	 * Metodo para consultar la existencia de un ID de Personal en la Tabla para la Edicion.
+	 * Metodo para consultar la existencia de un ID de Personal en la Tabla para
+	 * la Edicion.
 	 */
-	public ResultSet consultaFindPersonalEdicion(VistaBusqueda vista, String codeSede,
-			String codeUnidad) {
+	public ResultSet consultaFindPersonalEdicion(VistaBusqueda vista,
+			String codeSede, String codeUnidad) {
 		String query = "SELECT UZGTPERSON_ID AS IDENTIDAD FROM UZGVEXTEPERSON WHERE UZGTPERSON_ID_PERSONA='"
 				+ vista.getIdPersonal()
-				+ "' AND UZGTPERSON_SEDE_CODE='"+codeSede+"' AND UZGTPERSON_UNIDAD='"
-				+ codeUnidad + "' AND UZGTPERSON_ID<>"+vista.getIdentidad()+"";
+				+ "' AND UZGTPERSON_SEDE_CODE='"
+				+ codeSede
+				+ "' AND UZGTPERSON_UNIDAD='"
+				+ codeUnidad
+				+ "' AND UZGTPERSON_ID<>" + vista.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -543,16 +566,20 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
-	 * Metodo para consultar la existencia de un ID de Personal en la Tabla para la Edicion.
+	 * Metodo para consultar la existencia de un ID de Personal en la Tabla para
+	 * la Edicion.
 	 */
 	public ResultSet consultaFindExternoEdicion(VistaProveedor vistaProveedor) {
 		String query = "SELECT UZGTPRO_ID AS IDENTIDAD FROM UZGVEXTEPRO WHERE UZGTPRO_NOMBRES='"
 				+ vistaProveedor.getNombreProvee()
-				+ "' AND UZGTPRO_CAMPUS='"+vistaProveedor.getSedeNomb()+"' AND UZGTPRO_UNIDAD='"
-				+ vistaProveedor.getUnidadNomb() + "' AND UZGTPRO_ID<>"+vistaProveedor.getIdentidad()+"";
+				+ "' AND UZGTPRO_CAMPUS='"
+				+ vistaProveedor.getSedeNomb()
+				+ "' AND UZGTPRO_UNIDAD='"
+				+ vistaProveedor.getUnidadNomb()
+				+ "' AND UZGTPRO_ID<>"
+				+ vistaProveedor.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -564,9 +591,6 @@ public class ConexionLocal {
 		return res;
 	}
 
-
-
-		
 	/*
 	 * Metodo para consultar la existencia de un ID de Personal para la
 	 * Administracion.
@@ -584,8 +608,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
 	 * Metodo para consultar la existencia de un ID de Personal para la
 	 * Administracion.
@@ -635,7 +658,7 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
+
 	/*
 	 * Metodo para consultar la existencia de un ID en la relacion con una
 	 * Extension.
@@ -643,7 +666,7 @@ public class ConexionLocal {
 	public ResultSet consultaFindRelacion(VistaBusqueda personal) {
 		String query = "SELECT UZGTPERSON_ID AS IDRELACION FROM UZGTEXTEPERSON WHERE UZGTPERSON_ID='"
 				+ personal.getIdPersonal() + "'";
-		
+
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -653,16 +676,16 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
+
 	/*
-	 * Metodo para consultar la existencia de Administrador como parte de este ID para no eliminar la referencia del ID.
+	 * Metodo para consultar la existencia de Administrador como parte de este
+	 * ID para no eliminar la referencia del ID.
 	 */
 	public ResultSet consultaRelaAdminPersonal(VistaBusqueda personal) {
-		
+
 		String query = "SELECT UZGTPERSON_ID_PERSONA AS ID_ADMIN FROM UZGVADMINSEDE WHERE UZGTPERSON_ID_PERSONA='"
 				+ personal.getIdPersonal() + "'";
-		
+
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);
@@ -672,15 +695,16 @@ public class ConexionLocal {
 		}
 		return res;
 	}
-	
-	
-	
+
 	/*
 	 * Metodos para modificar un Telefono.
 	 */
-	public int modificarPersonal(long identidad, String codeSede, String nombreSede, String codeUnidad) {
+	public int modificarPersonal(long identidad, String codeSede,
+			String nombreSede, String codeUnidad) {
 		String query = "Update UZGTPERSON set UZGTPERSON_SEDE_CODE='"
-				+ codeSede + "', UZGTPERSON_SEDE='"+nombreSede+"', UZGTPERSON_UNIDAD='"+codeUnidad+"' where UZGTPERSON_ID=" + identidad + "";
+				+ codeSede + "', UZGTPERSON_SEDE='" + nombreSede
+				+ "', UZGTPERSON_UNIDAD='" + codeUnidad
+				+ "' where UZGTPERSON_ID=" + identidad + "";
 
 		try {
 			state = cnn.createStatement();
@@ -691,14 +715,19 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
-	
+
 	/*
 	 * Metodos para modificar un Extension Exteno.
 	 */
 	public int modificarExtensionExterno(VistaProveedor vistaProveedor) {
 		String query = "Update UZGTPRO set UZGTPRO_CAMPUS='"
-				+ vistaProveedor.getSedeNomb() + "', UZGTPRO_UNIDAD='"+vistaProveedor.getUnidadNomb()+"', UZGTPRO_ABRE='"+vistaProveedor.getAbreviat()+"' , UZGTPRO_AREA='"+vistaProveedor.getAreaNomb()+"' , UZGTPRO_TRATO='"+vistaProveedor.getTrato()+"' , UZGTPRO_NOMBRES='"+vistaProveedor.getNombreProvee()+"' where UZGTPRO_ID=" + vistaProveedor.getIdentidad() + "";
+				+ vistaProveedor.getSedeNomb() + "', UZGTPRO_UNIDAD='"
+				+ vistaProveedor.getUnidadNomb() + "', UZGTPRO_ABRE='"
+				+ vistaProveedor.getAbreviat() + "' , UZGTPRO_AREA='"
+				+ vistaProveedor.getAreaNomb() + "' , UZGTPRO_TRATO='"
+				+ vistaProveedor.getTrato() + "' , UZGTPRO_NOMBRES='"
+				+ vistaProveedor.getNombreProvee() + "' where UZGTPRO_ID="
+				+ vistaProveedor.getIdentidad() + "";
 
 		try {
 			state = cnn.createStatement();
@@ -709,7 +738,6 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-
 
 	/*
 	 * Metodo para guardar una nueva extension.
@@ -747,11 +775,6 @@ public class ConexionLocal {
 		return conf;
 	}
 
-	
-	
-	
-
-	
 	/*
 	 * Metodo para guardar una nuevo administrador.
 	 */
@@ -880,7 +903,8 @@ public class ConexionLocal {
 		return conf;
 	}
 
-	public int guardarRelProvedorExtension(VistaProveedor proveedor, String responsable, long exte) {
+	public int guardarRelProvedorExtension(VistaProveedor proveedor,
+			String responsable, long exte) {
 		String query = "insert into UZGTPRO(UZGTPRO_ID,UZGTEXTE_ID,UZGTPRO_CAMPUS,UZGTPRO_UNIDAD,UZGTPRO_ABRE,UZGTPRO_AREA,UZGTPRO_TRATO,UZGTPRO_NOMBRES,UZGTPRO_RESPONSABLE) "
 				+ "values(UZGSPRO.nextval,"
 				+ exte
@@ -909,7 +933,7 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 	/*
 	 * Metodos para modificar un Telefono.
 	 */
@@ -971,7 +995,7 @@ public class ConexionLocal {
 		}
 		return conf;
 	}
-	
+
 	public int eliminarExtension(long identificador) {
 		String query = "DELETE FROM UZGTEXTE WHERE UZGTEXTE_ID="
 				+ identificador + "";
@@ -1122,6 +1146,56 @@ public class ConexionLocal {
 			e.printStackTrace();
 		}
 		return conf;
+	}
+
+	/*
+	 * Metodos para consultar ID de Admininistrador Master.
+	 */
+
+	public ResultSet consultarMaster(String identificador) {
+		String query = "SELECT UZGTPERSON_ID, UZGTPERSON_NOMBRE FROM UZGTPERSON WHERE UZGTPERSON_ID_PERSONA='"
+				+ identificador + "' ORDER BY UZGTPERSON_ID ASC";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	/*
+	 * Metodos para consultar existencia de Admininistrador Master.
+	 */
+	public ResultSet consultarMasterExis(long val) {
+		String query = "SELECT UZGTROL_ID FROM UZGTPERSONROL WHERE UZGTPERSON_ID="
+				+ val + "";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	/*
+	 * Metodos para consultar Nombre de Admininistrador Master.
+	 */
+	public ResultSet consultarNomMaster(String identificador) {
+
+		String query = "SELECT UZGTPERSON_NOMBRE FROM UZGTPERSON WHERE UZGTPERSON_ID_PERSONA='"
+				+ identificador + "'";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

@@ -78,7 +78,7 @@
 
 
 				<p:panelGrid id="panelSedes" columns="1" style="width:100%;"
-					layout="grid" >
+					layout="grid">
 
 					<p:outputLabel for="codigoSede" value="Sede:"
 						rendered="#{busquedaBean.desplegarSedes}" />
@@ -113,26 +113,29 @@
 
 					<!-- 				nombres y apellidos		  -->
 
-					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"  maxlength="15"
-						required="false" validatorMessage="#{busquedaBean.verMensaj}"
-						rendered="#{busquedaBean.verNombres}" >
-						
+					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
+						maxlength="15" required="false"
+						validatorMessage="#{busquedaBean.verMensaj}"
+						rendered="#{busquedaBean.verNombres}">
+
 						<f:validateRegex pattern="[^0-9]*" />
 					</p:inputText>
 
 
 					<!-- 				extension	  -->
 
-					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"  maxlength="4"
-						required="false" validatorMessage="#{busquedaBean.verMensaj}"
+					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"
+						maxlength="4" required="false"
+						validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verExtension}">
 						<f:validateRegex pattern="[0-9]{4}" />
 					</p:inputText>
 
 					<!-- 				telefono  -->
 
-					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"  maxlength="10"
-						required="false" validatorMessage="#{busquedaBean.verMensaj}"
+					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"
+						maxlength="10" required="false"
+						validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verTelefono}">
 						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
 					</p:inputText>
@@ -158,14 +161,15 @@
 
 			<p:layoutUnit position="center">
 
-				<p:panel  header="Resultados de la busqueda">
+				<p:panel header="Resultados de la busqueda">
 
 
-					<p:dataTable id="vistaPresen" var="vis" layout="grid"
-						value="#{busquedaBean.vistaBusqueda}" scrollable="true"
-						scrollHeight="300" selectionMode="single"
+					<p:dataTable id="vistaPresen" var="vis"
+						value="#{busquedaBean.vistaBusqueda}" selectionMode="single"
 						selection="#{busquedaBean.selectedPersona}"
-						rowKey="#{vis.idAsignacion}">
+						rowKey="#{vis.idAsignacion}" paginator="true" rows="4"
+						paginatorPosition="top" paginatorAlwaysVisible="true"
+						emptyMessage="No se encontraron Datos">
 
 
 						<p:ajax event="rowSelect" listener="#{busquedaBean.onRowSelect}"

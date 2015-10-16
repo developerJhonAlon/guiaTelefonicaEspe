@@ -249,7 +249,8 @@ public class ProveedorBean implements Serializable {
 				// presente.
 				this.listaExtensiones = proveedorServicio
 						.obtenerExtensionesExternasPorUnidad(
-								this.sedeSeleccionada, this.unidadSeleccionada);
+								this.sedeSeleccionada, this.unidadSeleccionada, administrado.get(0)
+								.getIdAdministrador());
 				context.execute("PF('dlg4').hide()");
 
 			} else {
@@ -301,7 +302,8 @@ public class ProveedorBean implements Serializable {
 	public void actualizarExtensiones() {
 		this.listaExtensiones = proveedorServicio
 				.obtenerExtensionesExternasPorUnidad(this.sedeSeleccionada,
-						this.unidadSeleccionada);
+						this.unidadSeleccionada,administrado.get(0)
+						.getIdAdministrador());
 	}
 
 	public void addMessage(String summary) {

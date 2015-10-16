@@ -15,11 +15,12 @@ import conexion.ConexionLocal;
 public class ModificarAdmin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<String> nombres = new ArrayList<String>();
 
-	public ModificarAdmin(){}
-	
+	public ModificarAdmin() {
+	}
+
 	public List<String> getNombres() {
 		return nombres;
 	}
@@ -63,9 +64,8 @@ public class ModificarAdmin implements Serializable {
 		} else {
 			try {
 				while (res.next()) {
-					vistaAdmin.add(new Busqueda(res
-							.getString("UZGTSEDE_ID"), res
-							.getString("UZGTSEDE_NOMBRE")));
+					vistaAdmin.add(new Busqueda(res.getString("UZGTSEDE_ID"),
+							res.getString("UZGTSEDE_NOMBRE")));
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -79,36 +79,61 @@ public class ModificarAdmin implements Serializable {
 		ConexionLocal cn = new ConexionLocal();
 		Conexion cnn = new Conexion();
 		String nombreSede = "";
-		ResultSet s = null;
+		ResultSet registros = null;
+		boolean adminMatriz = false;
 		long idRegistro = 0;
-		for (String codSede : sedes) {
-
-			ResultSet lastRegistro = cn.compararSedes(codSede);
-			try {
-				if (lastRegistro.next()) {
-					System.out.println("Sede ya existe... ");
-				} else {
-					s = cnn.consultaSede(codSede);
-					s.next();
-					nombreSede = s.getString("DESCRIP");
-					cn.guardarSedeInexistente(nombreSede, codSede);
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		List<Busqueda> listaDeSedes = new ArrayList<Busqueda>();
+		
+		for (String busqueda : sedes) {
+			if (busqueda.equals("ESPE-M")) {
+				adminMatriz = true;
+				break;
 			}
+
 		}
-		s = cn.consultaIdRegistro(admin.getId_persona());
+		
+		
 		try {
-			s.next();
-			idRegistro = s.getLong("IDREGISTRO");
+			if (adminMatriz) {
+				// Obtener los centros de apoyo
+				registros = cnn.consultaCentrosApoyo();
+
+				while (registros.next()) {
+					listaDeSedes.add(new Busqueda(registros
+							.getString("CODECENTRO"), registros
+							.getString("DESCRIPCENTRO")));
+				}
+			}
+			for (String string : sedes) {
+
+				registros = cnn.consultaSedePorId(string);
+
+				while (registros.next()) {
+					listaDeSedes.add(new Busqueda(registros
+							.getString("CODESEDE"), registros
+							.getString("DESCRIP")));
+				}
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+
+		
+		registros = cn.consultaIdRegistro(admin.getId_persona());
+		try {
+			registros.next();
+			idRegistro = registros.getLong("IDREGISTRO");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cn.eliminarRelacionSedeAdmin(idRegistro);
-		for (String unaSede : sedes) {
-			cn.guardarRelacionSedeAdmin(idRegistro, unaSede);
+		for (Busqueda unaSede : listaDeSedes) {
+			cn.guardarRelacionSedeAdmin(idRegistro, unaSede.getValor());
 		}
 	}
 

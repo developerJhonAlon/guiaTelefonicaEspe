@@ -136,6 +136,19 @@ public class Conexion {
 		}
 		return res;
 	}
+	
+	
+	public ResultSet consultaCentrosApoyo(){
+		String query = "SELECT PTRJBLN_CODE AS CODECENTRO, PTRJBLN_DESC AS DESCRIPCENTRO FROM PTRJBLN WHERE PTRJBLN_CODE LIKE'%CA%'";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	public ResultSet consultaSede(String codeSede){
 		String query = "SELECT PTRJBLN_CODE AS CODESEDE, PTRJBLN_DESC AS DESCRIP FROM PTRJBLN WHERE NOT PTRJBLN_CODE LIKE'%CA%' AND PTRJBLN_CODE='"+codeSede+"'";
