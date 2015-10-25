@@ -2,6 +2,7 @@ package beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -389,6 +390,9 @@ public class AgregarBean implements Serializable {
 
 		if (this.modificarServicio.eliminaRegistro(this.unidadExtensionSelect)) {
 			mensaje = "Registro Eliminado !!";
+			//Actualizar la lista de Sedes Externas.
+			this.listaUnidades = this.busquedaServicio
+					.obtenerUnidades(this.sedeSeleccionada);
 			// Para observar la eliminar del registro.
 			this.listaUnidadExtension.remove(this.unidadExtensionSelect);
 		} else {
@@ -420,6 +424,8 @@ public class AgregarBean implements Serializable {
 				this.unidadExtensionSelect.getUnidadNomb(),
 				this.unidadExtensionSelect.getTelefonoNomb(),
 				this.unidadExtensionSelect.getExtensionNomb());
+		
+		
 
 		if (auxiliar.size() < 0) {
 			mensaje = "Este Registro ya Existe !!";
@@ -429,6 +435,14 @@ public class AgregarBean implements Serializable {
 			this.listaUnidadExtension = auxiliar;
 			context.execute("PF('dlg3').hide()");
 			mensaje = "Información Modificada !!";
+			
+			Calendar cal1 = Calendar.getInstance();
+			String fecha = cal1.get(Calendar.DATE)+"/"+cal1.get(Calendar.MONTH) +"/"+cal1.get(Calendar.YEAR);
+			
+			this.admiSedeServicio.guardarHistorico(this.unidadExtensionSelect.getIdPersonal(),
+					this.unidadExtensionSelect.getPersonalNomb(),
+					this.unidadExtensionSelect.getUnidadNomb(),nombreSede,
+					this.unidadExtensionSelect.getTelefonoNomb(),this.unidadExtensionSelect.getExtensionNomb(),fecha,this.administrado.get(0).getIdAdministrador(),this.administrado.get(0).getNombAdmin());
 
 		}
 

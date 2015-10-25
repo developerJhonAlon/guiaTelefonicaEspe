@@ -92,13 +92,13 @@
 
 
 					<p:panel id="panelFiltro2"
-						header="Usuarios Internos con Extensiones">
+						 header="Usuarios Internos con Extensiones">
 
 						<p:panelGrid id="panelFiltro" columns="7" layout="grid">
 
 							<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
 							<p:selectOneMenu id="codigoSede" style="width: 300px"
-								value="#{agregarBean.sedeSeleccionada}">
+						   	value="#{agregarBean.sedeSeleccionada}">
 								<f:selectItem itemLabel="Seleccione..." />
 								<f:selectItems value="#{agregarBean.administrado}" var="crit"
 									itemValue="#{crit.codigoSede}" itemLabel="#{crit.nombSede}" />
@@ -185,7 +185,7 @@
 
 
 								<p:commandButton id="botonEliminar" value="Eliminar"
-									update="tablaUnidadExtension,growl2" icon="ui-icon-close"
+									update="tablaUnidadExtension,:form:codigoUnidad,growl2" icon="ui-icon-close"
 									actionListener="#{agregarBean.botonEliminar()}"
 									process="@this " styleClass="ui-priority-primary">
 									<p:confirm message="¿Eliminar Registro?" icon="ui-icon-alert" />
@@ -313,7 +313,7 @@ A
 								</p:commandButton>
 
 								<p:commandButton id="botonEliminarExterno" value="Eliminar"
-									update="tablaUnidadExtensionE,growl3" icon="ui-icon-close"
+									update="tablaUnidadExtensionE,:form:codigoSedeE,:form:codigoUnidadE,growl3" icon="ui-icon-close"
 									actionListener="#{proveedorBean.botonEliminar()}"
 									process="@this " styleClass="ui-priority-primary">
 									<p:confirm message="¿Eliminar Registro?" icon="ui-icon-alert" />
@@ -554,10 +554,11 @@ A
 					<p:outputLabel for="valorExtensionExterno" value="Extensión:" />
 					<p:inputText id="valorExtensionExterno"
 						value="#{proveedorBean.proveedorSeleccionadoModal.extensionNomb}"
-						required="true" style="width:100%;" maxlength="4"
+						required="true" style="width:100%;" maxlength="4"  
 						validatorMessage="Extensión Invalido">
-
-						<f:validateRegex pattern="[0-9]{3}" />
+							
+							
+						<f:validateRegex pattern="[0-9]{3,4}" />
 
 					</p:inputText>
 

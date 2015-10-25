@@ -128,7 +128,7 @@
 						maxlength="4" required="false"
 						validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verExtension}">
-						<f:validateRegex pattern="[0-9]{4}" />
+						<f:validateRegex pattern="[0-9]{3,4}" />
 					</p:inputText>
 
 					<!-- 				telefono  -->
@@ -206,29 +206,30 @@
 
 				</p:panel>
 
-				<p:panel id="dataTheStaff" header="Información Seleccionada">
+				<p:panel id="dataTheStaff" >
 
 					<p:panelGrid rendered="#{busquedaBean.desplegarInf}" columns="2">
+						<f:facet name="header">Información Seleccionada</f:facet>
 
-						<h:outputText value="Nombre: " />
+						<h:outputText value="Nombre:" styleClass="negrita"/>
 						<h:outputText value="#{busquedaBean.selectedPersona.personalNomb}" />
 
-						<h:outputText value="Extensión: " />
+						<h:outputText value="Extensión:" styleClass="negrita"/>
 						<h:outputText
 							value="#{busquedaBean.selectedPersona.extensionNomb}" />
 
-						<h:outputText value="Telefono: " />
+						<h:outputText value="Telefono:" styleClass="negrita"/>
 						<h:outputText value="#{busquedaBean.selectedPersona.telefonoNomb}" />
 
-						<h:outputText value="Unidad: " />
+						<h:outputText value="Unidad:" styleClass="negrita"/>
 						<h:outputText value="#{busquedaBean.selectedPersona.unidadNomb}" />
 
 
 
-						<h:outputText value="Sede: " />
+						<h:outputText value="Sede:" styleClass="negrita"/>
 						<h:outputText value="#{busquedaBean.selectedPersona.sedeNomeb}" />
 
-						<h:outputText value="Correo: " />
+						<h:outputText value="Correo:" styleClass="negrita"/>
 						<h:outputText value="#{busquedaBean.selectedPersona.correo}" />
 
 					</p:panelGrid>

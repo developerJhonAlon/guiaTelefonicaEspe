@@ -64,15 +64,14 @@
 
 				</p:panelGrid>
 			</p:layoutUnit>
-			<p:layoutUnit position="center" >
-				<p:panel header="Resultados de la búsqueda" >
-				
+			<p:layoutUnit position="center">
+				<p:panel header="Resultados de la búsqueda">
+
 					<p:dataTable id="vistaPresen" var="vis" layout="grid"
 						value="#{administradorBean.personal}" selectionMode="single"
 						selection="#{administradorBean.administrador}"
 						rowKey="#{vis.idDocente}" paginator="true" rows="4"
 						paginatorPosition="top" paginatorAlwaysVisible="true"
-						rowsPerPageTemplate="1,2,3,4,5"
 						emptyMessage="No se encontraron Datos">
 						<p:column headerText="NOMBRES">
 							<h:outputText value="#{vis.nombres}" />
@@ -90,23 +89,25 @@
 							<h:outputText value="#{vis.unidad}" />
 						</p:column>
 					</p:dataTable>
-					
+
 				</p:panel>
-				
+
 				<p:panel header="Administradores">
 
 
 					<p:panelGrid columns="2" style="width:1150">
 
-						<p:dataTable id="vistaAdmin2" var="vist" layout="grid"
+						<p:dataTable id="vistaAdmin2" var="vist"  layout="grid"
 							value="#{administradorBean.vistaAdmin}" scrollable="true"
 							scrollHeight="200" selectionMode="single"
 							rowKey="#{vist.id_persona}"
 							selection="#{administradorBean.selectedPersona}">
 							<p:ajax event="rowSelect"
 								listener="#{administradorBean.onRowSelect}" update="@all" />
+							
 							<p:ajax event="rowUnselect"
 								listener="#{administradorBean.onRowUnselect}" update="@all" />
+							
 							<p:column headerText="NOMBRES">
 								<h:outputText value="#{vist.nombre}" />
 							</p:column>

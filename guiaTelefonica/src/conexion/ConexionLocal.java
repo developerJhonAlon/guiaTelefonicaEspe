@@ -169,10 +169,39 @@ public class ConexionLocal {
 		}
 		return res;
 	}
+	
+	
+	public ResultSet consultaPorTelefonoExterno(String valorTexto) {
+		String query = "SELECT * FROM UZGVEXTEPRO WHERE UZGTTELE_NUM_TELEFONO LIKE'%"
+				+ valorTexto + "%' ORDER BY UZGTPRO_NOMBRES ASC";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	public ResultSet consultaPorExtension(String valorTexto) {
 		String query = "SELECT * FROM UZGVEXTEPERSON WHERE UZGTEXTE_NUM_EXTENSION LIKE'%"
 				+ valorTexto + "%' ORDER BY UZGTPERSON_NOMBRE ASC";
+
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public ResultSet consultaPorExtensionExterno(String valorTexto) {
+		String query = "SELECT * FROM UZGVEXTEPRO WHERE UZGTEXTE_NUM_EXTENSION LIKE'%"
+				+ valorTexto + "%' ORDER BY UZGTPRO_NOMBRES ASC";
 
 		try {
 			state = cnn.createStatement();
@@ -775,6 +804,43 @@ public class ConexionLocal {
 		return conf;
 	}
 
+	
+	/*
+	 * Metodo para guardar el Historico de Cambios.
+	 */
+	public int guardarHistorico(String idPersona, String nombre,
+			String unidad, String sede, String fono, String exte, String fecha, String idRespo, String respo) {
+		String query = "insert into UZGTREPORT(UZGTREPORT_ID_REPORT,UZGTREPORT_ID_PERSONA,UZGTREPORT_NOMBRE,UZGTREPORT_UNIDAD,UZGTREPORT_SEDE,UZGTREPORT_TELEFONO,UZGTREPORT_EXTENSION,UZGTREPORT_FECHA_MOD,UZGTREPORT_ID_RESPONSABLE,UZGTREPORT_RESPONSABLE) "
+				+ "values(UZGSREPORT.nextval,'"
+				+ idPersona
+				+ "','"
+				+ nombre
+				+ "','"
+				+ unidad
+				+ "','"
+				+ sede
+				+ "','"
+				+ fono
+				+ "','"
+				+ exte
+				+ "','"
+				+ fecha
+				+ "','"
+				+ idRespo
+				+ "','"
+				+ respo
+				+ "')";
+
+		try {
+			state = cnn.createStatement();
+			conf = state.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conf;
+	}
+	
 	/*
 	 * Metodo para guardar una nuevo administrador.
 	 */

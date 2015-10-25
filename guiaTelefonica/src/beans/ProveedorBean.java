@@ -171,6 +171,9 @@ public class ProveedorBean implements Serializable {
 			this.listaSedeExterna = proveedorServicio
 					.obtenerListaSedeExterna(administrado.get(0)
 							.getIdAdministrador());
+			//Actualizar la lista de Unidades Externas.
+			this.listaUnidadExterna = this.proveedorServicio
+					.obtenerListaUnidadExterna(this.sedeSeleccionada);
 			// Para observar la eliminar del registro.
 			this.listaExtensiones.remove(this.proveedorSeleccionado);
 		} else {

@@ -44,24 +44,27 @@ public class BusquedaServicio implements Serializable {
 			String valorTexto, String codeSede, String codeUnidad) {
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet registroInterno = null;
-		ResultSet registroExteno = null;
-		
+		ResultSet registroExterno = null;
+
 		if (valorCriterio.equals("2")) {
 			registroInterno = cn.consultaPorNombre(valorTexto);
-			registroExteno = cn.consultaPorNombreExterno(valorTexto);
-			
+			registroExterno = cn.consultaPorNombreExterno(valorTexto);
+
 		} else if (valorCriterio.equals("3")) {
 			registroInterno = cn.consultaPorTelefono(valorTexto);
+			registroExterno = cn.consultaPorTelefonoExterno(valorTexto);
 
 		} else if (valorCriterio.equals("4")) {
 			registroInterno = cn.consultaPorExtension(valorTexto);
+			registroExterno = cn.consultaPorExtensionExterno(valorTexto);
 
 		} else if (valorCriterio.equals("5")) {
 
 			if (codeUnidad.equals("0"))
 				registroInterno = cn.consultaPorSedeTodos(codeSede, valorTexto);
 			else
-				registroInterno = cn.consultaPorSedeUnidad(codeSede, codeUnidad, valorTexto);
+				registroInterno = cn.consultaPorSedeUnidad(codeSede,
+						codeUnidad, valorTexto);
 
 		}
 
@@ -81,20 +84,20 @@ public class BusquedaServicio implements Serializable {
 						.getLong("UZGTEXTE_ID")));
 			}
 			
-			if(valorCriterio.equals("2")){
-				while (registroExteno.next()) {
-					vistaBusqueda.add(new VistaBusqueda(registroExteno
-						.getString("UZGTPRO_ID"), registroExteno
-						.getString("UZGTPRO_UNIDAD"), registroExteno
-						.getString("UZGTPRO_CAMPUS"), registroExteno
-						.getString("UZGTPRO_AREA"), registroExteno
-						.getString("UZGTPRO_NOMBRES"), registroExteno
-						.getString("UZGTEXTE_NUM_EXTENSION"), registroExteno
-						.getString("UZGTTELE_NUM_TELEFONO"), "", registroExteno
-						.getLong("UZGTEXTE_ID")));
+			if(!(registroExterno==null)){
+				while (registroExterno.next()) {
+					vistaBusqueda.add(new VistaBusqueda(registroExterno
+							.getString("UZGTPRO_ID"), registroExterno
+							.getString("UZGTPRO_UNIDAD"), registroExterno
+							.getString("UZGTPRO_CAMPUS"), registroExterno
+							.getString("UZGTPRO_AREA"), registroExterno
+							.getString("UZGTPRO_NOMBRES"), registroExterno
+							.getString("UZGTEXTE_NUM_EXTENSION"), registroExterno
+							.getString("UZGTTELE_NUM_TELEFONO"), "",
+							registroExterno.getLong("UZGTEXTE_ID")));
 				}
 			}
-		
+
 			
 
 		} catch (SQLException e) {

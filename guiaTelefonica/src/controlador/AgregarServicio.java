@@ -140,7 +140,7 @@ public class AgregarServicio implements Serializable {
 		ConexionLocal cn = new ConexionLocal();
 		ResultSet lastRegistro = null;
 		long lastIdTemp = 0;
-		
+
 		// consultar si el Personal ya esta en la BDD de la Guia para guardar
 		// sus datos o pasar a guardar la Extensión.
 		lastRegistro = cn.consultaFindPersonal(personal, codeSede, codeUnidad);
@@ -151,13 +151,13 @@ public class AgregarServicio implements Serializable {
 			} else {
 				lastRegistro = cn.consultaFindRegistroAuxiliar(personal);
 				if (lastRegistro.next()) {
-					
+
 					lastRegistro = cn.consultaFindRegistroAuxiliar(personal);
 					lastRegistro.next();
-					lastIdTemp	 =  lastRegistro.getLong("IDENTIDAD");
+					lastIdTemp = lastRegistro.getLong("IDENTIDAD");
 					guardarDataGuia(lastIdTemp, fono, exte, cn);
 					return true;
-				}else{
+				} else {
 					int confirma = cn.guardarPersonal(personal, codeSede,
 							nombreSede, codeUnidad);
 
@@ -169,15 +169,12 @@ public class AgregarServicio implements Serializable {
 						ResultSet lastRegistro2 = cn.consultaLastPersonal();
 						lastRegistro2.next();
 						lastIdTemp = lastRegistro2.getLong("IDREGISTRO");
-						
+
 						guardarDataGuia(lastIdTemp, fono, exte, cn);
 						return true;
 					}
 				}
-				
-				
-				
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -185,6 +182,21 @@ public class AgregarServicio implements Serializable {
 
 		}
 		return false;
+
+	}
+
+	/* *
+	 * Metodo para guardar la Historia de cambio sobre un registro.
+	 */
+	public boolean guardarHistorico(String idPersona, String nombre,
+			String unidad, String sede, String fono, String exte, String fecha, String idRespo, String respo) {
+
+		ConexionLocal cn = new ConexionLocal();
+		cn.guardarHistorico( idPersona,  nombre,
+					 unidad,  sede,  fono,  exte,  fecha,  idRespo,  respo);
+
+		
+		return true;
 
 	}
 
