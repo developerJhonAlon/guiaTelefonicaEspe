@@ -390,8 +390,8 @@ public class ConexionLocal {
 	 * Metodos para consultar un usuario Externo con Extension de una Sede
 	 * Determinada.
 	 */
-	public ResultSet consultaExtensionExternaPorSede(String valorTexto,
-			String codeSede) {
+	public ResultSet consultaExtensionExternaPorSede(String codeSede ,
+			String valorTexto) {
 		String query = "SELECT * FROM UZGVEXTEPRO WHERE UZGTPRO_CAMPUS='"
 				+ codeSede + "' AND UZGTPRO_NOMBRES LIKE'%" + valorTexto
 				+ "%' ORDER BY UZGTEXTE_NUM_EXTENSION ASC";

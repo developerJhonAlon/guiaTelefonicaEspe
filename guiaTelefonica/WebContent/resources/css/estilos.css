@@ -28,7 +28,6 @@
 
 .negrita {
 	font-weight:bold;
-	text-align:center;
 }
 
 .borde {	
@@ -37,9 +36,12 @@
 }
 
 .letras{
-	font-size:15px;
-	font-family:arial;
-	color:#006600;"	
+	font-size: 1em;
+	
+}
+
+*{
+	font-size: 12px;
 }
 
 .letras2{

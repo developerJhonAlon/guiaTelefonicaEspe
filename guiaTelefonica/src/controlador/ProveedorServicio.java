@@ -111,13 +111,13 @@ public class ProveedorServicio implements Serializable {
 		return vistaProveedor;
 	}
 
-	public List<VistaProveedor> obtenerProveedorExterno(String valorRecibido,
-			String codeSede) {
+	public List<VistaProveedor> obtenerProveedorExterno(String codeSede,
+			String valorRecibido) {
 
 		ConexionLocal cn = new ConexionLocal();
 
-		ResultSet res = cn.consultaExtensionExternaPorSede(valorRecibido,
-				codeSede);
+		ResultSet res = cn.consultaExtensionExternaPorSede(codeSede,
+				 valorRecibido);
 
 		List<VistaProveedor> vistaProveedor = new ArrayList<VistaProveedor>();
 

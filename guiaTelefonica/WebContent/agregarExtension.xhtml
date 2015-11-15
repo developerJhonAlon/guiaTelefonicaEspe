@@ -28,27 +28,30 @@
 
 						<p:panelGrid id="panelBusqueda" columns="3" layout="grid">
 
+						
 							<p:outputLabel for="valorBus2" value="Ingrese el Apellido:" />
 							<p:inputText id="valorBus2" value="#{agregarBean.textoBuscado}"
-								required="true" style="width:100%;" maxlength="15" />
+								required="true" style="width:100%;" maxlength="20" />
 
 
 							<p:commandButton id="botonBuscar" value="Buscar"
 								update="vistaPresen,growl"
 								actionListener="#{agregarBean.botonBusqueda()}"
-								process="@this form:panelBusqueda2" icon="ui-icon-search"
+								process="@this :form:panelBusqueda" icon="ui-icon-search"
 								styleClass="ui-priority-primary" />
+							
+							
 
 						</p:panelGrid>
 
 
-						<p:panel>
+						<p:panel> 	
 
 							<p:dataTable id="vistaPresen" var="vis"
 								value="#{agregarBean.personal}" selectionMode="single"
 								selection="#{agregarBean.selectPersonal}"
 								rowKey="#{vis.idDocente}" paginator="true" rows="4"
-								paginatorPosition="top" paginatorAlwaysVisible="true"
+								paginatorPosition="top" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginatorAlwaysVisible="true"
 								emptyMessage="No se encontraron Datos">
 
 								<p:ajax event="rowSelect" listener="#{agregarBean.onRowSelect}" />
@@ -96,8 +99,10 @@
 
 						<p:panelGrid id="panelFiltro" columns="7" layout="grid">
 
-							<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
-							<p:selectOneMenu id="codigoSede" style="width: 300px"
+							
+							
+								<p:outputLabel for="codigoSede" value="Lista de Sedes:" />
+							<p:selectOneMenu id="codigoSede" style="width: 250px"
 						   	value="#{agregarBean.sedeSeleccionada}">
 								<f:selectItem itemLabel="Seleccione..." />
 								<f:selectItems value="#{agregarBean.administrado}" var="crit"
@@ -109,7 +114,7 @@
 
 
 							<p:outputLabel for="codigoUnidad" value="Lista de Unidades:" />
-							<p:selectOneMenu id="codigoUnidad" style="width: 500px"
+							<p:selectOneMenu id="codigoUnidad" style="width: 400px"
 								value="#{agregarBean.unidadSeleccionada}">
 								<f:selectItem itemLabel="Seleccione..." />
 								<f:selectItems value="#{agregarBean.listaUnidades}" var="crit"
@@ -122,14 +127,16 @@
 							<p:outputLabel for="buscarLocal" value="Busqueda:" />
 							<p:inputText id="buscarLocal"
 								value="#{agregarBean.valorBusquedaLocal}" required="true"
-								style="width:100%;" maxlength="15" />
+								style="width:200px;" maxlength="15" />
 
 
 							<p:commandButton id="botonBuscaLocal" title="Buscar"
 								update="tablaUnidadExtension,growl"
 								actionListener="#{agregarBean.busquedaLocal()}"
-								process="@this form:panelFiltro2"
+								process="@this :form:panelFiltro"
 								styleClass="ui-priority-primary" icon="ui-icon-search" />
+							
+							
 
 						</p:panelGrid>
 
@@ -216,7 +223,7 @@
 						<p:panelGrid id="panelFiltroE" columns="7" layout="grid">
 
 							<p:outputLabel for="codigoSedeE" value="Lista de Sedes:" />
-							<p:selectOneMenu id="codigoSedeE" style="width: 300px"
+							<p:selectOneMenu id="codigoSedeE" style="width: 250px"
 								value="#{proveedorBean.sedeSeleccionada}">
 								<f:selectItem itemLabel="Seleccione..." />
 								<f:selectItems value="#{proveedorBean.listaSedeExterna}"
@@ -229,7 +236,7 @@
 
 
 							<p:outputLabel for="codigoUnidadE" value="Lista de Unidades:" />
-							<p:selectOneMenu id="codigoUnidadE" style="width: 500px"
+							<p:selectOneMenu id="codigoUnidadE" style="width: 400px"
 								value="#{proveedorBean.unidadSeleccionada}">
 								<f:selectItem itemLabel="Seleccione..." />
 								<f:selectItems value="#{proveedorBean.listaUnidadExterna}"
@@ -243,7 +250,7 @@
 							<p:outputLabel for="buscarLocalE" value="Busqueda:" />
 							<p:inputText id="buscarLocalE"
 								value="#{proveedorBean.valorBusquedaExterno}" required="true"
-								style="width:100%;" maxlength="15" />
+								style="width:200px;" maxlength="15" />
 
 
 							<p:commandButton id="botonBuscaLocalE" title="Buscar"
@@ -343,6 +350,8 @@ A
 
 		</p:layout>
 
+
+		<!-- 		MODAL PARA USUARIOS INTERNOS			-->
 		<p:dialog id="modalGuardar" header="Extensión Interna"
 			widgetVar="dlg2" modal="true" showEffect="fade" hideEffect="fade"
 			resizable="false" closable="false">
