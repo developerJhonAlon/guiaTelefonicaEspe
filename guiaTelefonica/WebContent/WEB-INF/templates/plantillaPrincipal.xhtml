@@ -11,35 +11,26 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<h:outputStylesheet library="css" name="estilos.css"></h:outputStylesheet>
-		<title><ui:insert name="titulo">Directorio Telefonico</ui:insert>
+		<title>
+		<ui:insert name="titulo">Directorio Telefonico</ui:insert>
 		</title>
 	</h:head>
 
 	<h:body>
-		<center>
-			<div id="cabecera">
-				<ui:insert name="cabecera">
-					<p:spacer height="10px" />
-					<p class="titulo">GUIA TELEFONICA UNIVERSIDAD DE LAS FUERZAS
-						ARMADAS</p>
 
-					<p:spacer height="10px" />
-				</ui:insert>
-			</div>
-		</center>
+		<div id="contenido">
 
-		<h:form id="form">
+			
+				<ui:insert name="contenido">
+			
+			Aqui va el Contenido
 			
 			
-				<div id="contenido">
-					
-					<ui:insert name="contenido">
-		Aqui va el Contenido
-		</ui:insert>
-
-				</div>
+			</ui:insert>
 			
-		</h:form>
+
+		</div>
+
 		<center>
 			<div id="pie">
 				<ui:insert name="pie">

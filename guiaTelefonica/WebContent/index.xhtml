@@ -111,18 +111,14 @@
 					</p:selectOneListbox>
 
 
-					<!-- 				nombres y apellidos		  -->
-
 					<p:inputText id="valorBus" value="#{busquedaBean.textoBuscado}"
 						maxlength="15" required="false"
 						validatorMessage="#{busquedaBean.verMensaj}"
 						rendered="#{busquedaBean.verNombres}">
-
 						<f:validateRegex pattern="[^0-9]*" />
 					</p:inputText>
+					<p:watermark for="valorBus" value="Ingrese el nombre" />
 
-
-					<!-- 				extension	  -->
 
 					<p:inputText id="valorExt" value="#{busquedaBean.textoBuscado}"
 						maxlength="4" required="false"
@@ -130,8 +126,9 @@
 						rendered="#{busquedaBean.verExtension}">
 						<f:validateRegex pattern="[0-9]{3,4}" />
 					</p:inputText>
+					<p:watermark for="valorExt" value="Ingrese la extension" />
 
-					<!-- 				telefono  -->
+					
 
 					<p:inputText id="valorTel" value="#{busquedaBean.textoBuscado}"
 						maxlength="10" required="false"
@@ -139,12 +136,10 @@
 						rendered="#{busquedaBean.verTelefono}">
 						<f:validateRegex pattern="[0-9]{2}+-[0-9]{7}" />
 					</p:inputText>
+					<p:watermark for="valorTel" value="Ingrese el telefono" />
 
 
-				</p:panelGrid>
-
-				<p:panelGrid columns="1" style="width:100%;" layout="grid">
-
+				
 					<p:growl id="growl" life="2000" />
 					<p:commandButton id="botonBuscar" value="Buscar"
 						update="vistaPresen,growl"
