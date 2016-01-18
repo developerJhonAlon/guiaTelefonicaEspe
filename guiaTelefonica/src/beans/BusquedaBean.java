@@ -8,13 +8,16 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import modelo.Busqueda;
 import modelo.VistaBusqueda;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+import org.primefaces.validate.RegexValidator;
 
 import controlador.BusquedaServicio;
 
@@ -81,42 +84,52 @@ public class BusquedaBean implements Serializable{
 	
 	private String unidadSelecciona = "";
 	
-	private Boolean verNombres=false;
-	private Boolean verTelefono= false;
-	private Boolean verExtension=false;
-	private String verMensaj="";
-	
+//	private String campoValidador = "";
+	private Boolean desplegarEntrada = false;
+	private String verMensaj = "";
+	private String msgInformativo  = "";
+	private String campoValidador = "";
 	
 	public BusquedaBean(){}
-		
 	
-	public Boolean getVerNombres() {
-		return verNombres;
+	
+
+
+
+	public String getCampoValidador() {
+		return campoValidador;
 	}
 
 
-	public void setVerNombres(Boolean verNombres) {
-		this.verNombres = verNombres;
+
+
+
+	public void setCampoValidador(String campoValidador) {
+		this.campoValidador = campoValidador;
 	}
 
 
-	public Boolean getVerTelefono() {
-		return verTelefono;
+
+
+
+	public String getMsgInformativo() {
+		return msgInformativo;
 	}
 
 
-	public void setVerTelefono(Boolean verTelefono) {
-		this.verTelefono = verTelefono;
+	public void setMsgInformativo(String msgInformativo) {
+		this.msgInformativo = msgInformativo;
 	}
 
 
-	public Boolean getVerExtension() {
-		return verExtension;
+
+	public Boolean getDesplegarEntrada() {
+		return desplegarEntrada;
 	}
 
 
-	public void setVerExtension(Boolean verExtension) {
-		this.verExtension = verExtension;
+	public void setDesplegarEntrada(Boolean desplegarEntrada) {
+		this.desplegarEntrada = desplegarEntrada;
 	}
 
 
@@ -303,59 +316,82 @@ public class BusquedaBean implements Serializable{
         FacesMessage msg = new FacesMessage("Información Selecionada", ((VistaBusqueda) event.getObject()).getIdPersonal());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-	
+    
+
     
     public void verSedes(){
+    	
     	System.out.println("Visualizar Sedes");	
+    	
     	if(this.valorBusqueda.equals("2"))
-    	{
-    		verNombres=true;
-    		verTelefono= false;
-    		verExtension= false;
-    		this.verMensaj="Campo incorrecto";
-    		this.vistaBusqueda=null;
-    		desplegarInf= false;
-    		this.textoBuscado="";
+    	{	
+    		this.textoBuscado = "";
+    		this.msgInformativo = "Ingrese el nombre";
+    		this.campoValidador =  "[^0-9]*";
+    		this.desplegarEntrada = true;
+    		this.verMensaj = "Campo incorrecto";
+    		
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		
     	}
-    	if(this.valorBusqueda.equals("3"))
+    	else if(this.valorBusqueda.equals("3"))
     	{
-    		verNombres=false;
-    		verTelefono= true;
-    		verExtension= false;
-    		this.verMensaj="Número incorrecto ..... Ejm: 02-2348741"; 
-    		this.vistaBusqueda=null;
-    		desplegarInf= false;
-    		this.textoBuscado="";
+    		this.textoBuscado = "";
+    		this.msgInformativo = "Ingrese el telefono";
+    		this.campoValidador = "[0-9]{2}+-[0-9]{7}";
+    		this.desplegarEntrada = true;
+    		this.verMensaj = "Número incorrecto ..... Ejm: 02-2348741"; 
+    		
+    		   		
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		
        	}
-    	if(this.valorBusqueda.equals("4"))
+    	else if(this.valorBusqueda.equals("4"))
     	{
-    		verNombres=false;
-    		verTelefono= false;
-    		verExtension= true;
-    		this.verMensaj= "Número incorrecto ..... Ejm: 1234";	
-    		this.vistaBusqueda=null;
-    		desplegarInf= false;
-    		this.textoBuscado="";
+    		this.textoBuscado = "";
+    		this.msgInformativo = "Ingrese la extensión";
+    		this.campoValidador = "[0-9]{3,4}";
+    		this.desplegarEntrada = true;
+    		this.verMensaj = "Número incorrecto ..... Ejm: 1234";	
+    		
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		
     	}
     	
-    	if(this.valorBusqueda.equals("5")){
+    	else if(this.valorBusqueda.equals("5")){
+    		
+    		this.desplegarEntrada = false;
+    		
     		this.listaSedes = this.busquedaServicio.obtenerSedes();
     		this.desplegarSedes = true;   		
-    		verNombres=true;
-    		verTelefono= false;
-    		verExtension= false;
+    		
     		this.verMensaj="Ingrese solo letras";
     		this.vistaBusqueda=null;
-    		desplegarInf= false;
+    		this.desplegarInf= false;
     		this.textoBuscado="";
+    		
     	}else{
+    		
+    		this.desplegarEntrada = false;
+    		
     		this.desplegarSedes = false;
     		this.vistaBusqueda=null;
-    		desplegarInf= false;
-    		this.textoBuscado="";
+    		this.desplegarInf= false;
+  
     	}
     
     }
+    
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException{
+    		RegexValidator regexValidator = new RegexValidator();
+    		regexValidator.setPattern(this.campoValidador);
+    		regexValidator.validate(context, component, value);
+    	
+    }
+	
     
     /* *
 	 * Metodo para realizar la busqueda de departamentos en relacion a la Sede.

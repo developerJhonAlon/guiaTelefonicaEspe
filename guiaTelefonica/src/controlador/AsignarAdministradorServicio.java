@@ -25,7 +25,7 @@ public class AsignarAdministradorServicio implements Serializable {
 	 * Metodo para asignar Administradores.
 	 */
 
-	public boolean guardarAdministrador(Personal administrador, String[] sedes) {
+	public boolean guardarAdministrador(Personal administrador, List<String> sedes) {
 
 		ConexionLocal cn = new ConexionLocal();
 
@@ -74,7 +74,7 @@ public class AsignarAdministradorServicio implements Serializable {
 	/* *
 	 * Metodo para guardar la informacion para la Guia.
 	 */
-	private void guardarAdminSedes(long identificador, String[] sedes,
+	private void guardarAdminSedes(long identificador, List<String> sedes,
 			ConexionLocal cn) {
 
 		ResultSet lastRegistro = cn.consultaFindAdministrador(identificador);
@@ -102,7 +102,7 @@ public class AsignarAdministradorServicio implements Serializable {
 
 	}
 
-	private void guardarRelAdminSedes(long idRegistro, String[] sedes,
+	private void guardarRelAdminSedes(long idRegistro, List<String> sedes,
 			ConexionLocal cnLocal) {
 
 		Conexion cnRemoto = new Conexion();

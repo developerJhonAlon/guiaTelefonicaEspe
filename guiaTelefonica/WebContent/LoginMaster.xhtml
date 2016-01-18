@@ -5,39 +5,54 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="./WEB-INF/templates/plantillaPrincipal.xhtml"
 	xmlns:p="http://primefaces.org/ui">
+	
 	<ui:define name="titulo">Login</ui:define>
+
 	<ui:define name="contenido">
 		<p:layout>
+		
 			<p:layoutUnit position="north">
-			<center>
+				<h:form id="formlogin">
+			
+			
+					<center>
 				<p:spacer height="20px" />
 				
 					<p:panelGrid columns="3">
 						<p:graphicImage name="/images/espe.jpg"
 							alt="Image Description for #{image}" title="#{image}" height="50"
 							width="250" />
+						
 						<h:outputText value="DIRECTORIO TELEFÓNICO ESPE"
 							style="margin-top: 0; color:#669933;" styleClass="negrita" />
+						
 						<p:graphicImage name="/images/directorio.png"
 							alt="Image Description for #{image}" title="#{image}" height="80"
 							width="80" />
 					</p:panelGrid>
 				
 				<p:spacer height="20px" />
+				
 				<p:panel header="Ingreso a la Gestión de Administradores">
+					
 					<p:panelGrid columns="1">
 						<p:outputLabel for="valorLogin" value="Ingrese su ID:" />
 						<p:inputText id="valorLogin" value="#{loginBean.identificadorMaster}"
 							required="true" />
+							
 						<p:commandButton id="botonIngreso" value="Ingresar"
 							action="#{loginBean.botonLoginMaster()}"
 							styleClass="ui-priority-primary" />
+							
 					</p:panelGrid>
 				</p:panel>
+				
 		</center>
+		</h:form>
 			</p:layoutUnit>
 	
 			<p:layoutUnit position="center" >
+			
 			</p:layoutUnit>
 		</p:layout>
 	</ui:define>

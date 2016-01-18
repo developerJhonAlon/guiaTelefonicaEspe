@@ -3,17 +3,22 @@ package beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import modelo.Busqueda;
 import modelo.Personal;
 import modelo.VistaAdministradores;
+
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+
 import controlador.AsignarAdministradorServicio;
 import controlador.ModificarAdmin;
 import controlador.LoginServicio;
@@ -30,6 +35,7 @@ public class AdministradorBean implements Serializable {
 	private String valor;
 	private boolean desplegarInf = false;
 	private VistaAdministradores selectedPersona;
+	private VistaAdministradores adminModal;
 	private List<Busqueda> listaSedes;
 	private List<Busqueda> todasSedes;
 	private String textoBusqueda;
@@ -39,6 +45,7 @@ public class AdministradorBean implements Serializable {
 	private String master;
 
 	private Personal administrador;
+	private Personal administradorModal;
 
 	private String[] selectSedes;
 	List<String> todas = new ArrayList<String>();
@@ -63,6 +70,22 @@ public class AdministradorBean implements Serializable {
 
 	public void setMaster(String master) {
 		this.master = master;
+	}
+
+	public VistaAdministradores getAdminModal() {
+		return adminModal;
+	}
+
+	public void setAdminModal(VistaAdministradores adminModal) {
+		this.adminModal = adminModal;
+	}
+
+	public Personal getAdministradorModal() {
+		return administradorModal;
+	}
+
+	public void setAdministradorModal(Personal administradorModal) {
+		this.administradorModal = administradorModal;
 	}
 
 	public LoginServicio getLoginServicio() {
@@ -213,11 +236,20 @@ public class AdministradorBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
+	public void onRowSelect2(SelectEvent event) {
+		this.administradorModal = this.administrador;
+		this.todas.clear();
+	}
+
+	public void onRowUnselect2(UnselectEvent event) {
+		this.administradorModal = null;
+		this.todas.clear();
+	}
+
 	public void onRowSelect(SelectEvent event) {
 		System.out.println("Seleccion Row ");
-		this.desplegarInf = true;
+		this.adminModal = this.selectedPersona;
 		this.todas.clear();
-		this.todasSedes = this.asignarServicio.obtenerSedes();
 		this.vistaUnAdmin = this.modificarAdmin
 				.obtenerUnAdmin(this.selectedPersona.getId_persona());
 		for (Busqueda busqueda : vistaUnAdmin) {
@@ -227,38 +259,59 @@ public class AdministradorBean implements Serializable {
 
 	public void onRowUnselect(UnselectEvent event) {
 		System.out.println("Seleccion Row ");
-		this.desplegarInf = false;
 		this.todas.clear();
 	}
 
 	public void Modificar() {
 		modificarAdmin.modificar(this.selectedPersona, todas);
-		addMessage("Información Modificada...");
+		RequestContext context = RequestContext.getCurrentInstance();
+		addMessage("Registro Modificado...");
+
+		context.execute("PF('dlg3').hide()");
+
 	}
 
 	public void Eliminar() {
 		modificarAdmin.eliminar(this.selectedPersona);
-		addMessage("Información Eliminada...");
-		this.vistaAdmin.clear();
+		addMessage("Registro Eliminado...");
 		this.vistaAdmin = modificarAdmin.obtenerAdmin();
 	}
 
 	public void botonAsignar() {
+
 		System.out.println("ASIGNAR ADMINISTRADOR --->>");
 		if (this.asignarServicio.guardarAdministrador(this.administrador,
-				this.selectSedes) == true) {
-			if (this.selectSedes.length != 0) {
-				addMessage("Información Guardada !!");
-				this.listaSedes.clear();
-				this.listaSedes = this.asignarServicio.obtenerSedes();
-				this.vistaAdmin = modificarAdmin.obtenerAdmin();
-
-			} else
-				addMessage("Debe seleccionar al menos una Sede !!");
+				this.todas) == true) {
+			RequestContext context = RequestContext.getCurrentInstance();
+			addMessage("Registro Guardado !!");
+			// Actualizar la Lista de Administradores.
+			this.vistaAdmin = modificarAdmin.obtenerAdmin();
+			context.execute("PF('dlg2').hide()");
+			this.todas.clear();
 
 		} else if (this.asignarServicio.guardarAdministrador(
-				this.administrador, this.selectSedes) == false) {
-			addMessage("Ya existe administrador !!");
+				this.administrador, this.todas) == false) {
+			addMessage("Registro ya existente !!");
+		}
+	}
+
+	public void cerrar() {
+		System.out.println("Seleccion Row Not");
+
+	}
+
+	public void botonAgregar() {
+		System.out.println("Seleccion Row Not");
+		this.todas.clear();
+	}
+
+	public void botonEditar() {
+		System.out.println("Seleccion Row Not");
+		this.todas.clear();
+		this.vistaUnAdmin = this.modificarAdmin
+				.obtenerUnAdmin(this.selectedPersona.getId_persona());
+		for (Busqueda busqueda : vistaUnAdmin) {
+			this.todas.add(busqueda.getValor());
 		}
 	}
 
