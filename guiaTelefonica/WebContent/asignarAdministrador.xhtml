@@ -103,7 +103,7 @@
 								value="#{administradorBean.vistaAdmin}" selectionMode="single"
 								rowKey="#{vist.id_persona}"
 								selection="#{administradorBean.selectedPersona}"
-								paginator="true" rows="4" paginatorPosition="top"
+								paginator="true" rows="5" paginatorPosition="top"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								paginatorAlwaysVisible="true"
 								emptyMessage="No se encontraron Datos">
@@ -129,6 +129,13 @@
 								<f:facet name="footer">
 									<p:commandButton process="vistaAdmin2"
 										update=":form7:modalGuardar7,:form7:panelDetalle7"
+										icon="ui-icon-search" value="Ver" ajax="true"
+										actionListener="#{administradorBean.botonVer()}"
+										oncomplete="PF('dlg3').show()">
+									</p:commandButton>
+
+									<p:commandButton process="vistaAdmin2"
+										update=":form7:modalGuardar7,:form7:panelDetalle7"
 										icon="ui-icon-pencil" value="Editar" ajax="true"
 										actionListener="#{administradorBean.botonEditar()}"
 										oncomplete="PF('dlg3').show()">
@@ -137,8 +144,7 @@
 
 
 									<p:commandButton id="botonEliminar" value="Eliminar"
-										update="vistaAdmin2,:panel1:growl"
-										icon="ui-icon-close"
+										update="vistaAdmin2,:panel1:growl" icon="ui-icon-close"
 										actionListener="#{administradorBean.Eliminar()}"
 										process="@this" styleClass="ui-priority-primary">
 										<p:confirm message="¿Eliminar Registro?" icon="ui-icon-alert" />
@@ -232,7 +238,7 @@
 			</p:dialog>
 		</h:form>
 
-<!-- 		MODAL PARA MODIFICAR ADMINISTRADOR		-->
+		<!-- 		MODAL PARA MODIFICAR ADMINISTRADOR		-->
 
 
 		<h:form id="form7">
@@ -257,9 +263,9 @@
 
 
 						<p:outputLabel for="menu7" value="Sedes:" />
-						<p:selectManyCheckbox id="menu7" value="#{administradorBean.todas}"
-							label="Lista de Sedes" filter="true" required="true" columns="1"
-							layout="pageDirection">
+						<p:selectManyCheckbox id="menu7"
+							value="#{administradorBean.todas}" label="Lista de Sedes"
+							filter="true" required="true" columns="1" layout="pageDirection">
 							<f:selectItems value="#{administradorBean.listaSedes}" var="item"
 								itemValue="#{item.valor}" itemLabel="#{item.descripcion}" />
 
@@ -268,7 +274,7 @@
 					</p:panelGrid>
 
 					<p:spacer height="20px" />
-					<p:commandButton id="botonGuardar7" value="Editar"
+					<p:commandButton id="botonGuardar7" value="Editar" disabled="#{administradorBean.desplegarInf}"
 						update=":panel2:vistaAdmin2,:panel1:growl,panelDetalle7"
 						actionListener="#{administradorBean.Modificar()}"
 						styleClass="ui-priority-primary"

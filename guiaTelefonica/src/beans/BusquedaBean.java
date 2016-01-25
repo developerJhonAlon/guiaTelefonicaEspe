@@ -3,6 +3,8 @@ package beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -10,6 +12,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.RegexValidator;
+import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import modelo.Busqueda;
@@ -17,12 +21,13 @@ import modelo.VistaBusqueda;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
-import org.primefaces.validate.RegexValidator;
 
 import controlador.BusquedaServicio;
 
 @ManagedBean
 @ViewScoped
+
+
 public class BusquedaBean implements Serializable{
 
 
@@ -88,7 +93,9 @@ public class BusquedaBean implements Serializable{
 	private Boolean desplegarEntrada = false;
 	private String verMensaj = "";
 	private String msgInformativo  = "";
-	private String campoValidador = "";
+	private int campoValidador;
+	private Pattern pattern;
+	private RegexValidator regexValidator;
 	
 	public BusquedaBean(){}
 	
@@ -96,7 +103,7 @@ public class BusquedaBean implements Serializable{
 
 
 
-	public String getCampoValidador() {
+	public int getCampoValidador() {
 		return campoValidador;
 	}
 
@@ -104,8 +111,40 @@ public class BusquedaBean implements Serializable{
 
 
 
-	public void setCampoValidador(String campoValidador) {
+	public void setCampoValidador(int campoValidador) {
 		this.campoValidador = campoValidador;
+	}
+
+
+
+
+
+	public RegexValidator getRegexValidator() {
+		return regexValidator;
+	}
+
+
+
+
+
+	public void setRegexValidator(RegexValidator regexValidator) {
+		this.regexValidator = regexValidator;
+	}
+
+
+
+
+
+	public Pattern getPattern() {
+		return pattern;
+	}
+
+
+
+
+
+	public void setPattern(Pattern pattern) {
+		this.pattern = pattern;
 	}
 
 
@@ -289,10 +328,61 @@ public class BusquedaBean implements Serializable{
 	 * Metodo para realizar la actualizacion y la busqueda.
 	 */
 	public void buttonAction() {
+		
+		Pattern pattern2;
+		Matcher  matcher;
+		if(this.campoValidador == 2){
+			pattern2 = Pattern.compile("[^0-9]*");
+			matcher = pattern2.matcher(this.textoBuscado);
+	    	
+	    	if(matcher.matches()){
+	    		obtenerDatos();
+
+	     	
+	    	}else{
+	       		addMessage("Error: Ingrese solo letras");
+	       		
+	    		
+	    	}
+		}else if(this.campoValidador == 3){
+			pattern2 = Pattern.compile("[0-9]{2}+-[0-9]{7}");
+	    	matcher = pattern2.matcher(this.textoBuscado);
+	    	
+	    	if(matcher.matches()){
+	    		obtenerDatos();
+
+	     	
+	    	}else{
+	       		addMessage("Error: Ejm: 02-2348741");
+	       		
+	    		
+	    	}
+		}else if(this.campoValidador == 4){
+			pattern2 = Pattern.compile("[0-9]{3,4}");
+	    	matcher = pattern2.matcher(this.textoBuscado);
+	    	
+	    	if(matcher.matches()){
+	    		obtenerDatos();
+
+	     	
+	    	}else{
+	       		addMessage("Error: Ejm: 1234");
+	       		
+	    		
+	    	}
+		}
+		
+
+
+	}
+
+
+
+	private void obtenerDatos() {
 		addMessage("Busqueda Realizada !!");
 		System.out.println("OBTENER EXTENSIONES --->>");
 		this.vistaBusqueda = busquedaServicio.buscarExtensiones(this.valorBusqueda, this.textoBuscado, this.sedeSelecciona, this.unidadSelecciona);
-
+		this.desplegarInf = false;
 	}
 
 	public void addMessage(String summary) {
@@ -321,16 +411,17 @@ public class BusquedaBean implements Serializable{
     
     public void verSedes(){
     	
+    	
     	System.out.println("Visualizar Sedes");	
     	
     	if(this.valorBusqueda.equals("2"))
     	{	
     		this.textoBuscado = "";
     		this.msgInformativo = "Ingrese el nombre";
-    		this.campoValidador =  "[^0-9]*";
     		this.desplegarEntrada = true;
-    		this.verMensaj = "Campo incorrecto";
-    		
+    		this.desplegarSedes = false;
+    		this.desplegarDepart = false;
+    		this.campoValidador = 2;
     		this.vistaBusqueda = null;
     		this.desplegarInf = false;
     		
@@ -339,11 +430,10 @@ public class BusquedaBean implements Serializable{
     	{
     		this.textoBuscado = "";
     		this.msgInformativo = "Ingrese el telefono";
-    		this.campoValidador = "[0-9]{2}+-[0-9]{7}";
+    		this.campoValidador = 3;
     		this.desplegarEntrada = true;
-    		this.verMensaj = "Número incorrecto ..... Ejm: 02-2348741"; 
-    		
-    		   		
+    		this.desplegarSedes = false;
+    		this.desplegarDepart = false;
     		this.vistaBusqueda = null;
     		this.desplegarInf = false;
     		
@@ -352,10 +442,10 @@ public class BusquedaBean implements Serializable{
     	{
     		this.textoBuscado = "";
     		this.msgInformativo = "Ingrese la extensión";
-    		this.campoValidador = "[0-9]{3,4}";
+    		this.campoValidador = 4;
     		this.desplegarEntrada = true;
-    		this.verMensaj = "Número incorrecto ..... Ejm: 1234";	
-    		
+    		this.desplegarSedes = false;
+    		this.desplegarDepart = false;
     		this.vistaBusqueda = null;
     		this.desplegarInf = false;
     		
@@ -364,41 +454,59 @@ public class BusquedaBean implements Serializable{
     	else if(this.valorBusqueda.equals("5")){
     		
     		this.desplegarEntrada = false;
-    		
+    		this.campoValidador = 2;
     		this.listaSedes = this.busquedaServicio.obtenerSedes();
     		this.desplegarSedes = true;   		
-    		
-    		this.verMensaj="Ingrese solo letras";
-    		this.vistaBusqueda=null;
-    		this.desplegarInf= false;
-    		this.textoBuscado="";
+    		this.msgInformativo = "Ingrese el nombre";
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		this.desplegarDepart = false;
+    		this.textoBuscado = "";
     		
     	}else{
     		
     		this.desplegarEntrada = false;
-    		
     		this.desplegarSedes = false;
-    		this.vistaBusqueda=null;
-    		this.desplegarInf= false;
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		this.desplegarDepart = false;
+   
   
     	}
     
     }
     
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException{
-    		RegexValidator regexValidator = new RegexValidator();
-    		regexValidator.setPattern(this.campoValidador);
-    		regexValidator.validate(context, component, value);
-    	
-    }
+//    public void validar(FacesContext context, UIComponent component, Object value) {
+//    	context = FacesContext.getCurrentInstance();
+//    	String texto = (String)value;
+//    
+//    	Pattern pattern = Pattern.compile("[^0-9]*");
+//    	Matcher  matcher = pattern.matcher((String)value);
+//    	
+//    	if(!matcher.matches()){
+//    		addMessage("Error Validador !!");
+//    	}
+////    	RegexValidator regexValidator = new RegexValidator();
+////   		regexValidator.setPattern(this.campoValidador);
+//// 		regexValidator.validate(context, component, value);
+//    	
+//    }
 	
     
     /* *
 	 * Metodo para realizar la busqueda de departamentos en relacion a la Sede.
 	 */
     public void verDepartamento(){
+    	this.desplegarDepart = true;
+    	this.desplegarEntrada = false;
         this.listaUnida = this.busquedaServicio.obtenerUnidades(this.sedeSelecciona);
     	System.out.println("Visualizar Departamento");
+    	
+    	
+    }
+    
+    public void verUnidadSede(){
+    	this.desplegarEntrada = true;
     	
     	
     }

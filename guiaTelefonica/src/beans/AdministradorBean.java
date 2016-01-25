@@ -33,7 +33,7 @@ public class AdministradorBean implements Serializable {
 	private AsignarAdministradorServicio asignarServicio = new AsignarAdministradorServicio();
 	private String nombreAdministrador = "";
 	private String valor;
-	private boolean desplegarInf = false;
+	private boolean desplegarInf = true;
 	private VistaAdministradores selectedPersona;
 	private VistaAdministradores adminModal;
 	private List<Busqueda> listaSedes;
@@ -307,6 +307,7 @@ public class AdministradorBean implements Serializable {
 
 	public void botonEditar() {
 		System.out.println("Seleccion Row Not");
+		this.desplegarInf = false;
 		this.todas.clear();
 		this.vistaUnAdmin = this.modificarAdmin
 				.obtenerUnAdmin(this.selectedPersona.getId_persona());
@@ -315,6 +316,19 @@ public class AdministradorBean implements Serializable {
 		}
 	}
 
+	public void botonVer() {
+		System.out.println("Boton Ver");
+		this.desplegarInf = true;
+		this.todas.clear();
+		this.vistaUnAdmin = this.modificarAdmin
+				.obtenerUnAdmin(this.selectedPersona.getId_persona());
+		for (Busqueda busqueda : vistaUnAdmin) {
+			this.todas.add(busqueda.getValor());
+		}
+		
+	}
+	
+	
 	public void botonBuscar() {
 		addMessage("Buscando Información !!");
 		System.out.println("BUSQUEDA DE PERSONAL BANNER --->>");
