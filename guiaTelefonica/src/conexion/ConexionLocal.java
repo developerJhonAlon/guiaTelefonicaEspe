@@ -17,6 +17,9 @@ public class ConexionLocal {
 	private ResultSet res;
 	private int conf = 0;
 
+	/* *
+	 * Clase que se conecta a la BDD sobre la cual realiza el CRUD de la GuiaTelefonica.
+	 */
 	public ConexionLocal() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");

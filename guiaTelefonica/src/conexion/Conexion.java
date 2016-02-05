@@ -11,7 +11,9 @@ public class Conexion {
 	private Statement state;
 	private ResultSet res;
 	
-
+	/* *
+	 * Clase que conecta a la BDD para la consulta sobre el Banner.
+	 */
 	public Conexion(){
 			try {
 				Class.forName("oracle.jdbc.OracleDriver");
@@ -101,7 +103,7 @@ public class Conexion {
 	 * */
 	public ResultSet consultaAllPorNombre(String textoIngresado){
 		
-		String query = "select spriden.spriden_pidm AS IDM from SPRIDEN, pebempl where spriden.spriden_pidm = pebempl.pebempl_pidm AND spriden_last_name LIKE '"+textoIngresado+"%' and spriden_change_ind is null" ;
+		String query = "select spriden.spriden_pidm AS IDM from SPRIDEN, pebempl where spriden.spriden_pidm = pebempl.pebempl_pidm AND spriden_last_name LIKE UPPER('"+textoIngresado+"%') and spriden_change_ind is null" ;
 		
 		try {
 			state = cnn.createStatement();
