@@ -45,7 +45,23 @@ public class ConexionLocal {
 	 * Metodo SQL para obtener las Sedes.
 	 */
 	public ResultSet consultaSedes() {
-		String query = "SELECT DISTINCT UPPER(UZGTPERSON_SEDE_CODE) AS CODIGO_SEDE, UZGTPERSON_SEDE AS NOMBRE_SEDE FROM UZGVEXTEPERSON";
+		String query = "SELECT DISTINCT UPPER(UZGTPERSON_SEDE_CODE) AS CODIGO_SEDE, UZGTPERSON_SEDE AS NOMBRE_SEDE FROM UZGVEXTEPERSON WHERE NOT UZGTPERSON_SEDE_CODE LIKE'%CA%'";
+		try {
+			state = cnn.createStatement();
+			res = state.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	
+	/*
+	 * Metodo SQL para obtener las Centros de Apoyo.
+	 */
+	public ResultSet consultaCentros() {
+		String query = "SELECT DISTINCT UPPER(UZGTPERSON_SEDE_CODE) AS CODIGO_SEDE, UZGTPERSON_SEDE AS NOMBRE_SEDE FROM UZGVEXTEPERSON WHERE UZGTPERSON_SEDE_CODE LIKE'%CA%'";
 		try {
 			state = cnn.createStatement();
 			res = state.executeQuery(query);

@@ -32,7 +32,7 @@
 							width="80" />
 
 					</p:panelGrid>
-					<p:spacer height="20px" />
+					
 				</center>
 
 				<center>
@@ -52,11 +52,10 @@
 								value="* Números externos: marque 9 + Nro. Deseado + clave + #." />
 							<h:outputText value="" />
 						</p:panelGrid>
-						<p:spacer height="20px" />
+						
 					</p:panel>
 				</center>
 			</p:layoutUnit>
-
 
 
 			<p:layoutUnit position="west" resizable="true" size="450px"
@@ -86,7 +85,7 @@
 						rendered="#{busquedaBean.desplegarSedes}" columns="1"
 						style="width:100%;" layout="grid">
 
-						<p:outputLabel for="codigoSede" value="Sede:" />
+						<p:outputLabel for="codigoSede" value="#{busquedaBean.etiqueta}" />
 						<p:selectOneMenu id="codigoSede" style="width:90%;"
 							value="#{busquedaBean.sedeSelecciona}">
 							<f:selectItem itemLabel="Seleccione..." />

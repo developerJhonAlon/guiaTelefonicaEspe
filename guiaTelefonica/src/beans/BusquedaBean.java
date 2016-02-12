@@ -73,9 +73,10 @@ public class BusquedaBean implements Serializable{
 	private Boolean desplegarDepart = false;
 	
 	/* *
-	 * En esta variable permite visualizar la información seleccionada.
+	 * En esta variable permite visualizar la información seleccionada desde el grid
 	 */
 	private Boolean desplegarInf = false;
+	
 	
 	private List<Busqueda> listaSedes;
 	
@@ -85,23 +86,41 @@ public class BusquedaBean implements Serializable{
 	
 	private String unidadSelecciona = "";
 	
+	/* *
+	 * En esta variable permite validar si se podra realizar una busqueda general por Sede.
+	 */
     private Boolean validarGeneral = true;
+    /* *
+	 * En esta variable permite visualizar la caja de texto para ingresar información.
+	 */
 	private Boolean desplegarEntrada = false;
-	private String verMensaj = "";
+	/* *
+	 * En esta variable permite observar mensaje dentro de la caja de texto como informativo.
+	 */
 	private String msgInformativo  = "";
+	/* *
+	 * En esta variable permite realizar la validación de ingreso de busqueda dentro de la caja de busqueda.
+	 */
 	private int campoValidador;
+	/* *
+	 * En esta variable permite determinar el mensaje de la etiqueta de combo por Sede o Centros de Apoyo.
+	 */
+	private String etiqueta = "";
 	
 	public BusquedaBean(){}
-	
-	
 
 
+	public String getEtiqueta() {
+		return etiqueta;
+	}
+
+	public void setEtiqueta(String etiqueta) {
+		this.etiqueta = etiqueta;
+	}
 
 	public int getCampoValidador() {
 		return campoValidador;
 	}
-
-
 
 
 
@@ -144,16 +163,6 @@ public class BusquedaBean implements Serializable{
 
 	public void setDesplegarEntrada(Boolean desplegarEntrada) {
 		this.desplegarEntrada = desplegarEntrada;
-	}
-
-
-	public String getVerMensaj() {
-		return verMensaj;
-	}
-
-
-	public void setVerMensaj(String verMensaj) {
-		this.verMensaj = verMensaj;
 	}
 
 
@@ -433,6 +442,7 @@ public class BusquedaBean implements Serializable{
     	
     	else if(this.valorBusqueda.equals("5")){
     		
+    		this.etiqueta = "Sede:";
     		this.desplegarEntrada = false;
     		this.campoValidador = 2;
     		this.listaSedes = this.busquedaServicio.obtenerSedes();
@@ -442,6 +452,22 @@ public class BusquedaBean implements Serializable{
     		this.desplegarInf = false;
     		this.desplegarDepart = false;
     		this.textoBuscado = "";
+    		this.unidadSelecciona = null;
+    		this.validarGeneral = false;
+    		
+    	}else if(this.valorBusqueda.equals("6")){	
+    		
+    		this.etiqueta = "Centro de Apoyo:";
+    		this.textoBuscado = "";
+    		this.msgInformativo = "Ingrese el nombre";
+    		this.listaSedes = this.busquedaServicio.obtenerCentros();
+    		this.desplegarEntrada = false;
+    		this.desplegarSedes = true;
+    		this.desplegarDepart = false;
+    		this.campoValidador = 2;
+    		this.vistaBusqueda = null;
+    		this.desplegarInf = false;
+    		this.sedeSelecciona = null;
     		this.unidadSelecciona = null;
     		this.validarGeneral = false;
     		

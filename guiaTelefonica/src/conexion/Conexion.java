@@ -14,6 +14,7 @@ public class Conexion {
 	/* *
 	 * Clase que conecta a la BDD para la consulta sobre el Banner.
 	 */
+	
 	public Conexion(){
 			try {
 				Class.forName("oracle.jdbc.OracleDriver");
@@ -139,7 +140,9 @@ public class Conexion {
 		return res;
 	}
 	
-	
+	/* 
+	 * Metodo Sql para obtener la lista de todos los Centros de Apoyo.
+	 * */
 	public ResultSet consultaCentrosApoyo(){
 		String query = "SELECT PTRJBLN_CODE AS CODECENTRO, PTRJBLN_DESC AS DESCRIPCENTRO FROM PTRJBLN WHERE PTRJBLN_CODE LIKE'%CA%'";
 		try {
@@ -152,6 +155,9 @@ public class Conexion {
 		return res;
 	}
 
+	/* 
+	 * Metodo Sql para obtener todas las Sedes.
+	 * */
 	public ResultSet consultaSede(String codeSede){
 		String query = "SELECT PTRJBLN_CODE AS CODESEDE, PTRJBLN_DESC AS DESCRIP FROM PTRJBLN WHERE NOT PTRJBLN_CODE LIKE'%CA%' AND PTRJBLN_CODE='"+codeSede+"'";
 		try {

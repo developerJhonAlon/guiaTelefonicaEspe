@@ -28,6 +28,7 @@ public class BusquedaServicio implements Serializable {
 		criterios.add(new Busqueda("3", "Por Telefono"));
 		criterios.add(new Busqueda("4", "Por Extensión"));
 		criterios.add(new Busqueda("5", "Por Sede"));
+		criterios.add(new Busqueda("6", "Por Centro de Apoyo"));
 
 		return criterios;
 	}
@@ -58,7 +59,7 @@ public class BusquedaServicio implements Serializable {
 			registroInterno = cn.consultaPorExtension(valorTexto);
 			registroExterno = cn.consultaPorExtensionExterno(valorTexto);
 
-		} else if (valorCriterio.equals("5")) {
+		} else if (valorCriterio.equals("5") || valorCriterio.equals("6")) {
 
 			if (codeUnidad.equals("0"))
 				registroInterno = cn.consultaPorSedeTodos(codeSede, valorTexto);
@@ -66,7 +67,9 @@ public class BusquedaServicio implements Serializable {
 				registroInterno = cn.consultaPorSedeUnidad(codeSede,
 						codeUnidad, valorTexto);
 
-		}
+		}else
+			return null;
+		
 
 		List<VistaBusqueda> vistaBusqueda = new ArrayList<VistaBusqueda>();
 
@@ -138,6 +141,37 @@ public class BusquedaServicio implements Serializable {
 		return sedes;
 	}
 
+	
+	/*
+	 * Metodo para buscar los Centros de Apoyo con extensiones Telefonicas.
+	 */
+	public List<Busqueda> obtenerCentros() {
+
+		ConexionLocal cn = new ConexionLocal();
+		ResultSet res = cn.consultaCentros();
+		List<Busqueda> centros = new ArrayList<Busqueda>();
+
+		if (res == null) {
+			System.out.println("Error No Hay Datos");
+		} else {
+			try {
+				while (res.next()) {
+					centros.add(new Busqueda(res.getString("CODIGO_SEDE"), res
+							.getString("NOMBRE_SEDE")));
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+
+		}
+
+		return centros;
+	}
+	
+	
 	/*
 	 * Metodo para buscar las Unidades en relacion a la Sede Seleccionada.
 	 */
